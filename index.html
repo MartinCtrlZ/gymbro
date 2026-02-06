@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GymBro</title>
+
+  <!-- Favicon: poné favicon.jpg en la raíz -->
+  <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="phone">
+
+    <!-- TOP (barra teal sticky) -->
+    <div class="top">
+      <div class="topbar">
+        <div class="topbar-title">GymBro</div>
+
+        <div class="topbar-actions">
+          <!-- Clock -->
+          <button id="clockBtn" class="user-btn" type="button" aria-label="Reloj">
+            <span class="user-avatar">🕒</span>
+          </button>
+
+          <!-- Help -->
+          <button id="helpBtn" class="user-btn" type="button" aria-label="Ayuda">
+            <span class="user-avatar">?</span>
+          </button>
+
+          <!-- Avatar -->
+          <button id="userBtn" class="user-btn" type="button" aria-label="Usuario">
+            <span id="userAvatar" class="user-avatar">?</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Semana -->
+      <div class="week-row" id="weekRow"></div>
+
+      <button class="month-toggle" id="monthToggle" type="button">Ver mes</button>
+    </div>
+
+    <!-- VISTA PRINCIPAL -->
+    <main id="viewMain">
+
+      <!-- Mes -->
+      <section class="card" id="monthView" hidden>
+        <div class="month-head">
+          <button class="icon-btn" id="prevMonth" type="button">‹</button>
+          <div class="month-title" id="monthTitle">Mes</div>
+          <button class="icon-btn" id="nextMonth" type="button">›</button>
+        </div>
+
+        <div class="month-grid-head">
+          <div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sa</div><div>Do</div>
+        </div>
+
+        <div class="month-grid" id="monthGrid"></div>
+
+        <div class="month-tools">
+          <div class="small-note">
+            Días de descanso (naranja) no cortan la racha.<br/>
+            Activá el modo y tocá días para marcar.
+          </div>
+          <button class="btn orange small" id="restModeBtn" type="button">Modo descanso: OFF</button>
+        </div>
+
+        <div class="streak">
+          <div class="streak-badge">🔥 <span id="streakDays">0</span> días</div>
+        </div>
+      </section>
+
+      <!-- Último entrenamiento -->
+      <section class="card">
+        <h3 class="section-title">Último entrenamiento</h3>
+        <div class="last-workout last-clickable" id="lastWorkout"></div>
+      </section>
+
+      <!-- Entrenos -->
+      <section class="card" id="appCard">
+        <div class="workouts-head">
+          <h1 class="big-title">Entrenos</h1>
+
+          <div class="workouts-actions">
+            <div class="pill" id="selectedDatePill">Hoy</div>
+            
+            <button id="deleteWorkoutBtn" class="trash-btn" type="button" title="Eliminar entrenamiento del día">🗑</button>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="row">
+            <button class="dropdown" id="groupDropdownBtn" type="button">
+              <span id="groupLabel">Pecho</span>
+              <span class="chev">^</span>
+            </button>
+
+            <div class="dropdown-menu" id="groupMenu" hidden>
+              <button type="button" data-group="Pecho">Pecho</button>
+              <button type="button" data-group="Espalda">Espalda</button>
+              <button type="button" data-group="Piernas">Piernas</button>
+              <button type="button" data-group="Abdominales">Abdominales</button>
+            </div>
+          </div>
+
+<div class="row-right">
+    <div class="pill pill-muted pill-time" id="selectedTimePill" title="Tiempo del día">⏱ --</div>
+  </div>
+
+          <div class="table">
+            <div class="thead">
+              <div></div>
+              <div>Cant.</div>
+              <div>Repes</div>
+              <div>Peso</div>
+            </div>
+
+            <div class="tbody" id="exerciseList"></div>
+          </div>
+
+          <div class="actions">
+            <button class="btn secondary" id="addExercise" type="button">+ Agregar ejercicio</button>
+            <button class="btn primary" id="saveWorkout" type="button">Guardar</button>
+          </div>
+
+          <p class="hint">Tip: tocá un día (semana o mes) para ver/editar ese día.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- VISTA RELOJ -->
+    <section id="viewClock" class="clock-view" hidden>
+      <div class="clock-head">
+        <button id="backFromClock" class="btn secondary" type="button">← Volver</button>
+      </div>
+
+      <section class="card">
+        <h2 class="section-title">Reloj</h2>
+
+        <div class="clock-tabs">
+          <button id="tabStopwatch" class="tab active" type="button">Cronómetro</button>
+          <button id="tabTimer" class="tab" type="button">Temporizador</button>
+        </div>
+
+        <div class="time-big" id="clockDisplay">00:00.0</div>
+        <div class="time-small" id="pauseDisplay" hidden>Pausa 00:00.0</div>
+
+        <div class="small-note" style="text-align:center; margin-top:6px">
+          Se guarda el tiempo del cronómetro en el día seleccionado.
+        </div>
+
+        <div id="timerControls" hidden>
+          <div class="timer-inputs">
+            <div class="timer-box">
+              <div class="timer-label">Min</div>
+              <input id="timerMin" class="timer-input" inputmode="numeric" placeholder="0" />
+            </div>
+            <div class="timer-sep">:</div>
+            <div class="timer-box">
+              <div class="timer-label">Seg</div>
+              <input id="timerSec" class="timer-input" inputmode="numeric" placeholder="30" />
+            </div>
+          </div>
+
+          <div class="preset-row">
+            <button class="btn secondary small" data-preset="30" type="button">30s</button>
+            <button class="btn secondary small" data-preset="60" type="button">1m</button>
+            <button class="btn secondary small" data-preset="300" type="button">5m</button>
+            <button class="btn secondary small" data-preset="600" type="button">10m</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn secondary" id="btnStart" type="button">Iniciar</button>
+          <button class="btn secondary" id="btnPause" type="button">Pausar</button>
+          <button class="btn primary" id="btnStop" type="button">Detener</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- VISTA LOGIN -->
+    <section id="viewLogin" class="login-view" hidden>
+      <div class="login-head">
+        <button id="backToMain" class="btn secondary" type="button">← Volver</button>
+      </div>
+
+      <section class="card">
+        <h2 class="section-title">Acceso</h2>
+
+        <div class="auth-grid">
+          <input id="email" class="exercise-input" placeholder="Email" type="email" autocomplete="email">
+          <input id="password" class="exercise-input" placeholder="Contraseña" type="password" autocomplete="current-password">
+          <p class="hint login-hint">Mínimo de caracteres 10</p>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="btnLogin" type="button">Entrar</button>
+          <button class="btn secondary" id="btnSignup" type="button">Crear cuenta</button>
+        </div>
+
+        <div class="actions" style="margin-top:10px">
+          <button class="btn secondary" id="btnLogout" type="button" hidden>Cerrar sesión</button>
+        </div>
+
+        <p class="hint" id="authStatus">No logueado</p>
+      </section>
+    </section>
+
+    <!-- VISTA DETALLE ENTRENAMIENTO -->
+    <section id="viewDetail" class="clock-view" hidden>
+      <div class="clock-head">
+        <button id="backFromDetail" class="btn secondary" type="button">← Volver</button>
+      </div>
+
+      <section class="card">
+        <h2 class="section-title">Detalle del entrenamiento</h2>
+        <div id="detailMeta" class="small-note" style="margin-bottom:10px"></div>
+        <div id="detailTimes" class="detail-times"></div>
+        <div id="detailExercises" class="detail-exercises" style="margin-top:10px"></div>
+      </section>
+    </section>
+
+    <!-- HELP POPUP (ARRANCA OCULTO) -->
+    <div id="helpOverlay" class="help-overlay" hidden>
+      <div class="help-modal" role="dialog" aria-modal="true" aria-label="Ayuda">
+        <h3 class="section-title" style="margin-bottom:8px;">Cómo usar la app</h3>
+
+        <div class="help-text">
+          <p><b>1)</b> Tocá un día en la fila semanal o en el mes para ver/editar ese día.</p>
+          <p><b>2)</b> Elegí el grupo (Pecho/Espalda/Piernas/Abdominales).</p>
+          <p><b>3)</b> Agregá ejercicios: podés escribir libre o usar la flecha ▾ para elegir.</p>
+          <p><b>4)</b> Guardá. El día queda <span style="color:var(--green);font-weight:900;">verde</span>.</p>
+          <p><b>5)</b> Modo descanso: marcá días en <span style="color:var(--orange);font-weight:900;">naranja</span> y no cortan la racha.</p>
+          <p><b>6)</b> Si te equivocaste, usá el 🗑 para borrar el entrenamiento del día.</p>
+          <p><b>7)</b> 🕒 Reloj: cronómetro/temporizador. El cronómetro se guarda en el día seleccionado.</p>
+        </div>
+
+        <div class="actions">
+          <button id="helpClose" class="btn primary" type="button">Entendido</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
