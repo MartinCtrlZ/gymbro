@@ -28,6 +28,11 @@
             <span class="user-avatar">?</span>
           </button>
 
+          <!-- Guía -->
+          <button id="guideBtn" class="user-btn" type="button" aria-label="Guía de ejercicios">
+            <span class="user-avatar">💪</span>
+          </button>
+
           <!-- Avatar -->
           <button id="userBtn" class="user-btn" type="button" aria-label="Usuario">
             <span id="userAvatar" class="user-avatar">?</span>
@@ -90,23 +95,25 @@
         </div>
 
         <div class="form">
-          <div class="row">
-            <button class="dropdown" id="groupDropdownBtn" type="button">
-              <span id="groupLabel">Pecho</span>
-              <span class="chev">^</span>
-            </button>
+          <div class="row row-split">
+            <div class="row-left">
+              <button class="dropdown" id="groupDropdownBtn" type="button">
+                <span id="groupLabel">Pecho</span>
+                <span class="chev">^</span>
+              </button>
 
-            <div class="dropdown-menu" id="groupMenu" hidden>
-              <button type="button" data-group="Pecho">Pecho</button>
-              <button type="button" data-group="Espalda">Espalda</button>
-              <button type="button" data-group="Piernas">Piernas</button>
-              <button type="button" data-group="Abdominales">Abdominales</button>
+              <div class="dropdown-menu" id="groupMenu" hidden>
+                <button type="button" data-group="Pecho">Pecho</button>
+                <button type="button" data-group="Espalda">Espalda</button>
+                <button type="button" data-group="Piernas">Piernas</button>
+                <button type="button" data-group="Abdominales">Abdominales</button>
+              </div>
+            </div>
+
+            <div class="row-right">
+              <div class="pill pill-muted pill-time" id="selectedTimePill" title="Tiempo del día">⏱ --</div>
             </div>
           </div>
-
-<div class="row-right">
-    <div class="pill pill-muted pill-time" id="selectedTimePill" title="Tiempo del día">⏱ --</div>
-  </div>
 
           <div class="table">
             <div class="thead">
@@ -114,6 +121,7 @@
               <div>Cant.</div>
               <div>Repes</div>
               <div>Peso</div>
+              <div></div>
             </div>
 
             <div class="tbody" id="exerciseList"></div>
@@ -193,6 +201,7 @@
           <input id="email" class="exercise-input" placeholder="Email" type="email" autocomplete="email">
           <input id="password" class="exercise-input" placeholder="Contraseña" type="password" autocomplete="current-password">
           <p class="hint login-hint">Mínimo de caracteres 10</p>
+          <button class="link-btn" id="btnResetPass" type="button">¿Olvidaste tu contraseña?</button>
         </div>
 
         <div class="actions">
@@ -219,6 +228,36 @@
         <div id="detailMeta" class="small-note" style="margin-bottom:10px"></div>
         <div id="detailTimes" class="detail-times"></div>
         <div id="detailExercises" class="detail-exercises" style="margin-top:10px"></div>
+      </section>
+    </section>
+
+    <!-- VISTA GUIA -->
+    <section id="viewGuide" class="guide-view" hidden>
+      <div class="guide-head">
+        <button id="backFromGuide" class="btn secondary" type="button">← Volver</button>
+      </div>
+
+      <section class="card">
+        <h2 class="section-title">Guía de Ejercicios</h2>
+
+        <div class="guide-toolbar">
+          <input id="guideSearch" class="exercise-input" placeholder="Buscar" type="text" />
+          <button class="dropdown guide-dd" id="guideGroupBtn" type="button">
+            <span id="guideGroupLabel">Todos</span>
+            <span class="chev">^</span>
+          </button>
+          <div class="dropdown-menu" id="guideGroupMenu" hidden>
+            <button type="button" data-gg="Todos">Todos</button>
+            <button type="button" data-gg="Pecho">Pecho</button>
+            <button type="button" data-gg="Espalda">Espalda</button>
+            <button type="button" data-gg="Piernas">Piernas</button>
+            <button type="button" data-gg="Hombros">Hombros</button>
+            <button type="button" data-gg="Brazos">Brazos</button>
+            <button type="button" data-gg="Abdominales">Abdominales</button>
+          </div>
+        </div>
+
+        <div id="guideList" class="guide-list"></div>
       </section>
     </section>
 
