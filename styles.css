@@ -257,7 +257,7 @@ body{
 }
 .thead,.trow{
   display:grid;
-  grid-template-columns: 2.2fr 56px 56px 72px 42px;
+  grid-template-columns: 2.2fr 56px 56px 72px;
   gap:6px;
   align-items:center;
   padding:10px 10px;
@@ -270,7 +270,7 @@ body{
   border-top:1px solid #eef2f7;
 }
 .table{ overflow-x:auto; }
-.thead,.trow{ min-width: 410px; }
+.thead,.trow{ min-width: 360px; }
 
 .exercise-input{
   width:100%;
@@ -608,47 +608,3 @@ select{
   text-overflow:ellipsis;
 }
 
-/* ===== Link button (login reset) ===== */
-.link-btn{
-  width:100%;
-  border:none;
-  background:transparent;
-  color: var(--teal-dark);
-  font-weight:900;
-  cursor:pointer;
-  text-decoration: underline;
-  padding: 2px 0 0;
-  text-align:left;
-}
-.link-btn:hover{ opacity:.85; }
-
-/* ===== Borrar ejercicio (cesto por fila) ===== */
-.ex-trash{
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  border:1px solid #e5e7eb;
-  background:#fff;
-  cursor:pointer;
-  font-size:16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.ex-trash:hover{ background:#f3f4f6; }
-
-/* ===== Guía de ejercicios ===== */
-.guide-view{ padding-top: 10px; }
-.guide-head{ display:flex; justify-content:flex-start; margin-top:12px; }
-.guide-toolbar{ display:grid; grid-template-columns: 1fr; gap:10px; margin-bottom:12px; }
-.guide-dd{ width: 100%; }
-.guide-list{ display:flex; flex-direction:column; gap:12px; }
-.guide-card{ border:1px solid #eef2f7; border-radius:16px; padding:12px; }
-.guide-title{ font-weight:900; font-size:18px; margin:0 0 8px; }
-.guide-meta{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
-.badge{ background:#e5e7eb; border-radius:999px; padding:6px 10px; font-weight:900; font-size:12px; }
-.guide-img{ width:100%; height:160px; border-radius:14px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; font-weight:900; color: var(--muted); margin-bottom:10px; }
-.guide-section{ margin-top:8px; }
-.guide-section h4{ margin:0 0 6px; font-size:13px; color: var(--muted); text-transform:uppercase; letter-spacing:.04em; }
-.guide-section p, .guide-section ul{ margin:0; font-weight:700; color: var(--text); }
-.guide-section ul{ padding-left:18px; }

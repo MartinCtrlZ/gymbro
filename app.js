@@ -5,7 +5,6 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
@@ -151,115 +150,8 @@ const EXERCISE_SUGGESTIONS = [
   "Dominadas","Remo con barra","Remo con mancuerna","Jalón al pecho",
   "Sentadillas","Prensa","Peso muerto","Zancadas",
   "Curl de bíceps","Tríceps con polea","Elevaciones laterales","Barra Z",
-  "Abdominales","Plancha","Apertura con máquina","Remo T","Facepull","Gemelos","Sillón cuádriceps","Sillón isquios","Abductores","Puente","Estocadas","Prensa"
+  "Abdominales","Plancha"
 ];
-
-// ===================== Defaults por grupo =====================
-const DEFAULT_EXERCISES_BY_GROUP = {
-  "Pecho": ["Press militar", "Press vertical", "Elevaciones", "Apertura con máquina", "Tríceps con polea"],
-  "Espalda": ["Press militar", "Elevaciones", "Remo gironda", "Remo T", "Bíceps con barra Z", "Jalón al pecho", "Facepull"],
-  "Piernas": ["Sentadillas", "Press militar", "Estocadas", "Prensa", "Sillón cuádriceps", "Abductores", "Gemelos", "Puente", "Peso muerto"],
-  "Abdominales": ["Plancha", "Crunch", "Elevación de piernas"]
-};
-
-function defaultExerciseRowsForGroup(group){
-  const names = DEFAULT_EXERCISES_BY_GROUP[group] || DEFAULT_EXERCISES_BY_GROUP["Pecho"];
-  return names.map(n => ({ name:n, sets:4, reps:12, weight:30 }));
-}
-
-// ===================== Guía de ejercicios =====================
-const GUIDE_EXERCISES = [{"group":"Espalda","name":"Jalón al pecho (Lat Pulldown)","how":"Sentate en la máquina y ajustá el apoyo de las piernas.\nAgarrá la barra un poco más ancho que los hombros.\nPecho levemente hacia afuera y espalda recta.\nBajá la barra hacia la parte alta del pecho.\nLlevá los codos hacia abajo y atrás (no hacia adelante).\nSubí controlando el movimiento, sin soltar de golpe.\nRespiración:\n👉 Inhalá cuando la barra sube\n👉 Exhalá cuando la bajás","muscles":["Dorsal ancho (principal)","Romboides","Trapecio medio e inferior","Bíceps","Deltoide posterior","Core (estabilización)"],"tip":"No te inclines demasiado hacia atrás.\nNo tires con los brazos: pensá en bajar los codos.\nNo lleves la barra detrás de la nuca.\nMovimiento controlado, sin balanceo."},{"group":"Espalda","name":"REMO EN MÁQUINA (AGARRE CERRADO)","how":"1️⃣ Posición inicial\nSentate con los pies apoyados y rodillas levemente flexionadas.\nAgarrá el mango cerrado (agarre neutro).\nEspalda recta y pecho abierto.\nBrazos extendidos sin perder postura.\n2️⃣ Tira hacia el abdomen\nLleva el mango hacia el ombligo o parte baja del abdomen.\nCodos pegados al cuerpo.\nNo te balancees hacia atrás.\n3️⃣ Contrae la espalda\nJunta los omóplatos fuerte al final del movimiento.\nPausa 1 segundo.\nVuelve lento y controlado.","muscles":["Dorsal ancho","Romboides","Trapecio medio","Deltoide posterior","Bíceps","Core"],"tip":"No redondees la espalda.\nNo tires solo con los brazos.\nNo uses impulso del torso.\nControlá la fase de regreso (es donde más trabajás)."},{"group":"Hombros","name":"PRESS MILITAR EN MÁQUINA","how":"🔹 Cómo hacerlo (explicación simple)\nSentate en la máquina con la espalda apoyada.\nAgarrá las manijas a la altura de los hombros.\nEmpujá hacia arriba hasta estirar los brazos, sin bloquear los codos.\nBajá controlado hasta que las manos queden cerca del hombro.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Deltoide anterior (principal)","Deltoide medio","Tríceps","Trapecio superior","Core (estabilización)"],"tip":"No arquees la espalda.\nNo bajes demasiado si te molesta el hombro.\nMovimiento controlado, no rebotes."},{"group":"Espalda","name":"Remo Gironda","how":"🔹 Cómo hacerlo (explicación simple)\nSentate en la máquina con el pecho apoyado.\nAgarrá las manijas (agarre neutro o pronado según la máquina).\nTirá llevando los codos hacia atrás, buscando juntar los omóplatos.\nPausa 1 segundo apretando la espalda.\nVolvé lento, estirando bien los brazos.\nRespiración:\n👉 Inhalá al volver\n👉 Exhalá al tirar","muscles":["Dorsal ancho","Romboides","Trapecio medio","Deltoide posterior","Bíceps"],"tip":"No uses impulso del cuerpo.\nNo subas los hombros.\nControlá la fase de vuelta."},{"group":"Espalda","name":"Face Pull","how":"🔹 Cómo hacerlo (explicación simple)\nAjustá la polea a la altura de la cara.\nAgarrá la cuerda con agarre neutro.\nTirá hacia tu cara separando las manos.\nCodos altos, a la altura de los hombros.\nPausa 1 segundo apretando la parte alta de la espalda.\nVolvé lento.\nRespiración:\n👉 Inhalá al volver\n👉 Exhalá al tirar","muscles":["Deltoide posterior (principal)","Trapecio medio e inferior","Romboides","Manguito rotador"],"tip":"No arquees la espalda.\nNo tires con los bíceps.\nControlá el movimiento."},{"group":"Brazos","name":"Bíceps con barra en polea","how":"🔹 Cómo hacerlo (explicación simple)\nPoné la polea en posición baja.\nAgarrá la barra con palmas hacia arriba.\nCodos pegados al cuerpo.\nSubí la barra flexionando el codo.\nBajá lento sin estirar de golpe.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Bíceps (principal)","Braquial","Antebrazo"],"tip":"No balancees el cuerpo.\nNo muevas los codos hacia adelante.\nBajá lento."},{"group":"Brazos","name":"Bíceps con barra Z","how":"🔹 Cómo hacerlo (explicación simple)\nAgarrá la barra Z con las manos en los ángulos.\nCodos pegados al cuerpo.\nSubí flexionando el codo hasta contraer el bíceps.\nBajá controlado.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Bíceps","Braquial","Antebrazo"],"tip":"No uses impulso.\nNo arquear la espalda.\nControlá el regreso."},{"group":"Piernas","name":"Sentadillas","how":"🔹 Cómo hacerlo (explicación simple)\nPies al ancho de hombros.\nBajá llevando la cadera hacia atrás.\nRodillas alineadas con los pies.\nBajá hasta donde mantengas espalda recta.\nSubí empujando el piso.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Cuádriceps","Glúteos","Isquios","Core"],"tip":"No juntes rodillas.\nEspalda neutra.\nControlá la bajada."},{"group":"Piernas","name":"Estocadas con mancuernas","how":"🔹 Cómo hacerlo (explicación simple)\nPaso largo hacia adelante.\nBajá hasta que ambas rodillas queden cerca de 90°.\nRodilla delantera no pasa mucho la punta del pie.\nSubí y repetí.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Cuádriceps","Glúteos","Isquios","Core"],"tip":"Torso recto.\nNo pierdas equilibrio.\nPaso suficiente largo."},{"group":"Piernas","name":"Prensa","how":"🔹 Cómo hacerlo (explicación simple)\nApoyá espalda completa.\nPies al ancho de hombros.\nBajá la plataforma controlado.\nSubí sin bloquear rodillas.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Cuádriceps","Glúteos","Isquios"],"tip":"No bloquees rodillas.\nNo bajes demasiado si se despega la espalda."},{"group":"Piernas","name":"Sillón cuádriceps","how":"🔹 Cómo hacerlo (explicación simple)\nAjustá el rodillo sobre el empeine.\nExtendé la pierna hasta contraer.\nBajá lento.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Cuádriceps"],"tip":"No patees rápido.\nPausa arriba 1 segundo."},{"group":"Piernas","name":"Sillón isquios","how":"🔹 Cómo hacerlo (explicación simple)\nAjustá el rodillo sobre los talones.\nFlexioná llevando el talón hacia el glúteo.\nBajá lento.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Isquiotibiales"],"tip":"No levantes la cadera.\nControlá el regreso."},{"group":"Piernas","name":"Abductores","how":"🔹 Cómo hacerlo (explicación simple)\nSentate con espalda apoyada.\nAbrí las piernas contra la resistencia.\nPausa 1 segundo.\nVolvé lento.\nRespiración:\n👉 Inhalá cerrando\n👉 Exhalá abriendo","muscles":["Glúteo medio","Glúteo menor"],"tip":"No rebotes.\nMovimiento corto y controlado."},{"group":"Piernas","name":"Puente de glúteo","how":"🔹 Cómo hacerlo (explicación simple)\nEspalda alta apoyada.\nPies firmes en el piso.\nSubí cadera apretando glúteos.\nPausa 1 segundo.\nBajá lento.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Glúteos","Isquios","Core"],"tip":"No hiperextiendas la espalda.\nSubí con glúteo, no con lumbar."},{"group":"Piernas","name":"GEMELOS","how":"🔹 Cómo hacerlo (explicación simple)\nApoyá la punta de los pies.\nSubí talones contrayendo gemelos.\nBajá lento estirando.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Gemelos","Sóleo"],"tip":"Hacelo lento.\nPausa arriba 1 segundo."},{"group":"Piernas","name":"PESO MUERTO","how":"🔹 Cómo hacerlo (explicación simple)\nPies al ancho de cadera.\nBajá la barra pegada al cuerpo.\nEspalda neutra.\nSubí empujando el piso.\nRespiración:\n👉 Inhalá bajando\n👉 Exhalá subiendo","muscles":["Isquios","Glúteos","Espalda baja","Core"],"tip":"Barra cerca del cuerpo.\nNo redondees espalda."}];
-
-function guidePlaceholderSVG(label){
-  const safe = String(label || "Ejercicio").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400">
-    <rect width="100%" height="100%" fill="#f3f4f6"/>
-    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
-      font-family="Arial" font-size="42" fill="#6b7280">${safe}</text>
-  </svg>`;
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-}
-
-let guideGroupFilter = "Todos";
-
-function renderGuide(){
-  if(!guideList) return;
-  const q = (guideSearch?.value || "").trim().toLowerCase();
-
-  let data = GUIDE_EXERCISES.slice();
-  if(guideGroupFilter !== "Todos"){
-    data = data.filter(x => x.group === guideGroupFilter);
-  }
-  if(q){
-    data = data.filter(x =>
-      (x.name || "").toLowerCase().includes(q) ||
-      (x.how || "").toLowerCase().includes(q) ||
-      (x.tip || "").toLowerCase().includes(q)
-    );
-  }
-
-  if(data.length === 0){
-    guideList.innerHTML = `<div class="small-note">No hay resultados.</div>`;
-    return;
-  }
-
-  guideList.innerHTML = data.map(ex => {
-    const muscles = (ex.muscles || []).map(m => `<li>${m}</li>`).join("");
-    const how = (ex.how || "").split("\n").filter(Boolean).map(l=>`<div>${l}</div>`).join("");
-    const tip = (ex.tip || "").split("\n").filter(Boolean).map(l=>`<div>${l}</div>`).join("");
-    const img = guidePlaceholderSVG(ex.name);
-
-    return `
-      <div class="guide-card">
-        <div class="guide-meta">
-          <span class="badge">${ex.group}</span>
-        </div>
-        <h3 class="guide-title">${ex.name}</h3>
-
-        <div class="guide-img">
-          <img alt="${ex.name}" src="${img}" style="width:100%;height:100%;object-fit:cover;border-radius:14px"/>
-        </div>
-
-        <div class="guide-section">
-          <h4>Cómo hacerlo</h4>
-          <p>${how || "-"}</p>
-        </div>
-
-        <div class="guide-section">
-          <h4>Músculos</h4>
-          <ul>${muscles || "<li>-</li>"}</ul>
-        </div>
-
-        <div class="guide-section">
-          <h4>Tip</h4>
-          <p>${tip || "-"}</p>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-if(guideSearch){
-  guideSearch.addEventListener("input", renderGuide);
-}
-if(guideGroupBtn && guideGroupMenu){
-  guideGroupBtn.addEventListener("click", ()=>{ guideGroupMenu.hidden = !guideGroupMenu.hidden; });
-
-  guideGroupMenu.addEventListener("click", (e)=>{
-    const btn = e.target.closest("button[data-gg]");
-    if(!btn) return;
-    guideGroupFilter = btn.dataset.gg;
-    if(guideGroupLabel) guideGroupLabel.textContent = guideGroupFilter;
-    guideGroupMenu.hidden = true;
-    renderGuide();
-  });
-
-  document.addEventListener("click", (e)=>{
-    if(guideGroupMenu.hidden) return;
-    const inside = guideGroupMenu.contains(e.target) || guideGroupBtn.contains(e.target);
-    if(!inside) guideGroupMenu.hidden = true;
-  });
-}
 
 // ===================== UI refs =====================
 const viewMain = document.getElementById("viewMain");
@@ -279,16 +171,6 @@ const helpBtn = document.getElementById("helpBtn");
 const helpOverlay = document.getElementById("helpOverlay");
 const helpClose = document.getElementById("helpClose");
 
-// guía
-const guideBtn = document.getElementById("guideBtn");
-const viewGuide = document.getElementById("viewGuide");
-const backFromGuide = document.getElementById("backFromGuide");
-const guideSearch = document.getElementById("guideSearch");
-const guideGroupBtn = document.getElementById("guideGroupBtn");
-const guideGroupMenu = document.getElementById("guideGroupMenu");
-const guideGroupLabel = document.getElementById("guideGroupLabel");
-const guideList = document.getElementById("guideList");
-
 // Arranca SIEMPRE oculta
 if(helpOverlay) helpOverlay.hidden = true;
 
@@ -297,13 +179,11 @@ function showOnly(which){
   if(viewLogin) viewLogin.hidden = which !== "login";
   if(viewClock) viewClock.hidden = which !== "clock";
   if(viewDetail) viewDetail.hidden = which !== "detail";
-  if(viewGuide) viewGuide.hidden = which !== "guide";
 }
 function showMain(){ showOnly("main"); }
 function showLogin(){ showOnly("login"); }
 function showClock(){ showOnly("clock"); }
 function showDetail(){ showOnly("detail"); }
-function showGuide(){ showOnly("guide"); }
 
 if(userBtn) userBtn.addEventListener("click", showLogin);
 if(backToMain) backToMain.addEventListener("click", showMain);
@@ -318,9 +198,6 @@ function closeHelp(){ if(helpOverlay) helpOverlay.hidden = true; }
 
 if(helpBtn) helpBtn.addEventListener("click", openHelp);
 if(helpClose) helpClose.addEventListener("click", closeHelp);
-
-if(guideBtn) guideBtn.addEventListener("click", ()=>{ renderGuide(); showGuide(); });
-if(backFromGuide) backFromGuide.addEventListener("click", showMain);
 
 if(helpOverlay){
   helpOverlay.addEventListener("click", (e)=>{
@@ -362,7 +239,6 @@ const passEl = document.getElementById("password");
 const btnLogin = document.getElementById("btnLogin");
 const btnSignup = document.getElementById("btnSignup");
 const btnLogout = document.getElementById("btnLogout");
-const btnResetPass = document.getElementById("btnResetPass");
 const authStatus = document.getElementById("authStatus");
 
 // detail view
@@ -681,24 +557,10 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}, idx){
     weightSel.appendChild(o);
   });
 
-  const delBtn = document.createElement("button");
-  delBtn.type = "button";
-  delBtn.className = "ex-trash";
-  delBtn.title = "Eliminar ejercicio";
-  delBtn.textContent = "🗑";
-  delBtn.addEventListener("click", ()=>{
-    row.remove();
-    if(exerciseList && exerciseList.querySelectorAll(".trow").length === 0){
-      const r = renderExerciseRow({ name:"", sets:4, reps:12, weight:30 }, 0);
-      exerciseList.appendChild(r);
-    }
-  });
-
   row.appendChild(nameWrap);
   row.appendChild(setsSel);
   row.appendChild(repsSel);
   row.appendChild(weightSel);
-  row.appendChild(delBtn);
 
   row._refs = { input, setsSel, repsSel, weightSel };
   return row;
@@ -710,11 +572,15 @@ function renderFormForSelectedDate(){
 
   selectedDatePill.textContent = niceDateES(selectedDate);
 
-  const group = workout?.group || (groupLabel ? groupLabel.textContent : "Pecho") || "Pecho";
+  const group = workout?.group || "Pecho";
   groupLabel.textContent = group;
 
   exerciseList.innerHTML = "";
-  const exercises = (workout?.exercises?.length ? workout.exercises : defaultExerciseRowsForGroup(group));
+  const exercises = (workout?.exercises?.length ? workout.exercises : [
+    { name:"Press banca", sets:4, reps:12, weight:30 },
+    { name:"Press militar", sets:4, reps:6,  weight:30 },
+    { name:"Elevaciones laterales", sets:4, reps:12, weight:10 },
+  ]);
 
   exercises.forEach((ex, idx)=>{
     exerciseList.appendChild(renderExerciseRow(ex, idx));
@@ -761,18 +627,8 @@ groupDropdownBtn.addEventListener("click", ()=>{
 groupMenu.addEventListener("click", (e)=>{
   const btn = e.target.closest("button[data-group]");
   if(!btn) return;
-  const newGroup = btn.dataset.group;
-  groupLabel.textContent = newGroup;
+  groupLabel.textContent = btn.dataset.group;
   groupMenu.hidden = true;
-
-  // Si el día NO está guardado todavía, precargamos ejercicios por grupo
-  const iso = toISODate(selectedDate);
-  if(!state.workoutsByDate[iso]){
-    exerciseList.innerHTML = "";
-    defaultExerciseRowsForGroup(newGroup).forEach((ex, idx)=>{
-      exerciseList.appendChild(renderExerciseRow(ex, idx));
-    });
-  }
 });
 
 document.addEventListener("click", (e)=>{
@@ -875,20 +731,6 @@ btnLogin.addEventListener("click", async ()=>{
     alert(`Error al iniciar sesión: ${err.code || err.message}`);
   }
 });
-
-if(btnResetPass){
-  btnResetPass.addEventListener("click", async ()=>{
-    try{
-      const email = (emailEl.value || "").trim();
-      if(!email) return alert("Escribí tu email para restablecer la contraseña.");
-      await sendPasswordResetEmail(auth, email);
-      alert("Te enviamos un correo para restablecer tu contraseña ✅");
-    }catch(err){
-      console.error(err);
-      alert(`Error al restablecer: ${err.code || err.message}`);
-    }
-  });
-}
 
 btnLogout.addEventListener("click", async ()=>{
   await signOut(auth);
@@ -1095,6 +937,7 @@ cancelAnimationFrame(swRAF);
 swRAF = null;
 swRunning = false;
 swPaused = false;
+
 
 function tickTimer(){
   if(!tmRunning) return;
