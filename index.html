@@ -4,8 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GymBro</title>
-
-  <!-- Favicon: poné favicon.jpg en la raíz -->
   <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -18,6 +16,11 @@
         <div class="topbar-title">GymBro</div>
 
         <div class="topbar-actions">
+          <!-- Guía -->
+          <button id="guideBtn" class="user-btn" type="button" aria-label="Guía de ejercicios">
+            <span class="user-avatar">💪</span>
+          </button>
+
           <!-- Clock -->
           <button id="clockBtn" class="user-btn" type="button" aria-label="Reloj">
             <span class="user-avatar">🕒</span>
@@ -84,29 +87,29 @@
 
           <div class="workouts-actions">
             <div class="pill" id="selectedDatePill">Hoy</div>
-            
             <button id="deleteWorkoutBtn" class="trash-btn" type="button" title="Eliminar entrenamiento del día">🗑</button>
           </div>
         </div>
 
         <div class="form">
-          <div class="row">
-            <button class="dropdown" id="groupDropdownBtn" type="button">
-              <span id="groupLabel">Pecho</span>
-              <span class="chev">^</span>
-            </button>
-
-            <div class="dropdown-menu" id="groupMenu" hidden>
-              <button type="button" data-group="Pecho">Pecho</button>
-              <button type="button" data-group="Espalda">Espalda</button>
-              <button type="button" data-group="Piernas">Piernas</button>
-              <button type="button" data-group="Abdominales">Abdominales</button>
+          <!-- Fila: grupo + tiempo alineados -->
+          <div class="row-split" style="margin-bottom:12px;">
+            <div class="row-left">
+              <button class="dropdown" id="groupDropdownBtn" type="button">
+                <span id="groupLabel">Pecho</span>
+                <span class="chev">^</span>
+              </button>
+              <div class="dropdown-menu" id="groupMenu" hidden>
+                <button type="button" data-group="Pecho">Pecho</button>
+                <button type="button" data-group="Espalda">Espalda</button>
+                <button type="button" data-group="Piernas">Piernas</button>
+                <button type="button" data-group="Abdominales">Abdominales</button>
+              </div>
+            </div>
+            <div class="row-right">
+              <div class="pill pill-muted pill-time" id="selectedTimePill" title="Tiempo del día">⏱ --</div>
             </div>
           </div>
-
-<div class="row-right">
-    <div class="pill pill-muted pill-time" id="selectedTimePill" title="Tiempo del día">⏱ --</div>
-  </div>
 
           <div class="table">
             <div class="thead">
@@ -114,6 +117,7 @@
               <div>Cant.</div>
               <div>Repes</div>
               <div>Peso</div>
+              <div></div>
             </div>
 
             <div class="tbody" id="exerciseList"></div>
@@ -201,6 +205,10 @@
         </div>
 
         <div class="actions" style="margin-top:10px">
+          <button class="btn secondary" id="btnResetPass" type="button">Restablecer contraseña</button>
+        </div>
+
+        <div class="actions" style="margin-top:10px">
           <button class="btn secondary" id="btnLogout" type="button" hidden>Cerrar sesión</button>
         </div>
 
@@ -222,7 +230,24 @@
       </section>
     </section>
 
-    <!-- HELP POPUP (ARRANCA OCULTO) -->
+    <!-- VISTA GUÍA DE EJERCICIOS -->
+    <section id="viewGuide" class="clock-view" hidden>
+      <div class="clock-head">
+        <button id="backFromGuide" class="btn secondary" type="button">← Volver</button>
+      </div>
+
+      <div class="guide-header">
+        <h2 class="guide-title">Guía de Ejercicios</h2>
+        <div class="guide-search-wrap">
+          <span class="guide-search-icon">🔍</span>
+          <input id="guideSearch" class="guide-search" type="text" placeholder="Buscar ejercicio..." />
+        </div>
+      </div>
+
+      <div id="guideContent"></div>
+    </section>
+
+    <!-- HELP POPUP -->
     <div id="helpOverlay" class="help-overlay" hidden>
       <div class="help-modal" role="dialog" aria-modal="true" aria-label="Ayuda">
         <h3 class="section-title" style="margin-bottom:8px;">Cómo usar la app</h3>
@@ -235,6 +260,7 @@
           <p><b>5)</b> Modo descanso: marcá días en <span style="color:var(--orange);font-weight:900;">naranja</span> y no cortan la racha.</p>
           <p><b>6)</b> Si te equivocaste, usá el 🗑 para borrar el entrenamiento del día.</p>
           <p><b>7)</b> 🕒 Reloj: cronómetro/temporizador. El cronómetro se guarda en el día seleccionado.</p>
+          <p><b>8)</b> 💪 Guía de ejercicios con instrucciones y tips.</p>
         </div>
 
         <div class="actions">
