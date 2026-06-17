@@ -111,7 +111,15 @@ function normalizeState(st){
   return {
     workoutsByDate: st.workoutsByDate || {},
     restDays: st.restDays || {},
-    timerByDate: st.timerByDate || {}
+    timerByDate: st.timerByDate || {},
+    settings: {
+      weekendRest: st.settings?.weekendRest ?? false,
+      restWeekdays: Array.isArray(st.settings?.restWeekdays) ? st.settings.restWeekdays : [],
+      restSettingsSavedAt: st.settings?.restSettingsSavedAt || null,
+      customExercises: st.settings?.customExercises || {},
+      reminders: st.settings?.reminders ?? false,
+      trainingTime: st.settings?.trainingTime || "08:00"
+    }
   };
 }
 
@@ -380,6 +388,7 @@ const viewGuide  = document.getElementById("viewGuide");
 const userBtn    = document.getElementById("userBtn");
 const userAvatar = document.getElementById("userAvatar");
 const backToMain = document.getElementById("backToMain");
+const logoHomeBtn = document.getElementById("logoHomeBtn");
 
 const clockBtn      = document.getElementById("clockBtn");
 const backFromClock = document.getElementById("backFromClock");
@@ -409,6 +418,7 @@ function showGuide()  { showOnly("guide"); renderGuide(); }
 
 if(userBtn)    userBtn.addEventListener("click", showLogin);
 if(backToMain) backToMain.addEventListener("click", showMain);
+if(logoHomeBtn) logoHomeBtn.addEventListener("click", showMain);
 
 if(clockBtn)      clockBtn.addEventListener("click", showClock);
 if(backFromClock) backFromClock.addEventListener("click", showMain);
@@ -488,6 +498,26 @@ const btnStop       = document.getElementById("btnStop");
 const guideContent = document.getElementById("guideContent");
 const guideSearch  = document.getElementById("guideSearch");
 
+// settings
+const tabSettingsRest      = document.getElementById("tabSettingsRest");
+const tabSettingsExercises = document.getElementById("tabSettingsExercises");
+const tabSettingsNotif     = document.getElementById("tabSettingsNotif");
+const settingsPanelRest      = document.getElementById("settingsPanelRest");
+const settingsPanelExercises = document.getElementById("settingsPanelExercises");
+const settingsPanelNotif     = document.getElementById("settingsPanelNotif");
+
+const weekendRestToggle = document.getElementById("weekendRestToggle");
+const weekdayPicker     = document.getElementById("weekdayPicker");
+const saveRestSettings  = document.getElementById("saveRestSettings");
+
+const exerciseGroupsConfig = document.getElementById("exerciseGroupsConfig");
+const saveExerciseSettings = document.getElementById("saveExerciseSettings");
+
+const remindersToggle   = document.getElementById("remindersToggle");
+const trainingTimeInput = document.getElementById("trainingTimeInput");
+const saveNotifSettings = document.getElementById("saveNotifSettings");
+const notifPermHint     = document.getElementById("notifPermHint");
+
 // ===================== App state =====================
 let currentUid = null;
 let state = normalizeState({});
@@ -496,11 +526,26 @@ let monthCursor = new Date(selectedDate); monthCursor.setDate(1);
 let restMode = false;
 
 // ===================== Lógica calendario =====================
+function isConfiguredRestDay(iso){
+  const cutoff = state.settings?.restSettingsSavedAt;
+  if(!cutoff) return false; // sin configuración guardada, no aplica nada (no tocar histórico)
+  if(iso < cutoff) return false; // nunca hacia atrás de la fecha en que se guardó
+
+  const d = new Date(iso + "T00:00:00");
+  const jsDay = d.getDay(); // 0=Dom..6=Sab
+  const mondayIndexed = (jsDay === 0 ? 6 : jsDay - 1); // 0=Lu..6=Do, igual al picker
+
+  if(state.settings?.weekendRest && (mondayIndexed === 5 || mondayIndexed === 6)) return true;
+  if(Array.isArray(state.settings?.restWeekdays) && state.settings.restWeekdays.includes(mondayIndexed)) return true;
+
+  return false;
+}
+
 function dayStatus(iso){
   const today = new Date(); today.setHours(0,0,0,0);
   const d = new Date(iso + "T00:00:00");
   const hasWorkout = Boolean(state.workoutsByDate[iso]);
-  const isRest = Boolean(state.restDays[iso]);
+  const isRest = Boolean(state.restDays[iso]) || isConfiguredRestDay(iso);
 
   if(hasWorkout) return "green";
   if(isRest) return "orange";
@@ -603,7 +648,7 @@ function computeStreak(){
     const iso = toISODate(d);
 
     if(state.workoutsByDate[iso]){ count++; offset++; continue; }
-    if(state.restDays[iso]){ offset++; continue; }
+    if(state.restDays[iso] || isConfiguredRestDay(iso)){ offset++; continue; }
     break;
   }
   return count;
@@ -857,6 +902,24 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
   return row;
 }
 
+function getGroupExercisesForForm(groupKey){
+  const presetList = PRESET_EXERCISES[groupKey] || [];
+
+  // Buscamos configuración personalizada guardada para este grupo (clave singular "Pierna" para Piernas)
+  const configKey = groupKey === "Piernas" ? "Pierna" : groupKey;
+  const customNames = state.settings?.customExercises?.[configKey];
+
+  if(Array.isArray(customNames) && customNames.length){
+    return customNames.map(name=>{
+      // Si el nombre coincide con un preset existente, mantenemos sus valores de sets/reps/peso
+      const match = presetList.find(p => p.name === name);
+      return match ? { ...match } : { name, sets:4, reps:12, weight:30 };
+    });
+  }
+
+  return presetList;
+}
+
 function renderFormForSelectedDate(){
   const iso     = toISODate(selectedDate);
   const workout = state.workoutsByDate[iso];
@@ -871,7 +934,7 @@ function renderFormForSelectedDate(){
 
   exerciseList.innerHTML = "";
 
-  const exercises = (workout?.exercises?.length ? workout.exercises : (PRESET_EXERCISES[group] || [
+  const exercises = (workout?.exercises?.length ? workout.exercises : (getGroupExercisesForForm(group).length ? getGroupExercisesForForm(group) : [
     { name:"Press banca",          sets:4, reps:12, weight:30 },
     { name:"Press militar",        sets:4, reps:6,  weight:30 },
     { name:"Elevaciones laterales", sets:4, reps:12, weight:10 },
@@ -915,8 +978,44 @@ nextMonth.addEventListener("click", ()=>{
   renderMonth();
 });
 
+function positionGroupMenu(){
+  const rect = groupDropdownBtn.getBoundingClientRect();
+  const menuHeight = Math.min(260, groupMenu.scrollHeight || 200);
+  const spaceBelow = window.innerHeight - rect.bottom;
+
+  let top;
+  if(spaceBelow >= menuHeight || spaceBelow > rect.top){
+    top = rect.bottom + window.scrollY + 4; // abrir hacia abajo
+  } else {
+    top = rect.top + window.scrollY - menuHeight - 4; // abrir hacia arriba
+  }
+
+  // Nunca permitir que quede oculto por debajo o por arriba de la pantalla
+  const maxTop = window.scrollY + window.innerHeight - menuHeight - 8;
+  const minTop = window.scrollY + 8;
+  top = Math.max(minTop, Math.min(top, maxTop));
+
+  let left = rect.left + window.scrollX;
+  const menuWidth = 180;
+  const maxLeft = window.scrollX + window.innerWidth - menuWidth - 8;
+  left = Math.max(window.scrollX + 8, Math.min(left, maxLeft));
+
+  groupMenu.style.top  = `${top}px`;
+  groupMenu.style.left = `${left}px`;
+}
+
 groupDropdownBtn.addEventListener("click", ()=>{
+  const willOpen = groupMenu.hidden;
   groupMenu.hidden = !groupMenu.hidden;
+  if(willOpen) positionGroupMenu();
+});
+
+window.addEventListener("scroll", ()=>{
+  if(!groupMenu.hidden) positionGroupMenu();
+}, { passive: true });
+
+window.addEventListener("resize", ()=>{
+  if(!groupMenu.hidden) positionGroupMenu();
 });
 
 groupMenu.addEventListener("click", (e)=>{
@@ -934,7 +1033,7 @@ groupMenu.addEventListener("click", (e)=>{
     // No hay entrenamiento guardado: cargar predefinidos del nuevo grupo
     document.querySelectorAll(".ex-dd-menu").forEach(m => m.remove());
     exerciseList.innerHTML = "";
-    const presets = PRESET_EXERCISES[newGroup] || [];
+    const presets = getGroupExercisesForForm(newGroup);
     presets.forEach(ex => exerciseList.appendChild(renderExerciseRow(ex)));
   }
 });
@@ -1362,6 +1461,271 @@ if(guideSearch){
 // Inicializar grupos abiertos por defecto
 GUIDE_DATA.forEach(g => { guideOpenGroups[g.group] = true; });
 
+// ===================== Configuración: pestañas =====================
+function showSettingsTab(which){
+  if(settingsPanelRest)      settingsPanelRest.hidden      = which !== "rest";
+  if(settingsPanelExercises) settingsPanelExercises.hidden = which !== "exercises";
+  if(settingsPanelNotif)     settingsPanelNotif.hidden     = which !== "notif";
+
+  if(tabSettingsRest)      tabSettingsRest.classList.toggle("active", which === "rest");
+  if(tabSettingsExercises) tabSettingsExercises.classList.toggle("active", which === "exercises");
+  if(tabSettingsNotif)     tabSettingsNotif.classList.toggle("active", which === "notif");
+}
+
+if(tabSettingsRest)      tabSettingsRest.addEventListener("click", ()=> showSettingsTab("rest"));
+if(tabSettingsExercises) tabSettingsExercises.addEventListener("click", ()=>{ showSettingsTab("exercises"); renderExerciseGroupsConfig(); });
+if(tabSettingsNotif)     tabSettingsNotif.addEventListener("click", ()=> showSettingsTab("notif"));
+
+// ===================== Configuración: Descansos =====================
+function setSwitch(btn, on){
+  if(!btn) return;
+  btn.classList.toggle("on", on);
+  btn.setAttribute("aria-checked", on ? "true" : "false");
+}
+
+function renderRestSettingsUI(){
+  setSwitch(weekendRestToggle, Boolean(state.settings?.weekendRest));
+
+  if(weekdayPicker){
+    weekdayPicker.querySelectorAll(".weekday-circle").forEach(btn=>{
+      const dayIdx = Number(btn.dataset.day);
+      const selected = Array.isArray(state.settings?.restWeekdays) && state.settings.restWeekdays.includes(dayIdx);
+      btn.classList.toggle("selected", selected);
+    });
+  }
+}
+
+if(weekendRestToggle){
+  weekendRestToggle.addEventListener("click", ()=>{
+    const next = !weekendRestToggle.classList.contains("on");
+    setSwitch(weekendRestToggle, next);
+  });
+}
+
+if(weekdayPicker){
+  weekdayPicker.addEventListener("click", (e)=>{
+    const btn = e.target.closest(".weekday-circle");
+    if(!btn) return;
+    btn.classList.toggle("selected");
+  });
+}
+
+if(saveRestSettings){
+  saveRestSettings.addEventListener("click", async ()=>{
+    const selectedDays = weekdayPicker
+      ? Array.from(weekdayPicker.querySelectorAll(".weekday-circle.selected")).map(b=> Number(b.dataset.day))
+      : [];
+
+    state.settings = state.settings || {};
+    state.settings.weekendRest = weekendRestToggle ? weekendRestToggle.classList.contains("on") : false;
+    state.settings.restWeekdays = selectedDays;
+    // Sólo aplica desde hoy en adelante; nunca modifica datos históricos
+    state.settings.restSettingsSavedAt = toISODate(new Date());
+
+    saveStateFor(currentUid, state);
+    if(currentUid) await saveStateToCloud(currentUid, state);
+
+    renderAll();
+    alert("Configuración de descansos guardada ✅");
+  });
+}
+
+// ===================== Configuración: Ejercicios por grupo =====================
+const MUSCLE_GROUPS = ["Pecho","Espalda","Pierna","Abdominales"];
+
+function groupKeyToPresetKey(groupKey){
+  // El picker de configuración usa "Pierna" (singular) según lo solicitado,
+  // mientras que el resto de la app usa "Piernas". Lo mapeamos para no romper
+  // la lógica de ejercicios existente (PRESET_EXERCISES, dropdown del form, etc).
+  return groupKey === "Pierna" ? "Piernas" : groupKey;
+}
+
+function getCustomExercisesFor(groupKey){
+  const presetKey = groupKeyToPresetKey(groupKey);
+  const stored = state.settings?.customExercises?.[groupKey];
+  if(Array.isArray(stored) && stored.length){
+    return stored.slice();
+  }
+  // Si no hay configuración guardada, partimos de los ejercicios predefinidos actuales
+  return (PRESET_EXERCISES[presetKey] || []).map(e => e.name);
+}
+
+function renderExerciseGroupsConfig(){
+  if(!exerciseGroupsConfig) return;
+  exerciseGroupsConfig.innerHTML = "";
+
+  MUSCLE_GROUPS.forEach(groupKey=>{
+    const block = document.createElement("div");
+    block.className = "exercise-group-block";
+    block.dataset.group = groupKey;
+
+    const title = document.createElement("div");
+    title.className = "exercise-group-title";
+    title.textContent = groupKey;
+
+    const list = document.createElement("div");
+    list.className = "exercise-group-list";
+
+    function addRow(name=""){
+      const row = document.createElement("div");
+      row.className = "exercise-group-row";
+
+      const input = document.createElement("input");
+      input.className = "exercise-input";
+      input.placeholder = "Nombre del ejercicio";
+      input.value = name;
+
+      const delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "exercise-group-del";
+      delBtn.title = "Eliminar";
+      delBtn.textContent = "🗑";
+      delBtn.addEventListener("click", ()=> row.remove());
+
+      row.appendChild(input);
+      row.appendChild(delBtn);
+      list.appendChild(row);
+    }
+
+    getCustomExercisesFor(groupKey).forEach(name => addRow(name));
+
+    const addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.className = "exercise-group-add";
+    addBtn.textContent = "+ Agregar ejercicio";
+    addBtn.addEventListener("click", ()=> addRow(""));
+
+    block.appendChild(title);
+    block.appendChild(list);
+    block.appendChild(addBtn);
+    exerciseGroupsConfig.appendChild(block);
+  });
+}
+
+if(saveExerciseSettings){
+  saveExerciseSettings.addEventListener("click", async ()=>{
+    const customExercises = { ...(state.settings?.customExercises || {}) };
+
+    exerciseGroupsConfig.querySelectorAll(".exercise-group-block").forEach(block=>{
+      const groupKey = block.dataset.group;
+      const names = Array.from(block.querySelectorAll(".exercise-input"))
+        .map(inp => inp.value.trim())
+        .filter(Boolean);
+      customExercises[groupKey] = names;
+    });
+
+    state.settings = state.settings || {};
+    state.settings.customExercises = customExercises;
+
+    saveStateFor(currentUid, state);
+    if(currentUid) await saveStateToCloud(currentUid, state);
+
+    alert("Ejercicios guardados ✅");
+  });
+}
+
+// ===================== Configuración: Notificaciones =====================
+let trainingReminderTimeouts = [];
+
+function clearScheduledReminders(){
+  trainingReminderTimeouts.forEach(id => clearTimeout(id));
+  trainingReminderTimeouts = [];
+}
+
+function updateNotifPermHint(){
+  if(!notifPermHint) return;
+  if(!("Notification" in window)){
+    notifPermHint.textContent = "Este navegador no soporta notificaciones web.";
+    return;
+  }
+  if(Notification.permission === "denied"){
+    notifPermHint.textContent = "Notificaciones bloqueadas en el navegador. Habilitalas en la configuración del sitio.";
+  } else if(Notification.permission === "granted"){
+    notifPermHint.textContent = "Notificaciones activas (sólo mientras la app está abierta).";
+  } else {
+    notifPermHint.textContent = "Se pedirá permiso al guardar.";
+  }
+}
+
+function renderNotifSettingsUI(){
+  setSwitch(remindersToggle, Boolean(state.settings?.reminders));
+  if(trainingTimeInput) trainingTimeInput.value = state.settings?.trainingTime || "08:00";
+  updateNotifPermHint();
+}
+
+if(remindersToggle){
+  remindersToggle.addEventListener("click", ()=>{
+    const next = !remindersToggle.classList.contains("on");
+    setSwitch(remindersToggle, next);
+  });
+}
+
+function scheduleTodayReminders(){
+  clearScheduledReminders();
+
+  if(!state.settings?.reminders) return;
+  if(!("Notification" in window) || Notification.permission !== "granted") return;
+
+  const todayIso = toISODate(new Date());
+  if(isConfiguredRestDay(todayIso)) return; // no molestar en días de descanso configurados
+
+  const [hh, mm] = (state.settings.trainingTime || "08:00").split(":").map(Number);
+  if(!Number.isFinite(hh) || !Number.isFinite(mm)) return;
+
+  const target = new Date();
+  target.setHours(hh, mm, 0, 0);
+
+  const offsets = [ { mins: 30, msg: "En 30 min entrenas ¿Ya estás preparado?" }, { mins: 15, msg: "¿Todavía no estás listo?" } ];
+
+  offsets.forEach(({ mins, msg })=>{
+    const fireAt = new Date(target.getTime() - mins*60000);
+    const delay  = fireAt.getTime() - Date.now();
+    if(delay <= 0) return; // ya pasó ese horario hoy
+
+    const id = setTimeout(()=>{
+      try{
+        new Notification("GymBro", { body: msg });
+      }catch(err){
+        console.error("No se pudo mostrar la notificación:", err);
+      }
+    }, delay);
+
+    trainingReminderTimeouts.push(id);
+  });
+}
+
+if(saveNotifSettings){
+  saveNotifSettings.addEventListener("click", async ()=>{
+    const wantsReminders = remindersToggle ? remindersToggle.classList.contains("on") : false;
+    const time = trainingTimeInput?.value || "08:00";
+
+    if(wantsReminders && "Notification" in window && Notification.permission === "default"){
+      try{
+        await Notification.requestPermission();
+      }catch(err){
+        console.error(err);
+      }
+    }
+
+    if(wantsReminders && (!("Notification" in window) || Notification.permission !== "granted")){
+      updateNotifPermHint();
+      alert("No se pudo activar: falta el permiso de notificaciones del navegador.");
+      return;
+    }
+
+    state.settings = state.settings || {};
+    state.settings.reminders = wantsReminders;
+    state.settings.trainingTime = time;
+
+    saveStateFor(currentUid, state);
+    if(currentUid) await saveStateToCloud(currentUid, state);
+
+    updateNotifPermHint();
+    scheduleTodayReminders();
+    alert("Configuración de notificaciones guardada ✅");
+  });
+}
+
 // ===================== Render todo =====================
 function renderAll(){
   renderWeek();
@@ -1369,6 +1733,9 @@ function renderAll(){
   renderLastWorkout();
   streakDaysEl.textContent = String(computeStreak());
   renderFormForSelectedDate();
+  renderRestSettingsUI();
+  renderNotifSettingsUI();
+  scheduleTodayReminders();
 }
 
 renderAll();

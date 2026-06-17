@@ -4,7 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GymBro</title>
-  <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+  <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0aa3a6" />
+  <!-- iOS: agregar a inicio -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="GymBro" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -13,7 +20,7 @@
     <!-- TOP (barra teal sticky) -->
     <div class="top">
       <div class="topbar">
-        <div class="topbar-title">GymBro</div>
+        <button id="logoHomeBtn" class="topbar-title topbar-title-btn" type="button" aria-label="Ir al inicio">GymBro</button>
 
         <div class="topbar-actions">
           <!-- Guía -->
@@ -213,6 +220,73 @@
         </div>
 
         <p class="hint" id="authStatus">No logueado</p>
+      </section>
+
+      <!-- CONFIGURACIÓN -->
+      <section class="card" id="settingsCard">
+        <h2 class="section-title">Configuración</h2>
+
+        <div class="clock-tabs settings-tabs">
+          <button id="tabSettingsRest" class="tab active" type="button">Descansos</button>
+          <button id="tabSettingsExercises" class="tab" type="button">Ejercicios</button>
+          <button id="tabSettingsNotif" class="tab" type="button">Notificaciones</button>
+        </div>
+
+        <!-- Pestaña: Descansos -->
+        <div id="settingsPanelRest" class="settings-panel">
+          <div class="switch-row">
+            <span class="switch-label">Fin de semanas</span>
+            <button id="weekendRestToggle" class="switch-toggle" type="button" role="switch" aria-checked="false" aria-label="Fin de semanas como descanso">
+              <span class="switch-knob"></span>
+            </button>
+          </div>
+
+          <div class="small-note" style="margin-top:10px;">Días de descanso</div>
+
+          <div class="weekday-picker" id="weekdayPicker">
+            <button class="weekday-circle" type="button" data-day="0">Lu</button>
+            <button class="weekday-circle" type="button" data-day="1">Ma</button>
+            <button class="weekday-circle" type="button" data-day="2">Mi</button>
+            <button class="weekday-circle" type="button" data-day="3">Ju</button>
+            <button class="weekday-circle" type="button" data-day="4">Vi</button>
+            <button class="weekday-circle" type="button" data-day="5">Sa</button>
+            <button class="weekday-circle" type="button" data-day="6">Do</button>
+          </div>
+
+          <p class="hint">Los días marcados se aplican como descanso desde hoy en adelante. No afecta días anteriores ni corta tu racha.</p>
+
+          <div class="actions">
+            <button class="btn primary" id="saveRestSettings" type="button">Guardar</button>
+          </div>
+        </div>
+
+        <!-- Pestaña: Ejercicios -->
+        <div id="settingsPanelExercises" class="settings-panel" hidden>
+          <div id="exerciseGroupsConfig"></div>
+
+          <div class="actions">
+            <button class="btn primary" id="saveExerciseSettings" type="button">Guardar</button>
+          </div>
+        </div>
+
+        <!-- Pestaña: Notificaciones -->
+        <div id="settingsPanelNotif" class="settings-panel" hidden>
+          <div class="switch-row">
+            <span class="switch-label">Recordatorios</span>
+            <button id="remindersToggle" class="switch-toggle" type="button" role="switch" aria-checked="false" aria-label="Activar recordatorios">
+              <span class="switch-knob"></span>
+            </button>
+          </div>
+
+          <div class="small-note" style="margin-top:10px;">Hora de entrenamiento</div>
+          <input id="trainingTimeInput" class="exercise-input" type="time" value="08:00" style="margin-top:6px;" />
+
+          <p class="hint" id="notifPermHint"></p>
+
+          <div class="actions">
+            <button class="btn primary" id="saveNotifSettings" type="button">Guardar</button>
+          </div>
+        </div>
       </section>
     </section>
 
