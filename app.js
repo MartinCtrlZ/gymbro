@@ -759,6 +759,9 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
   const row = document.createElement("div");
   row.className = "trow";
 
+  const nameLine = document.createElement("div");
+  nameLine.className = "trow-name-line";
+
   const nameWrap = document.createElement("div");
   nameWrap.className = "ex-name-wrap";
 
@@ -832,20 +835,39 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
   });
 
   // Cerrar al hacer click afuera
-  document.addEventListener("click", (e)=>{
+  const onDocClick = (e)=>{
     if(!menu.hidden && !nameWrap.contains(e.target)){
       menu.hidden = true;
       if(activeExDdMenu === menu) activeExDdMenu = null;
     }
-  });
+  };
+  document.addEventListener("click", onDocClick);
 
   // Reposicionar al hacer scroll
-  window.addEventListener("scroll", ()=>{
+  const onScroll = ()=>{
     if(!menu.hidden) positionMenu();
-  }, { passive: true });
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
 
   nameWrap.appendChild(input);
   nameWrap.appendChild(ddBtn);
+
+  // Botón eliminar fila (en la línea del nombre, para liberar espacio horizontal)
+  const delBtn = document.createElement("button");
+  delBtn.type = "button";
+  delBtn.className = "row-del-btn";
+  delBtn.title = "Eliminar ejercicio";
+  delBtn.textContent = "🗑";
+  delBtn.addEventListener("click", ()=>{
+    cleanupRow();
+    row.remove();
+  });
+
+  nameLine.appendChild(nameWrap);
+  nameLine.appendChild(delBtn);
+
+  const statsLine = document.createElement("div");
+  statsLine.className = "trow-stats-line";
 
   const setsSel = document.createElement("select");
   setsOptions().forEach(v=>{
@@ -871,30 +893,28 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
     weightSel.appendChild(o);
   });
 
-  // Botón eliminar fila
-  const delBtn = document.createElement("button");
-  delBtn.type = "button";
-  delBtn.className = "row-del-btn";
-  delBtn.title = "Eliminar ejercicio";
-  delBtn.textContent = "🗑";
-  delBtn.addEventListener("click", ()=>{
-    menu.remove(); // limpiar menú del body
-    row.remove();
-  });
+  statsLine.appendChild(setsSel);
+  statsLine.appendChild(repsSel);
+  statsLine.appendChild(weightSel);
 
-  row.appendChild(nameWrap);
-  row.appendChild(setsSel);
-  row.appendChild(repsSel);
-  row.appendChild(weightSel);
-  row.appendChild(delBtn);
+  row.appendChild(nameLine);
+  row.appendChild(statsLine);
 
   row._refs = { input, setsSel, repsSel, weightSel };
 
-  // Limpiar menu del DOM cuando la fila se elimina (via MutationObserver)
+  // Limpieza centralizada: quita el menú flotante del body y los listeners globales
+  // que esta fila registró, evitando que se acumulen al agregar/eliminar ejercicios.
+  function cleanupRow(){
+    menu.remove();
+    document.removeEventListener("click", onDocClick);
+    window.removeEventListener("scroll", onScroll);
+    if(activeExDdMenu === menu) activeExDdMenu = null;
+    mo.disconnect();
+  }
+
   const mo = new MutationObserver(()=>{
     if(!document.body.contains(row)){
-      menu.remove();
-      mo.disconnect();
+      cleanupRow();
     }
   });
   mo.observe(document.body, { childList: true, subtree: true });

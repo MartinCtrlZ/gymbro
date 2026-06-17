@@ -251,24 +251,39 @@ body{
 /* Table: 5 cols now (added delete col) */
 .table{
   border-radius: 16px;
-  overflow:hidden;
   border:1px solid #e5e7eb;
-  overflow-x:auto;
-}
-.thead,.trow{
-  display:grid;
-  grid-template-columns: 2.6fr 52px 52px 68px 32px;
-  gap:6px;
-  align-items:center;
-  padding:10px 8px;
-  min-width: 340px;
+  overflow:hidden;
 }
 .thead{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 36px;
+  gap:6px;
+  align-items:center;
+  padding:6px 10px 8px;
   background: #f3f4f6;
   font-weight:900;
+  text-align:center;
 }
-.tbody .trow{
+.trow{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:10px;
   border-top:1px solid #eef2f7;
+}
+.trow-name-line{
+  display:flex;
+  align-items:stretch;
+  gap:6px;
+}
+.trow-stats-line{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 36px;
+  gap:6px;
+  align-items:center;
+}
+.trow-stats-line .stat-label{
+  display:none;
 }
 
 .exercise-input{
