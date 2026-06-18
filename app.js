@@ -759,9 +759,6 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
   const row = document.createElement("div");
   row.className = "trow";
 
-  const nameLine = document.createElement("div");
-  nameLine.className = "trow-name-line";
-
   const nameWrap = document.createElement("div");
   nameWrap.className = "ex-name-wrap";
 
@@ -852,23 +849,6 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
   nameWrap.appendChild(input);
   nameWrap.appendChild(ddBtn);
 
-  // Botón eliminar fila (en la línea del nombre, para liberar espacio horizontal)
-  const delBtn = document.createElement("button");
-  delBtn.type = "button";
-  delBtn.className = "row-del-btn";
-  delBtn.title = "Eliminar ejercicio";
-  delBtn.textContent = "🗑";
-  delBtn.addEventListener("click", ()=>{
-    cleanupRow();
-    row.remove();
-  });
-
-  nameLine.appendChild(nameWrap);
-  nameLine.appendChild(delBtn);
-
-  const statsLine = document.createElement("div");
-  statsLine.className = "trow-stats-line";
-
   const setsSel = document.createElement("select");
   setsOptions().forEach(v=>{
     const o = document.createElement("option");
@@ -893,12 +873,22 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
     weightSel.appendChild(o);
   });
 
-  statsLine.appendChild(setsSel);
-  statsLine.appendChild(repsSel);
-  statsLine.appendChild(weightSel);
+  // Botón eliminar fila
+  const delBtn = document.createElement("button");
+  delBtn.type = "button";
+  delBtn.className = "row-del-btn";
+  delBtn.title = "Eliminar ejercicio";
+  delBtn.textContent = "🗑";
+  delBtn.addEventListener("click", ()=>{
+    cleanupRow();
+    row.remove();
+  });
 
-  row.appendChild(nameLine);
-  row.appendChild(statsLine);
+  row.appendChild(nameWrap);
+  row.appendChild(setsSel);
+  row.appendChild(repsSel);
+  row.appendChild(weightSel);
+  row.appendChild(delBtn);
 
   row._refs = { input, setsSel, repsSel, weightSel };
 

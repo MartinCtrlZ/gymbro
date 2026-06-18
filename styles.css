@@ -248,64 +248,58 @@ body{
 }
 .dropdown-menu button:hover{ background: rgba(255,255,255,.6); }
 
-/* Table: 5 cols now (added delete col) */
+/* Table: 5 columnas en una sola fila (nombre, cant, repes, peso, eliminar).
+   Las columnas fijas están achicadas al mínimo legible; el nombre usa el
+   espacio restante. Si aun así no entra en pantallas muy angostas, la tabla
+   permite scroll horizontal interno (no afecta el resto de la página). */
 .table{
   border-radius: 16px;
   border:1px solid #e5e7eb;
-  overflow:hidden;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.thead,.trow{
+  display:grid;
+  grid-template-columns: minmax(118px, 1fr) 30px 30px 40px 26px;
+  gap:4px;
+  align-items:center;
+  padding:8px 7px;
+  min-width: 320px;
 }
 .thead{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr 36px;
-  gap:6px;
-  align-items:center;
-  padding:6px 10px 8px;
   background: #f3f4f6;
   font-weight:900;
+  font-size:12px;
   text-align:center;
 }
-.trow{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  padding:10px;
+.thead div:first-child{
+  text-align:left;
+}
+.tbody .trow{
   border-top:1px solid #eef2f7;
-}
-.trow-name-line{
-  display:flex;
-  align-items:stretch;
-  gap:6px;
-}
-.trow-stats-line{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr 36px;
-  gap:6px;
-  align-items:center;
-}
-.trow-stats-line .stat-label{
-  display:none;
 }
 
 .exercise-input{
   width:100%;
   min-width:0;
-  padding:12px 10px;
-  border-radius: 12px;
+  padding:9px 8px;
+  border-radius: 10px;
   border:1px solid #e5e7eb;
-  font-weight:800;
-  font-size:14px;
-  text-overflow: ellipsis;
+  font-weight:700;
+  font-size:12px;
 }
 select{
   width:100%;
   min-width:0;
-  padding:12px 8px;
-  border-radius: 12px;
+  padding:8px 1px;
+  border-radius: 10px;
   border:1px solid #e5e7eb;
-  font-weight:800;
-  font-size:13px;
+  font-weight:700;
+  font-size:11px;
   background:#fff;
-  text-overflow: ellipsis;
+  text-align:center;
+  text-align-last:center;
 }
 
 .actions{
@@ -402,18 +396,20 @@ select{
 .ex-name-wrap{
   position: relative;
   display: flex;
-  gap: 6px;
+  gap: 4px;
   align-items: stretch;
   min-width: 0;
 }
 .ex-dd-btn{
-  width: 40px;
-  border-radius: 12px;
+  width: 24px;
+  border-radius: 8px;
   border: 1px solid #e5e7eb;
   background: #fff;
   font-weight: 900;
+  font-size: 11px;
   cursor: pointer;
   flex-shrink: 0;
+  padding: 0;
 }
 .ex-dd-menu{
   position: fixed;
@@ -442,13 +438,13 @@ select{
 
 /* ===== Row delete button ===== */
 .row-del-btn{
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
   border: 1px solid #e5e7eb;
   background: #fff;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
