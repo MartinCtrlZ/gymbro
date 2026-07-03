@@ -198,7 +198,7 @@ const GUIDE_DATA = [
     exercises: [
       {
         name: "Press Militar",
-        image: null,
+        image: "/img/ejercicios/pressmilitar.webp",
         imageAlt: "Press Militar - imagen próximamente",
         howTo: "De pie o sentado, agarra la barra a la altura de los hombros con agarre prono. Empuja la barra hacia arriba hasta extender completamente los brazos, luego baja de forma controlada hasta la posición inicial.",
         muscles: "Deltoides anterior, tríceps, pecho superior y trapecio.",
@@ -206,7 +206,7 @@ const GUIDE_DATA = [
       },
       {
         name: "Press Vertical (Press Inclinado)",
-        image: null,
+        image: "/img/ejercicios/pressvertcal.webp",
         imageAlt: "Press Inclinado - imagen próximamente",
         howTo: "Recostado en un banco inclinado a 30–45°, agarra la barra o mancuernas a la altura del pecho. Empuja hacia arriba y adelante, luego bajá lentamente controlando el peso.",
         muscles: "Pecho superior (clavicular), deltoides anterior y tríceps.",
@@ -214,7 +214,7 @@ const GUIDE_DATA = [
       },
       {
         name: "Elevaciones (Aperturas)",
-        image: null,
+        image: "/img/ejercicios/elevaciones.webp",
         imageAlt: "Elevaciones / Aperturas - imagen próximamente",
         howTo: "Con mancuernas o en máquina, abrí los brazos describiendo un arco amplio hasta sentir el estiramiento en el pecho. Cerrá de vuelta juntando las manos al frente.",
         muscles: "Pecho (fibras internas y externas), deltoides anterior.",
