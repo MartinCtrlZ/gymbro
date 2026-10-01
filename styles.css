@@ -233,8 +233,9 @@ body{
   border-radius: 14px;
   overflow-y:auto;
   width: 180px;
-  max-height: 260px;
+  max-height: min(260px, calc(100vh - 16px));
   box-shadow: var(--shadow);
+  overscroll-behavior: contain;
   z-index: 10000;
 }
 .dropdown-menu button{
@@ -261,11 +262,11 @@ body{
 }
 .thead,.trow{
   display:grid;
-  grid-template-columns: minmax(118px, 1fr) 30px 30px 40px 26px;
+  grid-template-columns: minmax(112px, 1fr) 42px 44px 48px 30px;
   gap:4px;
   align-items:center;
   padding:8px 7px;
-  min-width: 320px;
+  min-width: 304px;
 }
 .thead{
   background: #f3f4f6;
@@ -296,7 +297,7 @@ select{
   border-radius: 10px;
   border:1px solid #e5e7eb;
   font-weight:700;
-  font-size:11px;
+  font-size:12px;
   background:#fff;
   text-align:center;
   text-align-last:center;
@@ -419,9 +420,11 @@ select{
   box-shadow: var(--shadow);
   padding: 6px;
   z-index: 9999;
-  max-height: 200px;
+  max-height: min(240px, calc(100vh - 16px));
   overflow-y: auto;
-  width: 200px;
+  overscroll-behavior: contain;
+  width: 220px;
+  max-width: calc(100vw - 16px);
 }
 .ex-dd-item{
   width: 100%;
@@ -912,4 +915,221 @@ select{
   cursor: pointer;
   width: 100%;
   text-align: left;
+}
+
+
+/* ===== Estadísticas ===== */
+.stats-header{
+  margin-top:12px;
+  padding:0 2px;
+}
+.stats-summary-card{
+  text-align:center;
+}
+.stats-kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+.stats-kpi-value{
+  font-size:28px;
+  font-weight:900;
+  margin:4px 0;
+}
+.stats-card-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+.stats-card-head .section-title{
+  margin-bottom:0;
+}
+.stats-card-head .small-note{
+  text-align:right;
+  max-width:52%;
+}
+.stats-period-tabs{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+  margin:12px 0;
+}
+.stats-period-btn{
+  border:1px solid #e5e7eb;
+  background:#fff;
+  border-radius:10px;
+  padding:8px 4px;
+  font-weight:800;
+  font-size:12px;
+  cursor:pointer;
+}
+.stats-period-btn.active{
+  border-color:var(--teal);
+  color:var(--teal);
+  background:#ecfeff;
+}
+.stats-group-bars{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:14px;
+}
+.stats-group-row{
+  display:grid;
+  grid-template-columns:82px 1fr 42px;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:800;
+}
+.stats-group-track{
+  height:10px;
+  border-radius:999px;
+  background:#eef2f7;
+  overflow:hidden;
+}
+.stats-group-fill{
+  height:100%;
+  border-radius:999px;
+  background:var(--teal);
+}
+.stats-group-value{
+  text-align:right;
+  color:var(--muted);
+}
+.stats-muscle-map{
+  border:1px solid #eef2f7;
+  border-radius:16px;
+  background:#fafafa;
+  padding:10px 4px;
+}
+.stats-muscle-svg{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:330px;
+}
+.stats-muscle-svg .body-outline{
+  fill:#f3f4f6;
+  stroke:#cbd5e1;
+  stroke-width:2;
+}
+.stats-muscle-svg .muscle-zone{
+  stroke:rgba(15,23,42,.16);
+  stroke-width:1;
+  transition:fill .15s ease;
+  cursor:pointer;
+}
+.stats-muscle-svg text{
+  fill:#64748b;
+  font-size:10px;
+  font-weight:800;
+  text-anchor:middle;
+}
+.stats-muscle-tooltip{
+  min-height:20px;
+  text-align:center;
+  margin-top:8px;
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+.stats-legend{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
+}
+.stats-legend-scale{
+  display:flex;
+  gap:2px;
+}
+.stats-legend-scale i{
+  display:block;
+  width:14px;
+  height:8px;
+  border-radius:2px;
+}
+.heat-0{ background:#e5e7eb; }
+.heat-1{ background:#fecdd3; }
+.heat-2{ background:#fda4af; }
+.heat-3{ background:#fb7185; }
+.heat-4{ background:#ef4444; }
+.heat-5{ background:#b91c1c; }
+.stats-exercise-select{
+  width:100%;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  font-size:14px;
+  font-weight:800;
+  text-align:left;
+  text-align-last:left;
+}
+.stats-pr{
+  margin:10px 0 4px;
+  font-size:14px;
+  font-weight:800;
+}
+.stats-progress-chart{
+  min-height:190px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.stats-chart-svg{
+  display:block;
+  width:100%;
+  min-width:300px;
+  height:190px;
+}
+.stats-chart-grid{
+  stroke:#e5e7eb;
+  stroke-width:1;
+}
+.stats-chart-line{
+  fill:none;
+  stroke:var(--teal);
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.stats-chart-point{
+  fill:#fff;
+  stroke:var(--teal);
+  stroke-width:3;
+  cursor:pointer;
+}
+.stats-chart-label{
+  fill:#64748b;
+  font-size:10px;
+  font-weight:700;
+}
+.stats-progress-detail{
+  text-align:center;
+  margin-top:6px;
+}
+.ex-dd-empty{
+  padding:10px;
+  color:var(--muted);
+  font-weight:700;
+  font-size:12px;
+}
+
+@media (max-width: 360px){
+  .phone{ padding-left:8px; padding-right:8px; }
+  .topbar-actions{ gap:5px; }
+  .user-avatar{ width:33px; height:33px; }
+  .thead,.trow{
+    grid-template-columns:minmax(108px,1fr) 42px 44px 48px 30px;
+    min-width:300px;
+  }
+  .stats-group-row{ grid-template-columns:74px 1fr 38px; }
 }

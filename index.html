@@ -28,6 +28,11 @@
             <span class="user-avatar">💪</span>
           </button>
 
+          <!-- Estadísticas -->
+          <button id="statsBtn" class="user-btn" type="button" aria-label="Estadísticas">
+            <span class="user-avatar">📊</span>
+          </button>
+
           <!-- Clock -->
           <button id="clockBtn" class="user-btn" type="button" aria-label="Reloj">
             <span class="user-avatar">🕒</span>
@@ -319,6 +324,57 @@
       </div>
 
       <div id="guideContent"></div>
+    </section>
+
+    <!-- VISTA ESTADÍSTICAS -->
+    <section id="viewStats" class="clock-view" hidden>
+      <div class="clock-head">
+        <button id="backFromStats" class="btn secondary" type="button">← Volver</button>
+      </div>
+
+      <div class="stats-header">
+        <h2 class="guide-title">Estadísticas</h2>
+      </div>
+
+      <section class="card stats-summary-card">
+        <div class="stats-kpi">
+          <div class="stats-kpi-label">Máxima racha</div>
+          <div class="stats-kpi-value">🔥 <span id="statsMaxStreak">0</span> días</div>
+          <div class="small-note" id="statsMaxStreakPeriod">Sin datos</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="stats-card-head">
+          <h3 class="section-title">Actividad muscular</h3>
+          <div class="small-note" id="statsRangeLabel"></div>
+        </div>
+
+        <div class="stats-period-tabs" id="statsPeriodTabs">
+          <button class="stats-period-btn" data-stats-period="day" type="button">Día</button>
+          <button class="stats-period-btn active" data-stats-period="week" type="button">Semana</button>
+          <button class="stats-period-btn" data-stats-period="month" type="button">Mes</button>
+          <button class="stats-period-btn" data-stats-period="year" type="button">Año</button>
+        </div>
+
+        <div id="statsGroupBars" class="stats-group-bars"></div>
+        <div id="statsMuscleMap" class="stats-muscle-map"></div>
+        <div class="stats-legend">
+          <span>Sin trabajo</span>
+          <div class="stats-legend-scale" aria-hidden="true">
+            <i class="heat-0"></i><i class="heat-1"></i><i class="heat-2"></i><i class="heat-3"></i><i class="heat-4"></i><i class="heat-5"></i>
+          </div>
+          <span>Más trabajo</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="section-title">Progresión de peso</h3>
+        <select id="statsExerciseSelect" class="stats-exercise-select" aria-label="Elegir ejercicio"></select>
+        <div class="stats-pr">PR: <strong id="statsPR">--</strong></div>
+        <div id="statsProgressChart" class="stats-progress-chart"></div>
+        <div id="statsProgressDetail" class="small-note stats-progress-detail">Tocá un punto de la gráfica para ver el dato.</div>
+      </section>
     </section>
 
     <!-- HELP POPUP -->

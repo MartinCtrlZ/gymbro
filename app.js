@@ -199,7 +199,6 @@ const GUIDE_DATA = [
       {
         name: "Press Militar",
         image: "/img/ejercicios/pressmilitar.webp",
-        imageAlt: "Press Militar - imagen próximamente",
         howTo: "De pie o sentado, agarra la barra a la altura de los hombros con agarre prono. Empuja la barra hacia arriba hasta extender completamente los brazos, luego baja de forma controlada hasta la posición inicial.",
         muscles: "Deltoides anterior, tríceps, pecho superior y trapecio.",
         tip: "Mantené el core activo y la espalda recta durante todo el movimiento. No bloquees los codos al extender."
@@ -207,7 +206,6 @@ const GUIDE_DATA = [
       {
         name: "Press Vertical (Press Inclinado)",
         image: "/img/ejercicios/pressvertcal.webp",
-        imageAlt: "Press Inclinado - imagen próximamente",
         howTo: "Recostado en un banco inclinado a 30–45°, agarra la barra o mancuernas a la altura del pecho. Empuja hacia arriba y adelante, luego bajá lentamente controlando el peso.",
         muscles: "Pecho superior (clavicular), deltoides anterior y tríceps.",
         tip: "El ángulo del banco define qué porción del pecho trabajás más. Con 30° priorizás el pecho superior sin sobrecargar el hombro."
@@ -215,7 +213,6 @@ const GUIDE_DATA = [
       {
         name: "Elevaciones (Aperturas)",
         image: "/img/ejercicios/elevaciones.webp",
-        imageAlt: "Elevaciones / Aperturas - imagen próximamente",
         howTo: "Con mancuernas o en máquina, abrí los brazos describiendo un arco amplio hasta sentir el estiramiento en el pecho. Cerrá de vuelta juntando las manos al frente.",
         muscles: "Pecho (fibras internas y externas), deltoides anterior.",
         tip: "Usá poco peso y enfocate en el estiramiento. No es un ejercicio de fuerza máxima, sino de aislamiento y conexión muscular."
@@ -223,7 +220,6 @@ const GUIDE_DATA = [
       {
         name: "Apertura con Máquina (Peck Deck)",
         image: null,
-        imageAlt: "Apertura con Máquina - imagen próximamente",
         howTo: "Sentado en la máquina con la espalda bien apoyada, llevá los brazos hacia adelante juntando los codos o las manos al frente. Mantenés la tensión al abrir y cerrar.",
         muscles: "Pectoral mayor, enfatizando la zona interna.",
         tip: "Hacé una pausa de un segundo en el punto de máxima contracción para maximizar el trabajo muscular."
@@ -231,7 +227,6 @@ const GUIDE_DATA = [
       {
         name: "Tríceps con Polea",
         image: null,
-        imageAlt: "Tríceps con Polea - imagen próximamente",
         howTo: "De pie frente a la polea alta, agarrá la cuerda o barra. Con los codos pegados al cuerpo, extendé los brazos hacia abajo hasta que queden rectos. Subí lento y controlado.",
         muscles: "Tríceps braquial (tres cabezas), especialmente la cabeza lateral.",
         tip: "Mantené los codos fijos al costado del torso. Si se mueven, el peso es demasiado."
@@ -243,16 +238,14 @@ const GUIDE_DATA = [
     exercises: [
       {
         name: "Press Militar",
-        image: null,
-        imageAlt: "Press Militar - imagen próximamente",
+        image: "/img/ejercicios/pressmilitar.webp",
         howTo: "De pie o sentado, agarra la barra a la altura de los hombros con agarre prono. Empuja la barra hacia arriba hasta extender completamente los brazos, luego baja de forma controlada.",
         muscles: "Deltoides, tríceps, trapecio y pecho superior.",
         tip: "Activá el core para proteger la zona lumbar. No arqueés la espalda baja."
       },
       {
         name: "Elevaciones (Vuelos Posteriores)",
-        image: null,
-        imageAlt: "Vuelos Posteriores - imagen próximamente",
+        image: "/img/ejercicios/elevaciones.webp",
         howTo: "Inclinado hacia adelante (o en máquina posterior), levantá los brazos hacia los lados describiendo un arco hasta la altura de los hombros. Bajá controlado.",
         muscles: "Deltoides posterior, romboides, trapecio medio.",
         tip: "Usá poco peso. El error más común es usar el impulso del cuerpo en vez del músculo."
@@ -260,15 +253,13 @@ const GUIDE_DATA = [
       {
         name: "Remo Gironda",
         image: null,
-        imageAlt: "Remo Gironda - imagen próximamente",
         howTo: "Tumbado boca abajo en un banco inclinado, agarra las mancuernas con los brazos colgando. Jalá los codos hacia arriba y atrás haciendo una contracción fuerte en la parte alta.",
         muscles: "Trapecio medio, romboides, deltoides posterior y dorsal.",
         tip: "Al llegar arriba, apretá los omóplatos entre sí y mantené 1 segundo antes de bajar."
       },
       {
         name: "Remo T",
-        image: null,
-        imageAlt: "Remo T - imagen próximamente",
+        image: "/img/ejercicios/remot.webp",
         howTo: "Con una barra fija en un extremo (o máquina), agarrá el asa y tirá hacia el abdomen manteniendo la espalda recta. Extendé completamente los brazos entre cada repetición.",
         muscles: "Dorsal ancho, trapecio, romboides y bíceps.",
         tip: "Priorizá llevar los codos hacia atrás, no hacia arriba. Así evitás compensar con los hombros."
@@ -276,15 +267,13 @@ const GUIDE_DATA = [
       {
         name: "Bíceps con Barra Z",
         image: null,
-        imageAlt: "Bíceps con Barra Z - imagen próximamente",
         howTo: "De pie con la barra Z a la altura de las caderas, agarre supino. Curvá los brazos subiendo la barra hasta la altura de los hombros. Bajá de forma lenta y controlada.",
         muscles: "Bíceps braquial, braquial anterior y braquiorradial.",
         tip: "La barra Z reduce la tensión en las muñecas comparada con la barra recta. Mantené los codos pegados al cuerpo."
       },
       {
         name: "Jalón al Pecho",
-        image: null,
-        imageAlt: "Jalón al Pecho - imagen próximamente",
+        image: "/img/ejercicios/jalonalpechomaquina.webp",
         howTo: "Sentado en la máquina de jalón, agarra la barra con agarre amplio. Tira hacia abajo llevando la barra hasta la altura de la clavícula mientras inclinás levemente el torso hacia atrás.",
         muscles: "Dorsal ancho, redondo mayor, bíceps y romboides.",
         tip: "Imaginá que querés llevar los codos al suelo, no sólo bajar las manos. Eso mejora la activación del dorsal."
@@ -292,7 +281,6 @@ const GUIDE_DATA = [
       {
         name: "Facepull",
         image: null,
-        imageAlt: "Facepull - imagen próximamente",
         howTo: "Con la polea a la altura de la cara, agarra la cuerda con ambas manos. Tirá hacia tu cara separando las manos al final del movimiento, con los codos a la altura de los hombros.",
         muscles: "Deltoides posterior, manguito rotador, romboides y trapecio.",
         tip: "Es esencial para la salud del hombro. Hacelo con poco peso y muchas reps, priorizando la técnica."
@@ -305,15 +293,13 @@ const GUIDE_DATA = [
       {
         name: "Sentadillas",
         image: null,
-        imageAlt: "Sentadillas - imagen próximamente",
         howTo: "Con la barra en los trapecios (o sin peso), pies a la anchura de los hombros. Bajá flexionando caderas y rodillas hasta que los muslos queden paralelos al suelo. Subí empujando con los talones.",
         muscles: "Cuádriceps, glúteos, isquiotibiales y core.",
         tip: "Las rodillas deben seguir la dirección de los pies. No dejes que colapsen hacia adentro."
       },
       {
         name: "Press Militar",
-        image: null,
-        imageAlt: "Press Militar - imagen próximamente",
+        image: "/img/ejercicios/pressmilitar.webp",
         howTo: "De pie o sentado, empujá la barra desde los hombros hacia arriba hasta extender los brazos completamente. Bajá controlado.",
         muscles: "Deltoides, tríceps y trapecio.",
         tip: "Apretá el abdomen durante todo el movimiento para proteger la zona lumbar."
@@ -321,7 +307,6 @@ const GUIDE_DATA = [
       {
         name: "Estocadas (Zancadas)",
         image: null,
-        imageAlt: "Estocadas - imagen próximamente",
         howTo: "De pie, dá un paso largo hacia adelante y bajá la rodilla trasera casi hasta el suelo. Volvé a la posición inicial empujando con el pie delantero. Alternás piernas.",
         muscles: "Cuádriceps, glúteos, isquiotibiales y estabilizadores.",
         tip: "Mantené el torso erecto y la rodilla delantera alineada con el pie, sin pasarse la punta."
@@ -329,7 +314,6 @@ const GUIDE_DATA = [
       {
         name: "Prensa de Piernas",
         image: null,
-        imageAlt: "Prensa de Piernas - imagen próximamente",
         howTo: "Sentado en la máquina, apoyá los pies en la plataforma a la anchura de los hombros. Empujá el peso hasta casi extender completamente las piernas (sin bloquear). Bajá controlado.",
         muscles: "Cuádriceps, glúteos e isquiotibiales.",
         tip: "No dejes que las lumbares se despeguen del respaldo al bajar el peso. Ese rango es el peligroso."
@@ -337,7 +321,6 @@ const GUIDE_DATA = [
       {
         name: "Sillón Cuadriceps (Extensión de Piernas)",
         image: null,
-        imageAlt: "Extensión de Piernas - imagen próximamente",
         howTo: "Sentado en la máquina, con el rodillo sobre el empeine. Extendé las piernas hasta que queden rectas, mantené 1 segundo y bajá despacio.",
         muscles: "Cuádriceps (aislamiento total).",
         tip: "Es un ejercicio de aislamiento. Usá un peso que permita controlar bien el movimiento, especialmente la bajada."
@@ -345,7 +328,6 @@ const GUIDE_DATA = [
       {
         name: "Abductores",
         image: null,
-        imageAlt: "Abductores - imagen próximamente",
         howTo: "Sentado en la máquina de abductores, con las almohadillas en la parte externa de los muslos. Abrí las piernas hacia afuera contra la resistencia y volvé lento.",
         muscles: "Glúteo medio, tensor de la fascia lata y abductores.",
         tip: "La apertura de cadera y la postura del torso afectan qué fibra glútea trabajás más."
@@ -353,7 +335,6 @@ const GUIDE_DATA = [
       {
         name: "Gemelos (Elevaciones de Talón)",
         image: null,
-        imageAlt: "Elevaciones de Talón - imagen próximamente",
         howTo: "De pie en el borde de un escalón o plataforma, bajá los talones por debajo del nivel del escalón y luego subí de puntillas lo más arriba posible. Bajá lento.",
         muscles: "Gastrocnemio y sóleo.",
         tip: "La bajada lenta es clave para el crecimiento. Los gemelos responden bien a alto volumen de reps."
@@ -361,7 +342,6 @@ const GUIDE_DATA = [
       {
         name: "Puente de Glúteos",
         image: null,
-        imageAlt: "Puente de Glúteos - imagen próximamente",
         howTo: "Acostado boca arriba con las rodillas dobladas, levantá las caderas hasta que quede una línea recta desde los hombros hasta las rodillas. Apretá los glúteos arriba y bajá controlado.",
         muscles: "Glúteos, isquiotibiales y core.",
         tip: "Para mayor dificultad, ponete una barra o disco sobre las caderas (hip thrust). El rango de movimiento completo es fundamental."
@@ -369,7 +349,6 @@ const GUIDE_DATA = [
       {
         name: "Peso Muerto",
         image: null,
-        imageAlt: "Peso Muerto - imagen próximamente",
         howTo: "Con la barra en el suelo, pies a la anchura de las caderas. Agarra la barra, espalda recta, levantá empujando con las piernas y extendiendo la cadera hasta quedar erguido. Bajá con control.",
         muscles: "Isquiotibiales, glúteos, dorsales, trapecios y core.",
         tip: "La espalda recta es innegociable. Empezá con poco peso para dominar la técnica antes de cargar."
@@ -384,6 +363,7 @@ const viewLogin  = document.getElementById("viewLogin");
 const viewClock  = document.getElementById("viewClock");
 const viewDetail = document.getElementById("viewDetail");
 const viewGuide  = document.getElementById("viewGuide");
+const viewStats  = document.getElementById("viewStats");
 
 const userBtn    = document.getElementById("userBtn");
 const userAvatar = document.getElementById("userAvatar");
@@ -396,6 +376,8 @@ const backFromDetail = document.getElementById("backFromDetail");
 
 const guideBtn      = document.getElementById("guideBtn");
 const backFromGuide = document.getElementById("backFromGuide");
+const statsBtn      = document.getElementById("statsBtn");
+const backFromStats = document.getElementById("backFromStats");
 
 const helpBtn     = document.getElementById("helpBtn");
 const helpOverlay = document.getElementById("helpOverlay");
@@ -409,12 +391,14 @@ function showOnly(which){
   if(viewClock)  viewClock.hidden  = which !== "clock";
   if(viewDetail) viewDetail.hidden = which !== "detail";
   if(viewGuide)  viewGuide.hidden  = which !== "guide";
+  if(viewStats)  viewStats.hidden  = which !== "stats";
 }
 function showMain()   { showOnly("main"); }
 function showLogin()  { showOnly("login"); }
 function showClock()  { showOnly("clock"); }
 function showDetail() { showOnly("detail"); }
 function showGuide()  { showOnly("guide"); renderGuide(); }
+function showStats()  { showOnly("stats"); renderStats(); }
 
 if(userBtn)    userBtn.addEventListener("click", showLogin);
 if(backToMain) backToMain.addEventListener("click", showMain);
@@ -426,6 +410,8 @@ if(backFromDetail) backFromDetail.addEventListener("click", showMain);
 
 if(guideBtn)      guideBtn.addEventListener("click", showGuide);
 if(backFromGuide) backFromGuide.addEventListener("click", showMain);
+if(statsBtn)      statsBtn.addEventListener("click", showStats);
+if(backFromStats) backFromStats.addEventListener("click", showMain);
 
 // HELP
 function openHelp(){ if(helpOverlay) helpOverlay.hidden = false; }
@@ -497,6 +483,18 @@ const btnStop       = document.getElementById("btnStop");
 // guide
 const guideContent = document.getElementById("guideContent");
 const guideSearch  = document.getElementById("guideSearch");
+
+// stats
+const statsMaxStreak       = document.getElementById("statsMaxStreak");
+const statsMaxStreakPeriod = document.getElementById("statsMaxStreakPeriod");
+const statsRangeLabel      = document.getElementById("statsRangeLabel");
+const statsPeriodTabs      = document.getElementById("statsPeriodTabs");
+const statsGroupBars       = document.getElementById("statsGroupBars");
+const statsMuscleMap       = document.getElementById("statsMuscleMap");
+const statsExerciseSelect  = document.getElementById("statsExerciseSelect");
+const statsPR              = document.getElementById("statsPR");
+const statsProgressChart   = document.getElementById("statsProgressChart");
+const statsProgressDetail  = document.getElementById("statsProgressDetail");
 
 // settings
 const tabSettingsRest      = document.getElementById("tabSettingsRest");
@@ -752,8 +750,122 @@ function weightOptions(){
   return out;
 }
 
-// Track open dropdown globally to close previous one
-let activeExDdMenu = null;
+// Menú de sugerencias compartido por todas las filas.
+// Evita crear listeners, observers y menús duplicados por cada ejercicio.
+const exerciseSuggestionMenu = document.createElement("div");
+exerciseSuggestionMenu.className = "ex-dd-menu";
+exerciseSuggestionMenu.hidden = true;
+document.body.appendChild(exerciseSuggestionMenu);
+
+let activeExerciseDropdown = null;
+
+function normalizeSearchText(value){
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function getExerciseSuggestions(){
+  const names = [
+    ...EXERCISE_SUGGESTIONS,
+    ...Object.values(PRESET_EXERCISES).flat().map(ex => ex.name),
+    ...Object.values(state.settings?.customExercises || {}).flat()
+  ].filter(Boolean);
+
+  const seen = new Set();
+  return names.filter(name => {
+    const key = normalizeSearchText(name);
+    if(!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function closeExerciseSuggestions(){
+  exerciseSuggestionMenu.hidden = true;
+  exerciseSuggestionMenu.innerHTML = "";
+  activeExerciseDropdown = null;
+}
+
+function positionExerciseSuggestions(){
+  if(!activeExerciseDropdown || exerciseSuggestionMenu.hidden) return;
+  const { anchor } = activeExerciseDropdown;
+  if(!document.body.contains(anchor)) return closeExerciseSuggestions();
+
+  const rect = anchor.getBoundingClientRect();
+  const viewportPad = 8;
+  const desiredWidth = Math.max(200, rect.width);
+  const width = Math.min(desiredWidth, window.innerWidth - viewportPad * 2);
+  exerciseSuggestionMenu.style.width = `${width}px`;
+
+  const menuHeight = Math.min(exerciseSuggestionMenu.scrollHeight || 200, 240);
+  const spaceBelow = window.innerHeight - rect.bottom - viewportPad;
+  const spaceAbove = rect.top - viewportPad;
+  const openBelow = spaceBelow >= Math.min(menuHeight, 160) || spaceBelow >= spaceAbove;
+
+  let top = openBelow ? rect.bottom + 4 : rect.top - menuHeight - 4;
+  top = Math.max(viewportPad, Math.min(top, window.innerHeight - menuHeight - viewportPad));
+
+  let left = rect.left;
+  left = Math.max(viewportPad, Math.min(left, window.innerWidth - width - viewportPad));
+
+  exerciseSuggestionMenu.style.top = `${top}px`;
+  exerciseSuggestionMenu.style.left = `${left}px`;
+}
+
+function rebuildExerciseSuggestions(query=""){
+  const normalizedQuery = normalizeSearchText(query);
+  const matches = getExerciseSuggestions().filter(name =>
+    !normalizedQuery || normalizeSearchText(name).includes(normalizedQuery)
+  );
+
+  exerciseSuggestionMenu.innerHTML = "";
+
+  if(matches.length === 0){
+    const empty = document.createElement("div");
+    empty.className = "ex-dd-empty";
+    empty.textContent = "Sin coincidencias";
+    exerciseSuggestionMenu.appendChild(empty);
+    return;
+  }
+
+  matches.forEach(name => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "ex-dd-item";
+    item.textContent = name;
+    item.dataset.exerciseName = name;
+    exerciseSuggestionMenu.appendChild(item);
+  });
+}
+
+function openExerciseSuggestions(input, anchor, query=""){
+  activeExerciseDropdown = { input, anchor };
+  rebuildExerciseSuggestions(query);
+  exerciseSuggestionMenu.hidden = false;
+  requestAnimationFrame(positionExerciseSuggestions);
+}
+
+exerciseSuggestionMenu.addEventListener("pointerdown", (e)=>{
+  const item = e.target.closest("button[data-exercise-name]");
+  if(!item || !activeExerciseDropdown) return;
+  e.preventDefault();
+  activeExerciseDropdown.input.value = item.dataset.exerciseName;
+  activeExerciseDropdown.input.focus();
+  closeExerciseSuggestions();
+});
+
+document.addEventListener("pointerdown", (e)=>{
+  if(exerciseSuggestionMenu.hidden || !activeExerciseDropdown) return;
+  const { anchor } = activeExerciseDropdown;
+  if(exerciseSuggestionMenu.contains(e.target) || anchor.contains(e.target)) return;
+  closeExerciseSuggestions();
+});
+
+window.addEventListener("scroll", positionExerciseSuggestions, { passive:true });
+window.addEventListener("resize", positionExerciseSuggestions);
 
 function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
   const row = document.createElement("div");
@@ -765,150 +877,82 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
   const input = document.createElement("input");
   input.className = "exercise-input";
   input.placeholder = "Ejercicio";
+  input.autocomplete = "off";
   input.value = ex.name || "";
 
   const ddBtn = document.createElement("button");
   ddBtn.type = "button";
   ddBtn.className = "ex-dd-btn";
   ddBtn.textContent = "▾";
-
-  // Menu se adjunta al body para evitar overflow/clip
-  const menu = document.createElement("div");
-  menu.className = "ex-dd-menu";
-  menu.hidden = true;
-  document.body.appendChild(menu);
-
-  function rebuildMenu(){
-    menu.innerHTML = "";
-    EXERCISE_SUGGESTIONS.forEach(s=>{
-      const it = document.createElement("button");
-      it.type = "button";
-      it.className = "ex-dd-item";
-      it.textContent = s;
-      it.addEventListener("mousedown", (e)=>{
-        // mousedown en vez de click para evitar que onblur cierre el menu antes
-        e.preventDefault();
-        input.value = s;
-        menu.hidden = true;
-        activeExDdMenu = null;
-        input.focus();
-      });
-      menu.appendChild(it);
-    });
-  }
-
-  function positionMenu(){
-    const rect = ddBtn.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const menuHeight = 200;
-
-    if(spaceBelow >= menuHeight || spaceBelow > rect.top){
-      // abrir hacia abajo
-      menu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
-      menu.style.left = `${rect.left + window.scrollX - 160}px`;
-    } else {
-      // abrir hacia arriba
-      menu.style.top  = `${rect.top + window.scrollY - menuHeight - 4}px`;
-      menu.style.left = `${rect.left + window.scrollX - 160}px`;
-    }
-    menu.style.width = "200px";
-  }
+  ddBtn.setAttribute("aria-label", "Ver ejercicios sugeridos");
 
   ddBtn.addEventListener("click", (e)=>{
     e.stopPropagation();
-    // cerrar el que estaba abierto
-    if(activeExDdMenu && activeExDdMenu !== menu){
-      activeExDdMenu.hidden = true;
+    const sameRowOpen = activeExerciseDropdown?.anchor === nameWrap && !exerciseSuggestionMenu.hidden;
+    if(sameRowOpen){
+      closeExerciseSuggestions();
+      return;
     }
-    if(menu.hidden){
-      rebuildMenu();
-      menu.hidden = false;
-      positionMenu();
-      activeExDdMenu = menu;
-    } else {
-      menu.hidden = true;
-      activeExDdMenu = null;
-    }
+    openExerciseSuggestions(input, nameWrap, input.value);
   });
 
-  // Cerrar al hacer click afuera
-  const onDocClick = (e)=>{
-    if(!menu.hidden && !nameWrap.contains(e.target)){
-      menu.hidden = true;
-      if(activeExDdMenu === menu) activeExDdMenu = null;
+  input.addEventListener("input", ()=>{
+    const query = input.value.trim();
+    if(!query){
+      if(activeExerciseDropdown?.anchor === nameWrap) closeExerciseSuggestions();
+      return;
     }
-  };
-  document.addEventListener("click", onDocClick);
+    openExerciseSuggestions(input, nameWrap, query);
+  });
 
-  // Reposicionar al hacer scroll
-  const onScroll = ()=>{
-    if(!menu.hidden) positionMenu();
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
+  input.addEventListener("focus", ()=>{
+    if(input.value.trim()) openExerciseSuggestions(input, nameWrap, input.value);
+  });
 
-  nameWrap.appendChild(input);
-  nameWrap.appendChild(ddBtn);
+  nameWrap.append(input, ddBtn);
 
   const setsSel = document.createElement("select");
+  setsSel.setAttribute("aria-label", "Cantidad de series");
   setsOptions().forEach(v=>{
     const o = document.createElement("option");
-    o.value = v; o.textContent = v;
+    o.value = v;
+    o.textContent = v;
     if(Number(ex.sets) === v) o.selected = true;
     setsSel.appendChild(o);
   });
 
   const repsSel = document.createElement("select");
+  repsSel.setAttribute("aria-label", "Cantidad de repeticiones");
   repsOptions().forEach(v=>{
     const o = document.createElement("option");
-    o.value = v; o.textContent = v;
+    o.value = v;
+    o.textContent = v;
     if(Number(ex.reps) === v) o.selected = true;
     repsSel.appendChild(o);
   });
 
   const weightSel = document.createElement("select");
+  weightSel.setAttribute("aria-label", "Peso");
   weightOptions().forEach(v=>{
     const o = document.createElement("option");
-    o.value = v; o.textContent = v;
+    o.value = v;
+    o.textContent = v;
     if(String(ex.weight) === String(v)) o.selected = true;
     weightSel.appendChild(o);
   });
 
-  // Botón eliminar fila
   const delBtn = document.createElement("button");
   delBtn.type = "button";
   delBtn.className = "row-del-btn";
   delBtn.title = "Eliminar ejercicio";
   delBtn.textContent = "🗑";
   delBtn.addEventListener("click", ()=>{
-    cleanupRow();
+    if(activeExerciseDropdown?.anchor === nameWrap) closeExerciseSuggestions();
     row.remove();
   });
 
-  row.appendChild(nameWrap);
-  row.appendChild(setsSel);
-  row.appendChild(repsSel);
-  row.appendChild(weightSel);
-  row.appendChild(delBtn);
-
+  row.append(nameWrap, setsSel, repsSel, weightSel, delBtn);
   row._refs = { input, setsSel, repsSel, weightSel };
-
-  // Limpieza centralizada: quita el menú flotante del body y los listeners globales
-  // que esta fila registró, evitando que se acumulen al agregar/eliminar ejercicios.
-  function cleanupRow(){
-    menu.remove();
-    document.removeEventListener("click", onDocClick);
-    window.removeEventListener("scroll", onScroll);
-    if(activeExDdMenu === menu) activeExDdMenu = null;
-    mo.disconnect();
-  }
-
-  const mo = new MutationObserver(()=>{
-    if(!document.body.contains(row)){
-      cleanupRow();
-    }
-  });
-  mo.observe(document.body, { childList: true, subtree: true });
-
   return row;
 }
 
@@ -939,16 +983,18 @@ function renderFormForSelectedDate(){
   const group = workout?.group || "Pecho";
   groupLabel.textContent = group;
 
-  // Limpiar menus flotantes anteriores
-  document.querySelectorAll(".ex-dd-menu").forEach(m => m.remove());
-
+  closeExerciseSuggestions();
   exerciseList.innerHTML = "";
 
-  const exercises = (workout?.exercises?.length ? workout.exercises : (getGroupExercisesForForm(group).length ? getGroupExercisesForForm(group) : [
-    { name:"Press banca",          sets:4, reps:12, weight:30 },
-    { name:"Press militar",        sets:4, reps:6,  weight:30 },
+  const configuredExercises = getGroupExercisesForForm(group);
+  const fallbackExercises = [
+    { name:"Press banca",           sets:4, reps:12, weight:30 },
+    { name:"Press militar",         sets:4, reps:6,  weight:30 },
     { name:"Elevaciones laterales", sets:4, reps:12, weight:10 },
-  ]));
+  ];
+  const exercises = workout?.exercises?.length
+    ? workout.exercises
+    : (configuredExercises.length ? configuredExercises : fallbackExercises);
 
   exercises.forEach((ex)=>{
     exerciseList.appendChild(renderExerciseRow(ex));
@@ -990,27 +1036,22 @@ nextMonth.addEventListener("click", ()=>{
 
 function positionGroupMenu(){
   const rect = groupDropdownBtn.getBoundingClientRect();
-  const menuHeight = Math.min(260, groupMenu.scrollHeight || 200);
-  const spaceBelow = window.innerHeight - rect.bottom;
+  const viewportPad = 8;
+  const menuWidth = Math.min(180, window.innerWidth - viewportPad * 2);
+  groupMenu.style.width = `${menuWidth}px`;
 
-  let top;
-  if(spaceBelow >= menuHeight || spaceBelow > rect.top){
-    top = rect.bottom + window.scrollY + 4; // abrir hacia abajo
-  } else {
-    top = rect.top + window.scrollY - menuHeight - 4; // abrir hacia arriba
-  }
+  const menuHeight = Math.min(groupMenu.scrollHeight || 200, 260, window.innerHeight - viewportPad * 2);
+  const spaceBelow = window.innerHeight - rect.bottom - viewportPad;
+  const spaceAbove = rect.top - viewportPad;
+  const openBelow = spaceBelow >= Math.min(menuHeight, 150) || spaceBelow >= spaceAbove;
 
-  // Nunca permitir que quede oculto por debajo o por arriba de la pantalla
-  const maxTop = window.scrollY + window.innerHeight - menuHeight - 8;
-  const minTop = window.scrollY + 8;
-  top = Math.max(minTop, Math.min(top, maxTop));
+  let top = openBelow ? rect.bottom + 4 : rect.top - menuHeight - 4;
+  top = Math.max(viewportPad, Math.min(top, window.innerHeight - menuHeight - viewportPad));
 
-  let left = rect.left + window.scrollX;
-  const menuWidth = 180;
-  const maxLeft = window.scrollX + window.innerWidth - menuWidth - 8;
-  left = Math.max(window.scrollX + 8, Math.min(left, maxLeft));
+  let left = rect.left;
+  left = Math.max(viewportPad, Math.min(left, window.innerWidth - menuWidth - viewportPad));
 
-  groupMenu.style.top  = `${top}px`;
+  groupMenu.style.top = `${top}px`;
   groupMenu.style.left = `${left}px`;
 }
 
@@ -1041,7 +1082,7 @@ groupMenu.addEventListener("click", (e)=>{
 
   if(!workout){
     // No hay entrenamiento guardado: cargar predefinidos del nuevo grupo
-    document.querySelectorAll(".ex-dd-menu").forEach(m => m.remove());
+    closeExerciseSuggestions();
     exerciseList.innerHTML = "";
     const presets = getGroupExercisesForForm(newGroup);
     presets.forEach(ex => exerciseList.appendChild(renderExerciseRow(ex)));
@@ -1357,8 +1398,6 @@ function tickStopwatch(){
   swRAF = requestAnimationFrame(tickStopwatch);
 }
 
-cancelAnimationFrame(swRAF);
-swRAF = null; swRunning = false; swPaused = false;
 
 function tickTimer(){
   if(!tmRunning) return;
@@ -1470,6 +1509,429 @@ if(guideSearch){
 
 // Inicializar grupos abiertos por defecto
 GUIDE_DATA.forEach(g => { guideOpenGroups[g.group] = true; });
+
+// ===================== Estadísticas =====================
+let statsPeriod = "week";
+
+const MUSCLE_LABELS = {
+  pecho: "Pecho",
+  espalda: "Espalda",
+  hombros: "Hombros",
+  biceps: "Bíceps",
+  triceps: "Tríceps",
+  abdominales: "Abdominales",
+  cuadriceps: "Cuádriceps",
+  gluteos: "Glúteos",
+  isquios: "Isquiotibiales",
+  gemelos: "Gemelos"
+};
+
+const MUSCLE_HEAT_COLORS = ["#e5e7eb", "#fecdd3", "#fda4af", "#fb7185", "#ef4444", "#b91c1c"];
+
+const EXERCISE_MUSCLE_RULES = [
+  { keys:["press banca","press inclinado","press vertical"], muscles:{ pecho:1, triceps:.45, hombros:.35 } },
+  { keys:["apertura","peck deck"], muscles:{ pecho:1 } },
+  { keys:["press militar"], muscles:{ hombros:1, triceps:.55 } },
+  { keys:["elevaciones","vuelos"], muscles:{ hombros:1 } },
+  { keys:["remo","jalon","dominadas","facepull"], muscles:{ espalda:1, biceps:.45 } },
+  { keys:["facepull"], muscles:{ hombros:.6 } },
+  { keys:["biceps","barra z","curl"], muscles:{ biceps:1 } },
+  { keys:["triceps"], muscles:{ triceps:1 } },
+  { keys:["sentadilla","prensa","sillon cuadriceps","extension de piernas","zancada","estocada"], muscles:{ cuadriceps:1, gluteos:.55 } },
+  { keys:["peso muerto"], muscles:{ isquios:1, gluteos:.8, espalda:.35 } },
+  { keys:["puente","hip thrust"], muscles:{ gluteos:1, isquios:.5 } },
+  { keys:["abductores"], muscles:{ gluteos:1 } },
+  { keys:["gemelos","talon"], muscles:{ gemelos:1 } },
+  { keys:["abdominal","plancha"], muscles:{ abdominales:1 } }
+];
+
+function parseISODate(iso){
+  return new Date(`${iso}T00:00:00`);
+}
+
+function addDays(date, amount){
+  const d = new Date(date);
+  d.setDate(d.getDate() + amount);
+  return d;
+}
+
+function statsPeriodRange(period, anchorDate=selectedDate){
+  const anchor = new Date(anchorDate);
+  anchor.setHours(0,0,0,0);
+  let start = new Date(anchor);
+  let end = new Date(anchor);
+
+  if(period === "week"){
+    start = startOfWeekMonday(anchor);
+    end = addDays(start, 6);
+  } else if(period === "month"){
+    start = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
+    end = new Date(anchor.getFullYear(), anchor.getMonth()+1, 0);
+  } else if(period === "year"){
+    start = new Date(anchor.getFullYear(), 0, 1);
+    end = new Date(anchor.getFullYear(), 11, 31);
+  }
+
+  start.setHours(0,0,0,0);
+  end.setHours(23,59,59,999);
+  return { start, end, startIso:toISODate(start), endIso:toISODate(end) };
+}
+
+function statsRangeText(period, range){
+  if(period === "day") return shortDateES(range.start);
+  if(period === "week") return `${shortDateES(range.start)} – ${shortDateES(range.end)}`;
+  if(period === "month") return `${monthNameES(range.start.getMonth())} ${range.start.getFullYear()}`;
+  return String(range.start.getFullYear());
+}
+
+function workoutsInRange(range){
+  return Object.entries(state.workoutsByDate)
+    .filter(([iso]) => iso >= range.startIso && iso <= range.endIso)
+    .sort((a,b) => a[0].localeCompare(b[0]));
+}
+
+function computeMaxStreak(){
+  const workoutDates = Object.keys(state.workoutsByDate).sort();
+  if(workoutDates.length === 0) return { count:0, start:null, end:null };
+
+  let cursor = parseISODate(workoutDates[0]);
+  const last = parseISODate(workoutDates[workoutDates.length-1]);
+  let current = 0;
+  let currentStart = null;
+  let currentEnd = null;
+  let best = { count:0, start:null, end:null };
+
+  while(cursor <= last){
+    const iso = toISODate(cursor);
+    const trained = Boolean(state.workoutsByDate[iso]);
+    const rest = Boolean(state.restDays[iso]) || isConfiguredRestDay(iso);
+
+    if(trained){
+      if(current === 0) currentStart = iso;
+      current++;
+      currentEnd = iso;
+      if(current > best.count){
+        best = { count:current, start:currentStart, end:currentEnd };
+      }
+    } else if(!rest){
+      current = 0;
+      currentStart = null;
+      currentEnd = null;
+    }
+
+    cursor = addDays(cursor, 1);
+  }
+
+  return best;
+}
+
+function groupWorkload(entries){
+  const totals = { Pecho:0, Espalda:0, Piernas:0, Abdominales:0 };
+  entries.forEach(([, workout])=>{
+    const group = workout.group === "Pierna" ? "Piernas" : workout.group;
+    const sets = (workout.exercises || []).reduce((sum, ex) => sum + (Number(ex.sets) || 0), 0);
+    if(group in totals) totals[group] += sets;
+  });
+  return totals;
+}
+
+function fallbackMusclesForGroup(group){
+  if(group === "Pecho") return { pecho:1 };
+  if(group === "Espalda") return { espalda:1 };
+  if(group === "Piernas" || group === "Pierna") return { cuadriceps:1, gluteos:.5, isquios:.35 };
+  if(group === "Abdominales") return { abdominales:1 };
+  return {};
+}
+
+function musclesForExercise(name, group){
+  const normalizedName = normalizeSearchText(name);
+  const combined = {};
+
+  EXERCISE_MUSCLE_RULES.forEach(rule=>{
+    if(rule.keys.some(key => normalizedName.includes(normalizeSearchText(key)))){
+      Object.entries(rule.muscles).forEach(([muscle, factor])=>{
+        combined[muscle] = Math.max(combined[muscle] || 0, factor);
+      });
+    }
+  });
+
+  return Object.keys(combined).length ? combined : fallbackMusclesForGroup(group);
+}
+
+function muscleWorkload(entries){
+  const totals = Object.fromEntries(Object.keys(MUSCLE_LABELS).map(key => [key, 0]));
+
+  entries.forEach(([, workout])=>{
+    (workout.exercises || []).forEach(ex=>{
+      const sets = Number(ex.sets) || 0;
+      const muscles = musclesForExercise(ex.name, workout.group);
+      Object.entries(muscles).forEach(([muscle, factor])=>{
+        totals[muscle] += sets * factor;
+      });
+    });
+  });
+
+  return totals;
+}
+
+function muscleHeatLevel(value){
+  if(value <= 0) return 0;
+  if(value <= 3) return 1;
+  if(value <= 6) return 2;
+  if(value <= 10) return 3;
+  if(value <= 16) return 4;
+  return 5;
+}
+
+function renderStatsGroupBars(entries){
+  if(!statsGroupBars) return;
+  const totals = groupWorkload(entries);
+  const max = Math.max(1, ...Object.values(totals));
+
+  statsGroupBars.innerHTML = Object.entries(totals).map(([group, value])=>{
+    const pct = Math.round((value / max) * 100);
+    return `
+      <div class="stats-group-row">
+        <span>${group}</span>
+        <div class="stats-group-track"><div class="stats-group-fill" style="width:${pct}%"></div></div>
+        <span class="stats-group-value">${Math.round(value)} s.</span>
+      </div>`;
+  }).join("");
+}
+
+function renderStatsMuscleMap(entries){
+  if(!statsMuscleMap) return;
+  const load = muscleWorkload(entries);
+  const fill = muscle => MUSCLE_HEAT_COLORS[muscleHeatLevel(load[muscle] || 0)];
+
+  statsMuscleMap.innerHTML = `
+    <svg class="stats-muscle-svg" viewBox="0 0 340 330" role="img" aria-label="Mapa de grupos musculares trabajados">
+      <text x="90" y="18">Frente</text>
+      <text x="250" y="18">Espalda</text>
+
+      <g aria-hidden="true">
+        <circle class="body-outline" cx="90" cy="46" r="19" />
+        <path class="body-outline" d="M66 70 Q90 60 114 70 L124 162 Q110 178 106 205 L104 302 L83 302 L80 205 Q76 178 56 162 Z" />
+        <path class="body-outline" d="M66 76 L42 94 L32 170 L47 173 L62 115 Z" />
+        <path class="body-outline" d="M114 76 L138 94 L148 170 L133 173 L118 115 Z" />
+
+        <circle class="body-outline" cx="250" cy="46" r="19" />
+        <path class="body-outline" d="M226 70 Q250 60 274 70 L284 162 Q270 178 266 205 L264 302 L243 302 L240 205 Q236 178 216 162 Z" />
+        <path class="body-outline" d="M226 76 L202 94 L192 170 L207 173 L222 115 Z" />
+        <path class="body-outline" d="M274 76 L298 94 L308 170 L293 173 L278 115 Z" />
+      </g>
+
+      <g class="muscle-zone" data-muscle="hombros" fill="${fill("hombros")}">
+        <circle cx="62" cy="83" r="12"/><circle cx="118" cy="83" r="12"/>
+        <circle cx="222" cy="83" r="12"/><circle cx="278" cy="83" r="12"/>
+      </g>
+      <g class="muscle-zone" data-muscle="pecho" fill="${fill("pecho")}">
+        <path d="M71 88 Q89 78 89 112 Q76 116 67 104 Z"/><path d="M91 88 Q109 78 113 104 Q104 116 91 112 Z"/>
+      </g>
+      <g class="muscle-zone" data-muscle="abdominales" fill="${fill("abdominales")}">
+        <rect x="78" y="116" width="24" height="48" rx="8"/>
+      </g>
+      <g class="muscle-zone" data-muscle="biceps" fill="${fill("biceps")}">
+        <ellipse cx="51" cy="119" rx="8" ry="19"/><ellipse cx="129" cy="119" rx="8" ry="19"/>
+      </g>
+      <g class="muscle-zone" data-muscle="triceps" fill="${fill("triceps")}">
+        <ellipse cx="211" cy="119" rx="8" ry="19"/><ellipse cx="289" cy="119" rx="8" ry="19"/>
+      </g>
+      <g class="muscle-zone" data-muscle="espalda" fill="${fill("espalda")}">
+        <path d="M229 86 Q250 74 271 86 L274 148 Q250 165 226 148 Z"/>
+      </g>
+      <g class="muscle-zone" data-muscle="gluteos" fill="${fill("gluteos")}">
+        <ellipse cx="240" cy="176" rx="16" ry="13"/><ellipse cx="260" cy="176" rx="16" ry="13"/>
+      </g>
+      <g class="muscle-zone" data-muscle="cuadriceps" fill="${fill("cuadriceps")}">
+        <path d="M63 174 L86 174 L82 238 L64 238 Z"/><path d="M94 174 L117 174 L116 238 L98 238 Z"/>
+      </g>
+      <g class="muscle-zone" data-muscle="isquios" fill="${fill("isquios")}">
+        <path d="M223 188 L246 188 L242 244 L224 244 Z"/><path d="M254 188 L277 188 L276 244 L258 244 Z"/>
+      </g>
+      <g class="muscle-zone" data-muscle="gemelos" fill="${fill("gemelos")}">
+        <ellipse cx="73" cy="267" rx="9" ry="25"/><ellipse cx="107" cy="267" rx="9" ry="25"/>
+        <ellipse cx="233" cy="267" rx="9" ry="25"/><ellipse cx="267" cy="267" rx="9" ry="25"/>
+      </g>
+    </svg>
+    <div class="stats-muscle-tooltip">Tocá una zona muscular para ver el volumen.</div>`;
+
+  const tooltip = statsMuscleMap.querySelector(".stats-muscle-tooltip");
+  statsMuscleMap.querySelectorAll(".muscle-zone").forEach(zone=>{
+    zone.addEventListener("click", ()=>{
+      const key = zone.dataset.muscle;
+      const value = load[key] || 0;
+      tooltip.textContent = `${MUSCLE_LABELS[key]}: ${value ? value.toFixed(1).replace(".0", "") : "0"} series estimadas`;
+    });
+  });
+}
+
+function getExerciseHistory(){
+  const map = new Map();
+  Object.entries(state.workoutsByDate)
+    .sort((a,b)=> a[0].localeCompare(b[0]))
+    .forEach(([iso, workout])=>{
+      (workout.exercises || []).forEach(ex=>{
+        const name = String(ex.name || "").trim();
+        if(!name) return;
+        const key = normalizeSearchText(name);
+        if(!map.has(key)) map.set(key, { name, byDate:new Map() });
+        const entry = map.get(key);
+        entry.name = name;
+        const point = {
+          iso,
+          weight:Number(ex.weight) || 0,
+          sets:Number(ex.sets) || 0,
+          reps:Number(ex.reps) || 0
+        };
+        const previous = entry.byDate.get(iso);
+        if(!previous || point.weight >= previous.weight) entry.byDate.set(iso, point);
+      });
+    });
+
+  return Array.from(map.entries()).map(([key, entry])=>({
+    key,
+    name:entry.name,
+    points:Array.from(entry.byDate.values()).sort((a,b)=> a.iso.localeCompare(b.iso))
+  })).sort((a,b)=> a.name.localeCompare(b.name, "es", { sensitivity:"base" }));
+}
+
+function renderStatsExerciseOptions(){
+  if(!statsExerciseSelect) return [];
+  const history = getExerciseHistory();
+  const current = statsExerciseSelect.value;
+  statsExerciseSelect.innerHTML = "";
+
+  if(history.length === 0){
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "Sin ejercicios guardados";
+    statsExerciseSelect.appendChild(option);
+    return history;
+  }
+
+  history.forEach(ex=>{
+    const option = document.createElement("option");
+    option.value = ex.key;
+    option.textContent = ex.name;
+    statsExerciseSelect.appendChild(option);
+  });
+
+  if(history.some(ex => ex.key === current)) statsExerciseSelect.value = current;
+  return history;
+}
+
+function renderProgressChart(history=null){
+  if(!statsProgressChart || !statsExerciseSelect || !statsPR) return;
+  const allHistory = history || getExerciseHistory();
+  const selected = allHistory.find(ex => ex.key === statsExerciseSelect.value) || allHistory[0];
+
+  if(!selected){
+    statsPR.textContent = "--";
+    statsProgressChart.innerHTML = `<div class="small-note" style="padding:35px 0;text-align:center;">Todavía no hay pesos registrados.</div>`;
+    if(statsProgressDetail) statsProgressDetail.textContent = "Guardá entrenamientos con peso para ver la progresión.";
+    return;
+  }
+
+  if(statsExerciseSelect.value !== selected.key) statsExerciseSelect.value = selected.key;
+  const points = selected.points;
+  const pr = Math.max(...points.map(p => p.weight));
+  statsPR.textContent = `${pr} kg`;
+
+  const width = Math.max(300, 48 + points.length * 54);
+  const height = 180;
+  const pad = { left:38, right:18, top:18, bottom:34 };
+  const chartW = width - pad.left - pad.right;
+  const chartH = height - pad.top - pad.bottom;
+  const maxWeight = Math.max(1, ...points.map(p => p.weight));
+  const minWeight = Math.min(...points.map(p => p.weight));
+  const floor = Math.max(0, minWeight - Math.max(5, (maxWeight-minWeight)*.2));
+  const ceil = maxWeight + Math.max(5, (maxWeight-floor)*.12);
+  const range = Math.max(1, ceil - floor);
+
+  const coords = points.map((point, index)=>{
+    const x = points.length === 1 ? pad.left + chartW/2 : pad.left + (index/(points.length-1))*chartW;
+    const y = pad.top + ((ceil - point.weight)/range)*chartH;
+    return { ...point, x, y };
+  });
+
+  const line = coords.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+  const gridLines = [0,.25,.5,.75,1].map(frac=>{
+    const y = pad.top + chartH*frac;
+    const val = (ceil - range*frac).toFixed(0);
+    return `<line class="stats-chart-grid" x1="${pad.left}" y1="${y}" x2="${width-pad.right}" y2="${y}"/><text class="stats-chart-label" x="4" y="${y+3}">${val}</text>`;
+  }).join("");
+
+  const pointEls = coords.map((point, i)=>{
+    const date = shortDateES(parseISODate(point.iso));
+    return `<circle class="stats-chart-point" data-point-index="${i}" cx="${point.x}" cy="${point.y}" r="6"><title>${date}: ${point.weight} kg</title></circle>`;
+  }).join("");
+
+  const dateLabels = coords.map((point, i)=>{
+    if(points.length > 7 && i % Math.ceil(points.length/6) !== 0 && i !== points.length-1) return "";
+    const d = parseISODate(point.iso);
+    return `<text class="stats-chart-label" x="${point.x}" y="${height-10}" text-anchor="middle">${pad2(d.getDate())}/${pad2(d.getMonth()+1)}</text>`;
+  }).join("");
+
+  statsProgressChart.innerHTML = `
+    <svg class="stats-chart-svg" viewBox="0 0 ${width} ${height}" style="min-width:${width}px" role="img" aria-label="Progresión de peso de ${selected.name}">
+      ${gridLines}
+      ${coords.length > 1 ? `<polyline class="stats-chart-line" points="${line}"/>` : ""}
+      ${pointEls}
+      ${dateLabels}
+    </svg>`;
+
+  const detail = statsProgressDetail;
+  statsProgressChart.querySelectorAll("[data-point-index]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const point = coords[Number(el.dataset.pointIndex)];
+      detail.textContent = `${shortDateES(parseISODate(point.iso))} · ${point.weight} kg · ${point.sets} series × ${point.reps} reps`;
+    });
+  });
+
+  if(detail && points.length){
+    const last = points[points.length-1];
+    detail.textContent = `Último registro: ${shortDateES(parseISODate(last.iso))} · ${last.weight} kg`;
+  }
+}
+
+function renderStats(){
+  const range = statsPeriodRange(statsPeriod);
+  const entries = workoutsInRange(range);
+  const streak = computeMaxStreak();
+
+  if(statsMaxStreak) statsMaxStreak.textContent = String(streak.count);
+  if(statsMaxStreakPeriod){
+    statsMaxStreakPeriod.textContent = streak.count
+      ? `${shortDateES(parseISODate(streak.start))} – ${shortDateES(parseISODate(streak.end))}`
+      : "Sin entrenamientos guardados";
+  }
+  if(statsRangeLabel) statsRangeLabel.textContent = statsRangeText(statsPeriod, range);
+
+  if(statsPeriodTabs){
+    statsPeriodTabs.querySelectorAll("[data-stats-period]").forEach(btn=>{
+      btn.classList.toggle("active", btn.dataset.statsPeriod === statsPeriod);
+    });
+  }
+
+  renderStatsGroupBars(entries);
+  renderStatsMuscleMap(entries);
+  const history = renderStatsExerciseOptions();
+  renderProgressChart(history);
+}
+
+if(statsPeriodTabs){
+  statsPeriodTabs.addEventListener("click", (e)=>{
+    const btn = e.target.closest("[data-stats-period]");
+    if(!btn) return;
+    statsPeriod = btn.dataset.statsPeriod;
+    renderStats();
+  });
+}
+
+if(statsExerciseSelect){
+  statsExerciseSelect.addEventListener("change", ()=> renderProgressChart());
+}
 
 // ===================== Configuración: pestañas =====================
 function showSettingsTab(which){
@@ -1746,6 +2208,7 @@ function renderAll(){
   renderRestSettingsUI();
   renderNotifSettingsUI();
   scheduleTodayReminders();
+  if(viewStats && !viewStats.hidden) renderStats();
 }
 
 renderAll();
