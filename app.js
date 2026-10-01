@@ -198,21 +198,21 @@ const GUIDE_DATA = [
     exercises: [
       {
         name: "Press Militar",
-        image: "/img/ejercicios/pressmilitar.webp",
+        image: "img/ejercicios/pressmilitar.webp",
         howTo: "De pie o sentado, agarra la barra a la altura de los hombros con agarre prono. Empuja la barra hacia arriba hasta extender completamente los brazos, luego baja de forma controlada hasta la posición inicial.",
         muscles: "Deltoides anterior, tríceps, pecho superior y trapecio.",
         tip: "Mantené el core activo y la espalda recta durante todo el movimiento. No bloquees los codos al extender."
       },
       {
         name: "Press Vertical (Press Inclinado)",
-        image: "/img/ejercicios/pressvertcal.webp",
+        image: "img/ejercicios/pressvertcal.webp",
         howTo: "Recostado en un banco inclinado a 30–45°, agarra la barra o mancuernas a la altura del pecho. Empuja hacia arriba y adelante, luego bajá lentamente controlando el peso.",
         muscles: "Pecho superior (clavicular), deltoides anterior y tríceps.",
         tip: "El ángulo del banco define qué porción del pecho trabajás más. Con 30° priorizás el pecho superior sin sobrecargar el hombro."
       },
       {
         name: "Elevaciones (Aperturas)",
-        image: "/img/ejercicios/elevaciones.webp",
+        image: "img/ejercicios/elevaciones.webp",
         howTo: "Con mancuernas o en máquina, abrí los brazos describiendo un arco amplio hasta sentir el estiramiento en el pecho. Cerrá de vuelta juntando las manos al frente.",
         muscles: "Pecho (fibras internas y externas), deltoides anterior.",
         tip: "Usá poco peso y enfocate en el estiramiento. No es un ejercicio de fuerza máxima, sino de aislamiento y conexión muscular."
@@ -238,14 +238,14 @@ const GUIDE_DATA = [
     exercises: [
       {
         name: "Press Militar",
-        image: "/img/ejercicios/pressmilitar.webp",
+        image: "img/ejercicios/pressmilitar.webp",
         howTo: "De pie o sentado, agarra la barra a la altura de los hombros con agarre prono. Empuja la barra hacia arriba hasta extender completamente los brazos, luego baja de forma controlada.",
         muscles: "Deltoides, tríceps, trapecio y pecho superior.",
         tip: "Activá el core para proteger la zona lumbar. No arqueés la espalda baja."
       },
       {
         name: "Elevaciones (Vuelos Posteriores)",
-        image: "/img/ejercicios/elevaciones.webp",
+        image: "img/ejercicios/elevaciones.webp",
         howTo: "Inclinado hacia adelante (o en máquina posterior), levantá los brazos hacia los lados describiendo un arco hasta la altura de los hombros. Bajá controlado.",
         muscles: "Deltoides posterior, romboides, trapecio medio.",
         tip: "Usá poco peso. El error más común es usar el impulso del cuerpo en vez del músculo."
@@ -259,7 +259,7 @@ const GUIDE_DATA = [
       },
       {
         name: "Remo T",
-        image: "/img/ejercicios/remot.webp",
+        image: "img/ejercicios/remot.webp",
         howTo: "Con una barra fija en un extremo (o máquina), agarrá el asa y tirá hacia el abdomen manteniendo la espalda recta. Extendé completamente los brazos entre cada repetición.",
         muscles: "Dorsal ancho, trapecio, romboides y bíceps.",
         tip: "Priorizá llevar los codos hacia atrás, no hacia arriba. Así evitás compensar con los hombros."
@@ -273,7 +273,7 @@ const GUIDE_DATA = [
       },
       {
         name: "Jalón al Pecho",
-        image: "/img/ejercicios/jalonalpechomaquina.webp",
+        image: "img/ejercicios/jalonalpechomaquina.webp",
         howTo: "Sentado en la máquina de jalón, agarra la barra con agarre amplio. Tira hacia abajo llevando la barra hasta la altura de la clavícula mientras inclinás levemente el torso hacia atrás.",
         muscles: "Dorsal ancho, redondo mayor, bíceps y romboides.",
         tip: "Imaginá que querés llevar los codos al suelo, no sólo bajar las manos. Eso mejora la activación del dorsal."
@@ -299,7 +299,7 @@ const GUIDE_DATA = [
       },
       {
         name: "Press Militar",
-        image: "/img/ejercicios/pressmilitar.webp",
+        image: "img/ejercicios/pressmilitar.webp",
         howTo: "De pie o sentado, empujá la barra desde los hombros hacia arriba hasta extender los brazos completamente. Bajá controlado.",
         muscles: "Deltoides, tríceps y trapecio.",
         tip: "Apretá el abdomen durante todo el movimiento para proteger la zona lumbar."
