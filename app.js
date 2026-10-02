@@ -198,7 +198,7 @@ const GUIDE_DATA = [
     exercises: [
       {
         name: "Press Militar",
-        image: "./img/ejercicios/pressmilitar.webp",
+        image: "./img/ejercicios/pressmilitarv2.png",
         howTo: "De pie o sentado, agarra la barra a la altura de los hombros con agarre prono. Empuja la barra hacia arriba hasta extender completamente los brazos, luego baja de forma controlada hasta la posición inicial.",
         muscles: "Deltoides anterior, tríceps, pecho superior y trapecio.",
         tip: "Mantené el core activo y la espalda recta durante todo el movimiento. No bloquees los codos al extender."
@@ -212,21 +212,21 @@ const GUIDE_DATA = [
       },
       {
         name: "Elevaciones (Aperturas)",
-        image: "./img/ejercicios/elevaciones.webp",
+        image: "./img/ejercicios/elevacioneslaterales.png",
         howTo: "Con mancuernas o en máquina, abrí los brazos describiendo un arco amplio hasta sentir el estiramiento en el pecho. Cerrá de vuelta juntando las manos al frente.",
         muscles: "Pecho (fibras internas y externas), deltoides anterior.",
         tip: "Usá poco peso y enfocate en el estiramiento. No es un ejercicio de fuerza máxima, sino de aislamiento y conexión muscular."
       },
       {
         name: "Apertura con Máquina (Peck Deck)",
-        image: null,
+        image: "./img/ejercicios/aperturamaquina.png",
         howTo: "Sentado en la máquina con la espalda bien apoyada, llevá los brazos hacia adelante juntando los codos o las manos al frente. Mantenés la tensión al abrir y cerrar.",
         muscles: "Pectoral mayor, enfatizando la zona interna.",
         tip: "Hacé una pausa de un segundo en el punto de máxima contracción para maximizar el trabajo muscular."
       },
       {
         name: "Tríceps con Polea",
-        image: null,
+        image: "./img/ejercicios/tricepsconpolea.png",
         howTo: "De pie frente a la polea alta, agarrá la cuerda o barra. Con los codos pegados al cuerpo, extendé los brazos hacia abajo hasta que queden rectos. Subí lento y controlado.",
         muscles: "Tríceps braquial (tres cabezas), especialmente la cabeza lateral.",
         tip: "Mantené los codos fijos al costado del torso. Si se mueven, el peso es demasiado."
@@ -238,49 +238,49 @@ const GUIDE_DATA = [
     exercises: [
       {
         name: "Press Militar",
-        image: "./img/ejercicios/pressmilitar.webp",
+        image: "./img/ejercicios/pressmilitarv2.png",
         howTo: "De pie o sentado, agarra la barra a la altura de los hombros con agarre prono. Empuja la barra hacia arriba hasta extender completamente los brazos, luego baja de forma controlada.",
         muscles: "Deltoides, tríceps, trapecio y pecho superior.",
         tip: "Activá el core para proteger la zona lumbar. No arqueés la espalda baja."
       },
       {
         name: "Elevaciones (Vuelos Posteriores)",
-        image: "./img/ejercicios/elevaciones.webp",
+        image: "./img/ejercicios/elevacioneslaterales.png",
         howTo: "Inclinado hacia adelante (o en máquina posterior), levantá los brazos hacia los lados describiendo un arco hasta la altura de los hombros. Bajá controlado.",
         muscles: "Deltoides posterior, romboides, trapecio medio.",
         tip: "Usá poco peso. El error más común es usar el impulso del cuerpo en vez del músculo."
       },
       {
         name: "Remo Gironda",
-        image: null,
+        image: "./img/ejercicios/remogironda.png",
         howTo: "Tumbado boca abajo en un banco inclinado, agarra las mancuernas con los brazos colgando. Jalá los codos hacia arriba y atrás haciendo una contracción fuerte en la parte alta.",
         muscles: "Trapecio medio, romboides, deltoides posterior y dorsal.",
         tip: "Al llegar arriba, apretá los omóplatos entre sí y mantené 1 segundo antes de bajar."
       },
       {
         name: "Remo T",
-        image: "./img/ejercicios/remot.webp",
+        image: "./img/ejercicios/remot.png",
         howTo: "Con una barra fija en un extremo (o máquina), agarrá el asa y tirá hacia el abdomen manteniendo la espalda recta. Extendé completamente los brazos entre cada repetición.",
         muscles: "Dorsal ancho, trapecio, romboides y bíceps.",
         tip: "Priorizá llevar los codos hacia atrás, no hacia arriba. Así evitás compensar con los hombros."
       },
       {
         name: "Bíceps con Barra Z",
-        image: null,
+        image: "./img/ejercicios/barraz.png",
         howTo: "De pie con la barra Z a la altura de las caderas, agarre supino. Curvá los brazos subiendo la barra hasta la altura de los hombros. Bajá de forma lenta y controlada.",
         muscles: "Bíceps braquial, braquial anterior y braquiorradial.",
         tip: "La barra Z reduce la tensión en las muñecas comparada con la barra recta. Mantené los codos pegados al cuerpo."
       },
       {
         name: "Jalón al Pecho",
-        image: "./img/ejercicios/jalonalpechomaquina.webp",
+        image: "./img/ejercicios/jalonalpecho.png",
         howTo: "Sentado en la máquina de jalón, agarra la barra con agarre amplio. Tira hacia abajo llevando la barra hasta la altura de la clavícula mientras inclinás levemente el torso hacia atrás.",
         muscles: "Dorsal ancho, redondo mayor, bíceps y romboides.",
         tip: "Imaginá que querés llevar los codos al suelo, no sólo bajar las manos. Eso mejora la activación del dorsal."
       },
       {
         name: "Facepull",
-        image: null,
+        image: "./img/ejercicios/facepull.png",
         howTo: "Con la polea a la altura de la cara, agarra la cuerda con ambas manos. Tirá hacia tu cara separando las manos al final del movimiento, con los codos a la altura de los hombros.",
         muscles: "Deltoides posterior, manguito rotador, romboides y trapecio.",
         tip: "Es esencial para la salud del hombro. Hacelo con poco peso y muchas reps, priorizando la técnica."
@@ -292,63 +292,70 @@ const GUIDE_DATA = [
     exercises: [
       {
         name: "Sentadillas",
-        image: null,
+        image: "./img/ejercicios/sentadillabarra.png",
         howTo: "Con la barra en los trapecios (o sin peso), pies a la anchura de los hombros. Bajá flexionando caderas y rodillas hasta que los muslos queden paralelos al suelo. Subí empujando con los talones.",
         muscles: "Cuádriceps, glúteos, isquiotibiales y core.",
         tip: "Las rodillas deben seguir la dirección de los pies. No dejes que colapsen hacia adentro."
       },
       {
         name: "Press Militar",
-        image: "./img/ejercicios/pressmilitar.webp",
+        image: "./img/ejercicios/pressmilitarv2.png",
         howTo: "De pie o sentado, empujá la barra desde los hombros hacia arriba hasta extender los brazos completamente. Bajá controlado.",
         muscles: "Deltoides, tríceps y trapecio.",
         tip: "Apretá el abdomen durante todo el movimiento para proteger la zona lumbar."
       },
       {
         name: "Estocadas (Zancadas)",
-        image: null,
+        image: "./img/ejercicios/estocadas.png",
         howTo: "De pie, dá un paso largo hacia adelante y bajá la rodilla trasera casi hasta el suelo. Volvé a la posición inicial empujando con el pie delantero. Alternás piernas.",
         muscles: "Cuádriceps, glúteos, isquiotibiales y estabilizadores.",
         tip: "Mantené el torso erecto y la rodilla delantera alineada con el pie, sin pasarse la punta."
       },
       {
         name: "Prensa de Piernas",
-        image: null,
+        image: "./img/ejercicios/prensapiernas.png",
         howTo: "Sentado en la máquina, apoyá los pies en la plataforma a la anchura de los hombros. Empujá el peso hasta casi extender completamente las piernas (sin bloquear). Bajá controlado.",
         muscles: "Cuádriceps, glúteos e isquiotibiales.",
         tip: "No dejes que las lumbares se despeguen del respaldo al bajar el peso. Ese rango es el peligroso."
       },
       {
         name: "Sillón Cuadriceps (Extensión de Piernas)",
-        image: null,
+        image: "./img/ejercicios/silloncuadriceps.png",
         howTo: "Sentado en la máquina, con el rodillo sobre el empeine. Extendé las piernas hasta que queden rectas, mantené 1 segundo y bajá despacio.",
         muscles: "Cuádriceps (aislamiento total).",
         tip: "Es un ejercicio de aislamiento. Usá un peso que permita controlar bien el movimiento, especialmente la bajada."
       },
       {
+        name: "Sillón Isquios",
+        image: "./img/ejercicios/sillonisquios.png",
+        howTo: "Sentado en la máquina, con el rodillo apoyado detrás de los tobillos. Flexioná las rodillas llevando los talones hacia abajo y atrás, mantené 1 segundo y volvé despacio.",
+muscles: "Isquiotibiales (aislamiento).",
+tip: "Mantené la espalda apoyada y la cadera estable. Usá un peso que permita controlar todo el recorrido, especialmente la vuelta."
+      },
+      {
         name: "Abductores",
-        image: null,
+        image: "./img/ejercicios/abductores.png",
         howTo: "Sentado en la máquina de abductores, con las almohadillas en la parte externa de los muslos. Abrí las piernas hacia afuera contra la resistencia y volvé lento.",
         muscles: "Glúteo medio, tensor de la fascia lata y abductores.",
         tip: "La apertura de cadera y la postura del torso afectan qué fibra glútea trabajás más."
       },
       {
         name: "Gemelos (Elevaciones de Talón)",
-        image: null,
+        image: "./img/ejercicios/gemelos.png",
         howTo: "De pie en el borde de un escalón o plataforma, bajá los talones por debajo del nivel del escalón y luego subí de puntillas lo más arriba posible. Bajá lento.",
         muscles: "Gastrocnemio y sóleo.",
         tip: "La bajada lenta es clave para el crecimiento. Los gemelos responden bien a alto volumen de reps."
       },
       {
         name: "Puente de Glúteos",
-        image: null,
+        image: "./img/ejercicios/puenteenbanco.png",
         howTo: "Acostado boca arriba con las rodillas dobladas, levantá las caderas hasta que quede una línea recta desde los hombros hasta las rodillas. Apretá los glúteos arriba y bajá controlado.",
         muscles: "Glúteos, isquiotibiales y core.",
         tip: "Para mayor dificultad, ponete una barra o disco sobre las caderas (hip thrust). El rango de movimiento completo es fundamental."
       },
       {
         name: "Peso Muerto",
-        image: null,
+        image: "./img/ejercicios/pesomuerto.png",
         howTo: "Con la barra en el suelo, pies a la anchura de las caderas. Agarra la barra, espalda recta, levantá empujando con las piernas y extendiendo la cadera hasta quedar erguido. Bajá con control.",
         muscles: "Isquiotibiales, glúteos, dorsales, trapecios y core.",
         tip: "La espalda recta es innegociable. Empezá con poco peso para dominar la técnica antes de cargar."
