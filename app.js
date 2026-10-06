@@ -1757,81 +1757,91 @@ function renderStatsMuscleMap(entries){
   const fill = muscle => MUSCLE_HEAT_COLORS[muscleHeatLevel(load[muscle] || 0)];
 
   statsMuscleMap.innerHTML = `
-    <svg class="stats-muscle-svg" viewBox="0 0 760 1240" role="img" aria-label="Mapa de grupos musculares trabajados">
-      <text class="muscle-label" x="205" y="70">Frente</text>
-      <text class="muscle-label" x="555" y="70">Espalda</text>
+    <svg class="stats-muscle-svg" viewBox="0 0 1024 1024" role="img" aria-label="Mapa de grupos musculares trabajados">
+      <rect x="0" y="0" width="1024" height="1024" rx="28" fill="#f7f7f5" />
+
+      <text class="muscle-label" x="288" y="84">Frente</text>
+      <text class="muscle-label" x="736" y="84">Espalda</text>
 
       <g aria-hidden="true">
-        <circle class="body-outline" cx="205" cy="150" r="62" />
-        <path class="body-outline" d="M145 220 Q205 185 265 220 Q289 245 305 300 Q312 325 306 362 L291 438 Q286 460 284 506 L278 717 Q277 754 297 842 L329 1048 Q334 1069 319 1077 L286 1084 Q272 1086 266 1070 L221 907 Q213 882 205 846 Q197 882 189 907 L144 1070 Q138 1086 124 1084 L91 1077 Q76 1069 81 1048 L113 842 Q133 754 132 717 L126 506 Q124 460 119 438 L104 362 Q98 325 105 300 Q121 245 145 220 Z" />
-        <path class="body-outline" d="M144 242 Q96 276 81 340 L62 469 Q58 493 76 497 L98 499 Q115 501 120 478 L141 370 Q149 341 158 328 Z" />
-        <path class="body-outline" d="M266 242 Q314 276 329 340 L348 469 Q352 493 334 497 L312 499 Q295 501 290 478 L269 370 Q261 341 252 328 Z" />
+        <!-- Frente base -->
+        <ellipse class="body-outline" cx="288" cy="176" rx="60" ry="82" />
+        <path class="body-outline" d="M245 248 C226 264 210 286 203 314 C194 350 193 394 201 439 L214 522 C218 548 220 578 222 630 L230 772 C232 823 220 879 199 938 L188 970 C184 982 192 992 205 992 L232 992 C244 992 252 984 257 971 L295 869 L333 971 C338 984 346 992 358 992 L385 992 C398 992 406 982 402 970 L391 938 C370 879 358 823 360 772 L368 630 C370 578 372 548 376 522 L389 439 C397 394 396 350 387 314 C380 286 364 264 345 248 Z" />
+        <path class="body-outline" d="M229 260 C190 275 162 305 148 348 L129 443 C126 460 136 471 153 472 L171 472 C186 472 196 463 199 449 L214 386 C220 362 231 337 247 323 Z" />
+        <path class="body-outline" d="M347 260 C386 275 414 305 428 348 L447 443 C450 460 440 471 423 472 L405 472 C390 472 380 463 377 449 L362 386 C356 362 345 337 329 323 Z" />
+        <path class="body-outline" d="M174 475 C171 565 177 654 192 737 L205 807 C207 819 217 828 229 828 L243 828 C255 828 264 818 264 806 L260 720 C257 629 256 550 258 486 Z" />
+        <path class="body-outline" d="M402 475 C405 565 399 654 384 737 L371 807 C369 819 359 828 347 828 L333 828 C321 828 312 818 312 806 L316 720 C319 629 320 550 318 486 Z" />
+        <path class="body-outline" d="M205 828 C205 904 218 952 240 992" />
+        <path class="body-outline" d="M371 828 C371 904 358 952 336 992" />
 
-        <circle class="body-outline" cx="555" cy="150" r="62" />
-        <path class="body-outline" d="M495 220 Q555 185 615 220 Q639 245 655 300 Q662 325 656 362 L641 438 Q636 460 634 506 L628 717 Q627 754 647 842 L679 1048 Q684 1069 669 1077 L636 1084 Q622 1086 616 1070 L571 907 Q563 882 555 846 Q547 882 539 907 L494 1070 Q488 1086 474 1084 L441 1077 Q426 1069 431 1048 L463 842 Q483 754 482 717 L476 506 Q474 460 469 438 L454 362 Q448 325 455 300 Q471 245 495 220 Z" />
-        <path class="body-outline" d="M494 242 Q446 276 431 340 L412 469 Q408 493 426 497 L448 499 Q465 501 470 478 L491 370 Q499 341 508 328 Z" />
-        <path class="body-outline" d="M616 242 Q664 276 679 340 L698 469 Q702 493 684 497 L662 499 Q645 501 640 478 L619 370 Q611 341 602 328 Z" />
+        <!-- Espalda base -->
+        <ellipse class="body-outline" cx="736" cy="176" rx="60" ry="82" />
+        <path class="body-outline" d="M693 248 C674 264 658 286 651 314 C642 350 641 394 649 439 L662 522 C666 548 668 578 670 630 L678 772 C680 823 668 879 647 938 L636 970 C632 982 640 992 653 992 L680 992 C692 992 700 984 705 971 L743 869 L781 971 C786 984 794 992 806 992 L833 992 C846 992 854 982 850 970 L839 938 C818 879 806 823 808 772 L816 630 C818 578 820 548 824 522 L837 439 C845 394 844 350 835 314 C828 286 812 264 793 248 Z" />
+        <path class="body-outline" d="M677 260 C638 275 610 305 596 348 L577 443 C574 460 584 471 601 472 L619 472 C634 472 644 463 647 449 L662 386 C668 362 679 337 695 323 Z" />
+        <path class="body-outline" d="M795 260 C834 275 862 305 876 348 L895 443 C898 460 888 471 871 472 L853 472 C838 472 828 463 825 449 L810 386 C804 362 793 337 777 323 Z" />
+        <path class="body-outline" d="M622 475 C619 565 625 654 640 737 L653 807 C655 819 665 828 677 828 L691 828 C703 828 712 818 712 806 L708 720 C705 629 704 550 706 486 Z" />
+        <path class="body-outline" d="M850 475 C853 565 847 654 832 737 L819 807 C817 819 807 828 795 828 L781 828 C769 828 760 818 760 806 L764 720 C767 629 768 550 766 486 Z" />
+        <path class="body-outline" d="M653 828 C653 904 666 952 688 992" />
+        <path class="body-outline" d="M819 828 C819 904 806 952 784 992" />
       </g>
 
+      <!-- Frente -->
       <g class="muscle-zone" data-muscle="hombros" fill="${fill("hombros")}">
-        <ellipse cx="131" cy="275" rx="42" ry="57" transform="rotate(-18 131 275)"/>
-        <ellipse cx="279" cy="275" rx="42" ry="57" transform="rotate(18 279 275)"/>
-        <ellipse cx="481" cy="275" rx="42" ry="57" transform="rotate(-18 481 275)"/>
-        <ellipse cx="629" cy="275" rx="42" ry="57" transform="rotate(18 629 275)"/>
+        <ellipse cx="221" cy="319" rx="41" ry="63" transform="rotate(-18 221 319)"/>
+        <ellipse cx="355" cy="319" rx="41" ry="63" transform="rotate(18 355 319)"/>
       </g>
-
       <g class="muscle-zone" data-muscle="pecho" fill="${fill("pecho")}">
-        <path d="M162 285 Q205 248 205 352 Q168 367 142 337 Q144 305 162 285 Z"/>
-        <path d="M248 285 Q205 248 205 352 Q242 367 268 337 Q266 305 248 285 Z"/>
+        <path d="M243 319 C260 288 287 281 312 292 C320 326 315 372 296 396 C272 392 248 376 238 352 C235 343 236 331 243 319 Z"/>
+        <path d="M333 319 C316 288 289 281 264 292 C256 326 261 372 280 396 C304 392 328 376 338 352 C341 343 340 331 333 319 Z"/>
       </g>
-
       <g class="muscle-zone" data-muscle="abdominales" fill="${fill("abdominales")}">
-        <rect x="174" y="380" width="62" height="70" rx="26"/>
-        <rect x="168" y="458" width="30" height="56" rx="14"/>
-        <rect x="212" y="458" width="30" height="56" rx="14"/>
-        <rect x="168" y="522" width="30" height="56" rx="14"/>
-        <rect x="212" y="522" width="30" height="56" rx="14"/>
-        <path d="M183 591 Q205 582 227 591 L219 690 Q205 705 191 690 Z"/>
-        <ellipse cx="138" cy="470" rx="23" ry="74" transform="rotate(9 138 470)"/>
-        <ellipse cx="272" cy="470" rx="23" ry="74" transform="rotate(-9 272 470)"/>
+        <path d="M265 430 C279 418 297 418 311 430 C314 450 311 470 300 485 L276 485 C265 470 262 450 265 430 Z"/>
+        <path d="M249 491 C261 480 277 480 289 491 C292 511 289 530 279 545 L259 545 C249 530 246 511 249 491 Z"/>
+        <path d="M287 491 C299 480 315 480 327 491 C330 511 327 530 317 545 L297 545 C287 530 284 511 287 491 Z"/>
+        <path d="M249 550 C261 539 277 539 289 550 C292 570 289 589 279 604 L259 604 C249 589 246 570 249 550 Z"/>
+        <path d="M287 550 C299 539 315 539 327 550 C330 570 327 589 317 604 L297 604 C287 589 284 570 287 550 Z"/>
+        <path d="M270 611 C282 603 294 603 306 611 L313 666 C304 680 292 688 288 688 C284 688 272 680 263 666 Z"/>
+        <ellipse cx="223" cy="507" rx="25" ry="88" transform="rotate(10 223 507)"/>
+        <ellipse cx="353" cy="507" rx="25" ry="88" transform="rotate(-10 353 507)"/>
       </g>
-
       <g class="muscle-zone" data-muscle="biceps" fill="${fill("biceps")}">
-        <ellipse cx="112" cy="415" rx="25" ry="74" transform="rotate(8 112 415)"/>
-        <ellipse cx="298" cy="415" rx="25" ry="74" transform="rotate(-8 298 415)"/>
+        <ellipse cx="204" cy="470" rx="26" ry="79" transform="rotate(4 204 470)"/>
+        <ellipse cx="372" cy="470" rx="26" ry="79" transform="rotate(-4 372 470)"/>
       </g>
-
-      <g class="muscle-zone" data-muscle="triceps" fill="${fill("triceps")}">
-        <ellipse cx="92" cy="548" rx="20" ry="76" transform="rotate(4 92 548)"/>
-        <ellipse cx="318" cy="548" rx="20" ry="76" transform="rotate(-4 318 548)"/>
-        <ellipse cx="442" cy="415" rx="24" ry="78" transform="rotate(8 442 415)"/>
-        <ellipse cx="668" cy="415" rx="24" ry="78" transform="rotate(-8 668 415)"/>
-      </g>
-
-      <g class="muscle-zone" data-muscle="espalda" fill="${fill("espalda")}">
-        <path d="M504 292 Q555 247 606 292 L619 372 Q594 454 555 564 Q516 454 491 372 Z"/>
-      </g>
-
-      <g class="muscle-zone" data-muscle="gluteos" fill="${fill("gluteos")}">
-        <ellipse cx="523" cy="730" rx="47" ry="64"/>
-        <ellipse cx="587" cy="730" rx="47" ry="64"/>
-      </g>
-
       <g class="muscle-zone" data-muscle="cuadriceps" fill="${fill("cuadriceps")}">
-        <ellipse cx="162" cy="816" rx="34" ry="138"/>
-        <ellipse cx="248" cy="816" rx="34" ry="138"/>
+        <ellipse cx="245" cy="753" rx="38" ry="143"/>
+        <ellipse cx="331" cy="753" rx="38" ry="143"/>
       </g>
-
-      <g class="muscle-zone" data-muscle="isquios" fill="${fill("isquios")}">
-        <ellipse cx="512" cy="830" rx="32" ry="135"/>
-        <ellipse cx="598" cy="830" rx="32" ry="135"/>
-      </g>
-
       <g class="muscle-zone" data-muscle="gemelos" fill="${fill("gemelos")}">
-        <ellipse cx="160" cy="1014" rx="27" ry="96"/>
-        <ellipse cx="250" cy="1014" rx="27" ry="96"/>
-        <ellipse cx="510" cy="1014" rx="27" ry="96"/>
-        <ellipse cx="600" cy="1014" rx="27" ry="96"/>
+        <ellipse cx="244" cy="912" rx="24" ry="92"/>
+        <ellipse cx="332" cy="912" rx="24" ry="92"/>
+      </g>
+
+      <!-- Espalda -->
+      <g class="muscle-zone" data-muscle="hombros" fill="${fill("hombros")}">
+        <ellipse cx="669" cy="319" rx="41" ry="63" transform="rotate(-18 669 319)"/>
+        <ellipse cx="803" cy="319" rx="41" ry="63" transform="rotate(18 803 319)"/>
+      </g>
+      <g class="muscle-zone" data-muscle="triceps" fill="${fill("triceps")}">
+        <ellipse cx="652" cy="470" rx="24" ry="81" transform="rotate(4 652 470)"/>
+        <ellipse cx="820" cy="470" rx="24" ry="81" transform="rotate(-4 820 470)"/>
+      </g>
+      <g class="muscle-zone" data-muscle="espalda" fill="${fill("espalda")}">
+        <path d="M709 254 C724 239 748 239 763 254 C760 294 749 336 733 395 C717 336 706 294 703 254 Z"/>
+        <path d="M675 327 C697 297 724 284 733 294 L733 620 C692 583 666 536 650 430 C650 387 658 351 675 327 Z"/>
+        <path d="M791 327 C769 297 742 284 733 294 L733 620 C774 583 800 536 816 430 C816 387 808 351 791 327 Z"/>
+      </g>
+      <g class="muscle-zone" data-muscle="gluteos" fill="${fill("gluteos")}">
+        <ellipse cx="699" cy="561" rx="54" ry="74"/>
+        <ellipse cx="767" cy="561" rx="54" ry="74"/>
+      </g>
+      <g class="muscle-zone" data-muscle="isquios" fill="${fill("isquios")}">
+        <ellipse cx="699" cy="753" rx="34" ry="146"/>
+        <ellipse cx="767" cy="753" rx="34" ry="146"/>
+      </g>
+      <g class="muscle-zone" data-muscle="gemelos" fill="${fill("gemelos")}">
+        <ellipse cx="696" cy="915" rx="24" ry="94"/>
+        <ellipse cx="770" cy="915" rx="24" ry="94"/>
       </g>
     </svg>
     <div class="stats-muscle-tooltip">Tocá una zona muscular para ver el volumen.</div>`;
