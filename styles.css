@@ -290,6 +290,33 @@ body{
   font-weight:700;
   font-size:12px;
 }
+.password-field{
+  position:relative;
+}
+.password-input{
+  padding-right:42px;
+}
+.password-toggle{
+  position:absolute;
+  top:50%;
+  right:8px;
+  transform:translateY(-50%);
+  width:28px;
+  height:28px;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  font-size:16px;
+  line-height:1;
+}
+.password-toggle:focus-visible{
+  outline:2px solid rgba(10,163,166,.35);
+  border-radius:8px;
+}
 select{
   width:100%;
   min-width:0;
@@ -490,10 +517,25 @@ select{
 .help-modal{
   width: 100%;
   max-width: 420px;
+  max-height: min(78vh, 640px);
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 14px;
+  display:flex;
+  flex-direction:column;
+}
+.help-text{
+  overflow-y:auto;
+  padding-right:6px;
+  margin-right:-2px;
+}
+.help-text::-webkit-scrollbar{
+  width:6px;
+}
+.help-text::-webkit-scrollbar-thumb{
+  background:#cbd5e1;
+  border-radius:999px;
 }
 .help-text p{
   margin: 8px 0;
@@ -1010,7 +1052,7 @@ select{
   display:block;
   width:100%;
   height:auto;
-  max-height:330px;
+  max-height:620px;
 }
 .stats-muscle-svg .body-outline{
   fill:#f3f4f6;
@@ -1025,9 +1067,13 @@ select{
 }
 .stats-muscle-svg text{
   fill:#64748b;
-  font-size:10px;
+  font-size:14px;
   font-weight:800;
   text-anchor:middle;
+}
+.stats-muscle-svg .muscle-label{
+  font-size:30px;
+  font-weight:900;
 }
 .stats-muscle-tooltip{
   min-height:20px;

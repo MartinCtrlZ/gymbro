@@ -464,6 +464,8 @@ const deleteWorkoutBtn = document.getElementById("deleteWorkoutBtn");
 // auth
 const emailEl    = document.getElementById("email");
 const passEl     = document.getElementById("password");
+const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+const togglePasswordIcon = document.getElementById("togglePasswordIcon");
 const btnLogin   = document.getElementById("btnLogin");
 const btnSignup  = document.getElementById("btnSignup");
 const btnLogout  = document.getElementById("btnLogout");
@@ -1220,13 +1222,37 @@ if(btnResetPass){
   });
 }
 
+if(togglePasswordBtn && passEl){
+  const setPasswordVisibility = (visible)=>{
+    const start = typeof passEl.selectionStart === "number" ? passEl.selectionStart : null;
+    const end   = typeof passEl.selectionEnd === "number" ? passEl.selectionEnd : null;
+    passEl.type = visible ? "text" : "password";
+    togglePasswordBtn.setAttribute("aria-pressed", visible ? "true" : "false");
+    togglePasswordBtn.setAttribute("aria-label", visible ? "Ocultar contraseña" : "Mostrar contraseña");
+    if(togglePasswordIcon) togglePasswordIcon.textContent = visible ? "🙈" : "👁️";
+    if(document.activeElement === passEl && start != null && end != null){
+      requestAnimationFrame(()=>{
+        try{
+          passEl.focus({ preventScroll:true });
+          passEl.setSelectionRange(start, end);
+        }catch{}
+      });
+    }
+  };
+
+  togglePasswordBtn.addEventListener("mousedown", (e)=> e.preventDefault());
+  togglePasswordBtn.addEventListener("click", ()=>{
+    setPasswordVisibility(passEl.type === "password");
+  });
+}
+
 onAuthStateChanged(auth, async (user)=>{
   if(!user){
     currentUid = null;
     authStatus.textContent = "No logueado";
     btnLogout.hidden = true;
 
-    userAvatar.textContent = "?";
+    userAvatar.textContent = "🗝";
     userAvatar.classList.remove("logged");
 
     state = loadStateFor(null);
@@ -1271,13 +1297,13 @@ function setMode(newMode){
   tabTimer.classList.toggle("active",     mode === "timer");
   timerControls.hidden = (mode !== "timer");
 
-  if(mode === "stopwatch"){
-    clockDisplay.textContent = formatStopwatch(swTotalMs);
-    if(pauseDisplay){ pauseDisplay.hidden = false; pauseDisplay.textContent = `Pausa ${formatStopwatch(swPauseMs)}`; }
-  } else {
+  if(mode === "stopwatch") updateStopwatchDisplays();
+  else {
     clockDisplay.textContent = formatTimer(Math.ceil(tmRemaining/1000));
     if(pauseDisplay) pauseDisplay.hidden = true;
   }
+
+  updateStopwatchButtons();
 }
 
 tabStopwatch.addEventListener("click", ()=> setMode("stopwatch"));
@@ -1299,15 +1325,39 @@ function readTimerInputSeconds(){
   return (mm * 60) + ss;
 }
 
+function updateStopwatchButtons(){
+  if(!btnStart || !btnPause) return;
+  if(mode !== "stopwatch"){
+    btnStart.textContent = "Iniciar";
+    btnPause.disabled = false;
+    return;
+  }
+  btnStart.textContent = swPaused ? "Reanudar" : "Iniciar";
+  btnPause.disabled = !swRunning;
+}
+
+function updateStopwatchDisplays(totalMs = swTotalMs, pauseMs = swPauseMs){
+  if(clockDisplay) clockDisplay.textContent = formatStopwatch(totalMs);
+  if(pauseDisplay){
+    pauseDisplay.hidden = false;
+    pauseDisplay.textContent = `Pausa ${formatStopwatch(pauseMs)}`;
+  }
+}
+
 btnStart.addEventListener("click", ()=>{
-  if(mode === "stopwatch"){
+  if(mode === "stopwatch") {
     if(swPaused){
       swPaused = false;
       swPauseMs += (performance.now() - swPauseStartAt);
+      swRunning = true;
+      swStartAt = performance.now();
+      updateStopwatchButtons();
+      return;
     }
     if(swRunning) return;
     swRunning = true;
     swStartAt = performance.now();
+    updateStopwatchButtons();
     tickStopwatch();
   } else {
     if(tmRunning) return;
@@ -1331,15 +1381,11 @@ btnPause.addEventListener("click", ()=>{
     swRunning = false;
     swPaused  = true;
 
-    swTotalMs      += (performance.now() - swStartAt);
-    swPauseStartAt  = performance.now();
+    swTotalMs += (performance.now() - swStartAt);
+    swPauseStartAt = performance.now();
 
-    cancelAnimationFrame(swRAF);
-    clockDisplay.textContent = formatStopwatch(swTotalMs);
-    if(pauseDisplay){
-      pauseDisplay.hidden = false;
-      pauseDisplay.textContent = `Pausa ${formatStopwatch(swPauseMs)}`;
-    }
+    updateStopwatchButtons();
+    tickStopwatch();
   } else {
     if(!tmRunning) return;
     tmRunning = false;
@@ -1375,33 +1421,32 @@ btnStop.addEventListener("click", async ()=>{
 
     renderAll();
 
+    cancelAnimationFrame(swRAF);
+    swRAF = null;
     swTotalMs = 0; swPauseMs = 0;
     swStartAt = 0; swPauseStartAt = 0;
-    clockDisplay.textContent = formatStopwatch(0);
-    if(pauseDisplay){
-      pauseDisplay.hidden = false;
-      pauseDisplay.textContent = `Pausa ${formatStopwatch(0)}`;
-    }
+    updateStopwatchDisplays(0, 0);
+    updateStopwatchButtons();
   } else {
     tmRunning = false;
     cancelAnimationFrame(tmRAF);
     tmRemaining = 0;
     clockDisplay.textContent = formatTimer(0);
+    updateStopwatchButtons();
   }
 });
 
 function tickStopwatch(){
-  if(!swRunning && !swPaused) return;
+  if(!swRunning && !swPaused){
+    swRAF = null;
+    return;
+  }
 
   const now     = performance.now();
   const totalMs = swTotalMs + (swRunning ? (now - swStartAt) : 0);
   const pauseMs = swPauseMs + (swPaused  ? (now - swPauseStartAt) : 0);
 
-  clockDisplay.textContent = formatStopwatch(totalMs);
-  if(pauseDisplay){
-    pauseDisplay.hidden = false;
-    pauseDisplay.textContent = `Pausa ${formatStopwatch(pauseMs)}`;
-  }
+  updateStopwatchDisplays(totalMs, pauseMs);
   swRAF = requestAnimationFrame(tickStopwatch);
 }
 
@@ -1712,53 +1757,81 @@ function renderStatsMuscleMap(entries){
   const fill = muscle => MUSCLE_HEAT_COLORS[muscleHeatLevel(load[muscle] || 0)];
 
   statsMuscleMap.innerHTML = `
-    <svg class="stats-muscle-svg" viewBox="0 0 340 330" role="img" aria-label="Mapa de grupos musculares trabajados">
-      <text x="90" y="18">Frente</text>
-      <text x="250" y="18">Espalda</text>
+    <svg class="stats-muscle-svg" viewBox="0 0 760 1240" role="img" aria-label="Mapa de grupos musculares trabajados">
+      <text class="muscle-label" x="205" y="70">Frente</text>
+      <text class="muscle-label" x="555" y="70">Espalda</text>
 
       <g aria-hidden="true">
-        <circle class="body-outline" cx="90" cy="46" r="19" />
-        <path class="body-outline" d="M66 70 Q90 60 114 70 L124 162 Q110 178 106 205 L104 302 L83 302 L80 205 Q76 178 56 162 Z" />
-        <path class="body-outline" d="M66 76 L42 94 L32 170 L47 173 L62 115 Z" />
-        <path class="body-outline" d="M114 76 L138 94 L148 170 L133 173 L118 115 Z" />
+        <circle class="body-outline" cx="205" cy="150" r="62" />
+        <path class="body-outline" d="M145 220 Q205 185 265 220 Q289 245 305 300 Q312 325 306 362 L291 438 Q286 460 284 506 L278 717 Q277 754 297 842 L329 1048 Q334 1069 319 1077 L286 1084 Q272 1086 266 1070 L221 907 Q213 882 205 846 Q197 882 189 907 L144 1070 Q138 1086 124 1084 L91 1077 Q76 1069 81 1048 L113 842 Q133 754 132 717 L126 506 Q124 460 119 438 L104 362 Q98 325 105 300 Q121 245 145 220 Z" />
+        <path class="body-outline" d="M144 242 Q96 276 81 340 L62 469 Q58 493 76 497 L98 499 Q115 501 120 478 L141 370 Q149 341 158 328 Z" />
+        <path class="body-outline" d="M266 242 Q314 276 329 340 L348 469 Q352 493 334 497 L312 499 Q295 501 290 478 L269 370 Q261 341 252 328 Z" />
 
-        <circle class="body-outline" cx="250" cy="46" r="19" />
-        <path class="body-outline" d="M226 70 Q250 60 274 70 L284 162 Q270 178 266 205 L264 302 L243 302 L240 205 Q236 178 216 162 Z" />
-        <path class="body-outline" d="M226 76 L202 94 L192 170 L207 173 L222 115 Z" />
-        <path class="body-outline" d="M274 76 L298 94 L308 170 L293 173 L278 115 Z" />
+        <circle class="body-outline" cx="555" cy="150" r="62" />
+        <path class="body-outline" d="M495 220 Q555 185 615 220 Q639 245 655 300 Q662 325 656 362 L641 438 Q636 460 634 506 L628 717 Q627 754 647 842 L679 1048 Q684 1069 669 1077 L636 1084 Q622 1086 616 1070 L571 907 Q563 882 555 846 Q547 882 539 907 L494 1070 Q488 1086 474 1084 L441 1077 Q426 1069 431 1048 L463 842 Q483 754 482 717 L476 506 Q474 460 469 438 L454 362 Q448 325 455 300 Q471 245 495 220 Z" />
+        <path class="body-outline" d="M494 242 Q446 276 431 340 L412 469 Q408 493 426 497 L448 499 Q465 501 470 478 L491 370 Q499 341 508 328 Z" />
+        <path class="body-outline" d="M616 242 Q664 276 679 340 L698 469 Q702 493 684 497 L662 499 Q645 501 640 478 L619 370 Q611 341 602 328 Z" />
       </g>
 
       <g class="muscle-zone" data-muscle="hombros" fill="${fill("hombros")}">
-        <circle cx="62" cy="83" r="12"/><circle cx="118" cy="83" r="12"/>
-        <circle cx="222" cy="83" r="12"/><circle cx="278" cy="83" r="12"/>
+        <ellipse cx="131" cy="275" rx="42" ry="57" transform="rotate(-18 131 275)"/>
+        <ellipse cx="279" cy="275" rx="42" ry="57" transform="rotate(18 279 275)"/>
+        <ellipse cx="481" cy="275" rx="42" ry="57" transform="rotate(-18 481 275)"/>
+        <ellipse cx="629" cy="275" rx="42" ry="57" transform="rotate(18 629 275)"/>
       </g>
+
       <g class="muscle-zone" data-muscle="pecho" fill="${fill("pecho")}">
-        <path d="M71 88 Q89 78 89 112 Q76 116 67 104 Z"/><path d="M91 88 Q109 78 113 104 Q104 116 91 112 Z"/>
+        <path d="M162 285 Q205 248 205 352 Q168 367 142 337 Q144 305 162 285 Z"/>
+        <path d="M248 285 Q205 248 205 352 Q242 367 268 337 Q266 305 248 285 Z"/>
       </g>
+
       <g class="muscle-zone" data-muscle="abdominales" fill="${fill("abdominales")}">
-        <rect x="78" y="116" width="24" height="48" rx="8"/>
+        <rect x="174" y="380" width="62" height="70" rx="26"/>
+        <rect x="168" y="458" width="30" height="56" rx="14"/>
+        <rect x="212" y="458" width="30" height="56" rx="14"/>
+        <rect x="168" y="522" width="30" height="56" rx="14"/>
+        <rect x="212" y="522" width="30" height="56" rx="14"/>
+        <path d="M183 591 Q205 582 227 591 L219 690 Q205 705 191 690 Z"/>
+        <ellipse cx="138" cy="470" rx="23" ry="74" transform="rotate(9 138 470)"/>
+        <ellipse cx="272" cy="470" rx="23" ry="74" transform="rotate(-9 272 470)"/>
       </g>
+
       <g class="muscle-zone" data-muscle="biceps" fill="${fill("biceps")}">
-        <ellipse cx="51" cy="119" rx="8" ry="19"/><ellipse cx="129" cy="119" rx="8" ry="19"/>
+        <ellipse cx="112" cy="415" rx="25" ry="74" transform="rotate(8 112 415)"/>
+        <ellipse cx="298" cy="415" rx="25" ry="74" transform="rotate(-8 298 415)"/>
       </g>
+
       <g class="muscle-zone" data-muscle="triceps" fill="${fill("triceps")}">
-        <ellipse cx="211" cy="119" rx="8" ry="19"/><ellipse cx="289" cy="119" rx="8" ry="19"/>
+        <ellipse cx="92" cy="548" rx="20" ry="76" transform="rotate(4 92 548)"/>
+        <ellipse cx="318" cy="548" rx="20" ry="76" transform="rotate(-4 318 548)"/>
+        <ellipse cx="442" cy="415" rx="24" ry="78" transform="rotate(8 442 415)"/>
+        <ellipse cx="668" cy="415" rx="24" ry="78" transform="rotate(-8 668 415)"/>
       </g>
+
       <g class="muscle-zone" data-muscle="espalda" fill="${fill("espalda")}">
-        <path d="M229 86 Q250 74 271 86 L274 148 Q250 165 226 148 Z"/>
+        <path d="M504 292 Q555 247 606 292 L619 372 Q594 454 555 564 Q516 454 491 372 Z"/>
       </g>
+
       <g class="muscle-zone" data-muscle="gluteos" fill="${fill("gluteos")}">
-        <ellipse cx="240" cy="176" rx="16" ry="13"/><ellipse cx="260" cy="176" rx="16" ry="13"/>
+        <ellipse cx="523" cy="730" rx="47" ry="64"/>
+        <ellipse cx="587" cy="730" rx="47" ry="64"/>
       </g>
+
       <g class="muscle-zone" data-muscle="cuadriceps" fill="${fill("cuadriceps")}">
-        <path d="M63 174 L86 174 L82 238 L64 238 Z"/><path d="M94 174 L117 174 L116 238 L98 238 Z"/>
+        <ellipse cx="162" cy="816" rx="34" ry="138"/>
+        <ellipse cx="248" cy="816" rx="34" ry="138"/>
       </g>
+
       <g class="muscle-zone" data-muscle="isquios" fill="${fill("isquios")}">
-        <path d="M223 188 L246 188 L242 244 L224 244 Z"/><path d="M254 188 L277 188 L276 244 L258 244 Z"/>
+        <ellipse cx="512" cy="830" rx="32" ry="135"/>
+        <ellipse cx="598" cy="830" rx="32" ry="135"/>
       </g>
+
       <g class="muscle-zone" data-muscle="gemelos" fill="${fill("gemelos")}">
-        <ellipse cx="73" cy="267" rx="9" ry="25"/><ellipse cx="107" cy="267" rx="9" ry="25"/>
-        <ellipse cx="233" cy="267" rx="9" ry="25"/><ellipse cx="267" cy="267" rx="9" ry="25"/>
+        <ellipse cx="160" cy="1014" rx="27" ry="96"/>
+        <ellipse cx="250" cy="1014" rx="27" ry="96"/>
+        <ellipse cx="510" cy="1014" rx="27" ry="96"/>
+        <ellipse cx="600" cy="1014" rx="27" ry="96"/>
       </g>
     </svg>
     <div class="stats-muscle-tooltip">Tocá una zona muscular para ver el volumen.</div>`;
@@ -2220,4 +2293,5 @@ function renderAll(){
 
 renderAll();
 setMode("stopwatch");
+updateStopwatchButtons();
 showMain();
