@@ -1052,7 +1052,7 @@ select{
   display:block;
   width:100%;
   height:auto;
-  max-height:740px;
+  max-height:330px;
 }
 .stats-muscle-svg .body-outline{
   fill:#f3f4f6;
@@ -1067,13 +1067,9 @@ select{
 }
 .stats-muscle-svg text{
   fill:#64748b;
-  font-size:14px;
+  font-size:10px;
   font-weight:800;
   text-anchor:middle;
-}
-.stats-muscle-svg .muscle-label{
-  font-size:30px;
-  font-weight:900;
 }
 .stats-muscle-tooltip{
   min-height:20px;
