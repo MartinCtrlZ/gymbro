@@ -107,6 +107,42 @@ function storageKeyForUser(uid){
   return uid ? `${STORAGE_KEY}_${uid}` : STORAGE_KEY;
 }
 
+const FORM_DRAFT_KEY = "gym_tracker_form_draft_v1";
+const FORM_DRAFT_TTL_MS = 2 * 60 * 60 * 1000;
+
+function formDraftKey(uid, iso){
+  return `${FORM_DRAFT_KEY}_${uid || "guest"}_${iso}`;
+}
+
+function loadFormDraft(uid, iso){
+  try{
+    const key = formDraftKey(uid, iso);
+    const raw = localStorage.getItem(key);
+    if(!raw) return null;
+    const draft = JSON.parse(raw);
+    if(!draft?.savedAt || Date.now() - draft.savedAt > FORM_DRAFT_TTL_MS){
+      localStorage.removeItem(key);
+      return null;
+    }
+    return draft;
+  }catch{
+    return null;
+  }
+}
+
+function saveFormDraft(uid, iso, draft){
+  try{
+    localStorage.setItem(formDraftKey(uid, iso), JSON.stringify({
+      ...draft,
+      savedAt: Date.now()
+    }));
+  }catch{}
+}
+
+function clearFormDraft(uid, iso){
+  try{ localStorage.removeItem(formDraftKey(uid, iso)); }catch{}
+}
+
 function normalizeState(st){
   return {
     workoutsByDate: st.workoutsByDate || {},
@@ -759,6 +795,31 @@ function weightOptions(){
   return out;
 }
 
+function summarizeSetGroups(groups){
+  const clean = (Array.isArray(groups) ? groups : []).map(group => ({
+    sets: Number(group?.sets) || 0,
+    reps: Number(group?.reps) || 0,
+    weight: Number(group?.weight) || 0
+  }));
+  return {
+    sets: clean.reduce((sum, group) => sum + group.sets, 0),
+    reps: clean.reduce((max, group) => Math.max(max, group.reps), 0),
+    weight: clean.reduce((max, group) => Math.max(max, group.weight), 0)
+  };
+}
+
+function exerciseMetrics(ex){
+  const groups = Array.isArray(ex?.setGroups) ? ex.setGroups.filter(Boolean) : [];
+  if(groups.length){
+    return summarizeSetGroups(groups);
+  }
+  return {
+    sets: Number(ex?.sets) || 0,
+    reps: Number(ex?.reps) || 0,
+    weight: Number(ex?.weight) || 0
+  };
+}
+
 // Menú de sugerencias compartido por todas las filas.
 // Evita crear listeners, observers y menús duplicados por cada ejercicio.
 const exerciseSuggestionMenu = document.createElement("div");
@@ -864,6 +925,7 @@ exerciseSuggestionMenu.addEventListener("pointerdown", (e)=>{
   activeExerciseDropdown.input.value = item.dataset.exerciseName;
   activeExerciseDropdown.input.focus();
   closeExerciseSuggestions();
+  saveCurrentFormDraft();
 });
 
 document.addEventListener("pointerdown", (e)=>{
@@ -876,9 +938,38 @@ document.addEventListener("pointerdown", (e)=>{
 window.addEventListener("scroll", positionExerciseSuggestions, { passive:true });
 window.addEventListener("resize", positionExerciseSuggestions);
 
+function ensureSelectValue(select, value){
+  const stringValue = String(value);
+  select.querySelectorAll("option[data-summary-option]").forEach(option => option.remove());
+  if(!Array.from(select.options).some(option => option.value === stringValue)){
+    const option = document.createElement("option");
+    option.value = stringValue;
+    option.textContent = stringValue;
+    option.dataset.summaryOption = "true";
+    select.appendChild(option);
+  }
+  select.value = stringValue;
+}
+
+function createNumericSelect(values, current, ariaLabel){
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", ariaLabel);
+  values.forEach(value => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    if(String(current) === String(value)) option.selected = true;
+    select.appendChild(option);
+  });
+  return select;
+}
+
 function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
+  const block = document.createElement("div");
+  block.className = "exercise-block";
+
   const row = document.createElement("div");
-  row.className = "trow";
+  row.className = "trow exercise-main-row";
 
   const nameWrap = document.createElement("div");
   nameWrap.className = "ex-name-wrap";
@@ -920,49 +1011,153 @@ function renderExerciseRow(ex = {name:"", sets:4, reps:12, weight:30}){
 
   nameWrap.append(input, ddBtn);
 
-  const setsSel = document.createElement("select");
-  setsSel.setAttribute("aria-label", "Cantidad de series");
-  setsOptions().forEach(v=>{
-    const o = document.createElement("option");
-    o.value = v;
-    o.textContent = v;
-    if(Number(ex.sets) === v) o.selected = true;
-    setsSel.appendChild(o);
-  });
+  const metrics = exerciseMetrics(ex);
+  const setsSel = createNumericSelect(setsOptions(), metrics.sets || 1, "Cantidad de series");
+  const repsSel = createNumericSelect(repsOptions(), metrics.reps || 1, "Cantidad de repeticiones");
+  const weightSel = createNumericSelect(weightOptions(), metrics.weight || 0, "Peso");
 
-  const repsSel = document.createElement("select");
-  repsSel.setAttribute("aria-label", "Cantidad de repeticiones");
-  repsOptions().forEach(v=>{
-    const o = document.createElement("option");
-    o.value = v;
-    o.textContent = v;
-    if(Number(ex.reps) === v) o.selected = true;
-    repsSel.appendChild(o);
-  });
+  const actionsWrap = document.createElement("div");
+  actionsWrap.className = "row-actions";
 
-  const weightSel = document.createElement("select");
-  weightSel.setAttribute("aria-label", "Peso");
-  weightOptions().forEach(v=>{
-    const o = document.createElement("option");
-    o.value = v;
-    o.textContent = v;
-    if(String(ex.weight) === String(v)) o.selected = true;
-    weightSel.appendChild(o);
-  });
+  const addGroupBtn = document.createElement("button");
+  addGroupBtn.type = "button";
+  addGroupBtn.className = "set-group-add-btn";
+  addGroupBtn.title = "Agregar subgrupo de series";
+  addGroupBtn.setAttribute("aria-label", "Agregar subgrupo de series");
+  addGroupBtn.textContent = "+";
 
   const delBtn = document.createElement("button");
   delBtn.type = "button";
   delBtn.className = "row-del-btn";
   delBtn.title = "Eliminar ejercicio";
   delBtn.textContent = "🗑";
-  delBtn.addEventListener("click", ()=>{
-    if(activeExerciseDropdown?.anchor === nameWrap) closeExerciseSuggestions();
-    row.remove();
+
+  actionsWrap.append(addGroupBtn, delBtn);
+  row.append(nameWrap, setsSel, repsSel, weightSel, actionsWrap);
+
+  const groupsContainer = document.createElement("div");
+  groupsContainer.className = "set-groups-container";
+
+  function groupRows(){
+    return Array.from(groupsContainer.querySelectorAll(".set-group-row"));
+  }
+
+  function readGroupRow(groupRow){
+    const refs = groupRow._refs;
+    return {
+      sets: Number(refs.setsSel.value),
+      reps: Number(refs.repsSel.value),
+      weight: Number(refs.weightSel.value)
+    };
+  }
+
+  function refreshGroupSummary(){
+    const rows = groupRows();
+    const grouped = rows.length >= 2;
+    block.classList.toggle("has-set-groups", grouped);
+    setsSel.disabled = grouped;
+    repsSel.disabled = grouped;
+    weightSel.disabled = grouped;
+
+    if(!grouped) return;
+    const summary = summarizeSetGroups(rows.map(readGroupRow));
+    ensureSelectValue(setsSel, summary.sets);
+    ensureSelectValue(repsSel, summary.reps);
+    ensureSelectValue(weightSel, summary.weight);
+  }
+
+  function collapseIfSingleGroup(){
+    const rows = groupRows();
+    if(rows.length !== 1) return false;
+    const only = readGroupRow(rows[0]);
+    groupsContainer.innerHTML = "";
+    setsSel.disabled = false;
+    repsSel.disabled = false;
+    weightSel.disabled = false;
+    ensureSelectValue(setsSel, only.sets);
+    ensureSelectValue(repsSel, only.reps);
+    ensureSelectValue(weightSel, only.weight);
+    block.classList.remove("has-set-groups");
+    return true;
+  }
+
+  function addSetGroup(group = {sets:1, reps:Number(repsSel.value)||1, weight:Number(weightSel.value)||0}){
+    const groupRow = document.createElement("div");
+    groupRow.className = "trow set-group-row";
+
+    const indent = document.createElement("div");
+    indent.className = "set-group-indent";
+    indent.textContent = "↳";
+    indent.setAttribute("aria-hidden", "true");
+
+    const groupSets = createNumericSelect(setsOptions(), group.sets || 1, "Series de este subgrupo");
+    const groupReps = createNumericSelect(repsOptions(), group.reps || 1, "Repeticiones de este subgrupo");
+    const groupWeight = createNumericSelect(weightOptions(), group.weight || 0, "Peso de este subgrupo");
+
+    const removeGroupBtn = document.createElement("button");
+    removeGroupBtn.type = "button";
+    removeGroupBtn.className = "set-group-del-btn";
+    removeGroupBtn.title = "Eliminar subgrupo";
+    removeGroupBtn.setAttribute("aria-label", "Eliminar subgrupo");
+    removeGroupBtn.textContent = "×";
+
+    groupRow._refs = { setsSel:groupSets, repsSel:groupReps, weightSel:groupWeight };
+    groupRow.append(indent, groupSets, groupReps, groupWeight, removeGroupBtn);
+
+    [groupSets, groupReps, groupWeight].forEach(select => {
+      select.addEventListener("change", ()=>{
+        refreshGroupSummary();
+        saveCurrentFormDraft();
+      });
+    });
+
+    removeGroupBtn.addEventListener("click", ()=>{
+      groupRow.remove();
+      if(!collapseIfSingleGroup()) refreshGroupSummary();
+      saveCurrentFormDraft();
+    });
+
+    groupsContainer.appendChild(groupRow);
+    refreshGroupSummary();
+    return groupRow;
+  }
+
+  addGroupBtn.addEventListener("click", ()=>{
+    const rows = groupRows();
+    if(rows.length === 0){
+      addSetGroup({
+        sets:Number(setsSel.value) || 1,
+        reps:Number(repsSel.value) || 1,
+        weight:Number(weightSel.value) || 0
+      });
+      addSetGroup({
+        sets:1,
+        reps:Number(repsSel.value) || 1,
+        weight:Number(weightSel.value) || 0
+      });
+    }else{
+      const summary = summarizeSetGroups(rows.map(readGroupRow));
+      addSetGroup({ sets:1, reps:summary.reps || 1, weight:summary.weight || 0 });
+    }
+    refreshGroupSummary();
+    saveCurrentFormDraft();
   });
 
-  row.append(nameWrap, setsSel, repsSel, weightSel, delBtn);
-  row._refs = { input, setsSel, repsSel, weightSel };
-  return row;
+  delBtn.addEventListener("click", ()=>{
+    if(activeExerciseDropdown?.anchor === nameWrap) closeExerciseSuggestions();
+    block.remove();
+    saveCurrentFormDraft();
+  });
+
+  const storedGroups = Array.isArray(ex.setGroups) ? ex.setGroups.filter(Boolean) : [];
+  if(storedGroups.length >= 2){
+    storedGroups.forEach(group => addSetGroup(group));
+    refreshGroupSummary();
+  }
+
+  block.append(row, groupsContainer);
+  block._refs = { input, setsSel, repsSel, weightSel, groupsContainer };
+  return block;
 }
 
 function getGroupExercisesForForm(groupKey){
@@ -983,13 +1178,54 @@ function getGroupExercisesForForm(groupKey){
   return presetList;
 }
 
+function readExercisesFromUI(){
+  const blocks = Array.from(exerciseList.querySelectorAll(".exercise-block"));
+  return blocks
+    .map(block => {
+      const { input, setsSel, repsSel, weightSel, groupsContainer } = block._refs;
+      const groupRows = Array.from(groupsContainer.querySelectorAll(".set-group-row"));
+      const setGroups = groupRows.map(groupRow => ({
+        sets: Number(groupRow._refs.setsSel.value),
+        reps: Number(groupRow._refs.repsSel.value),
+        weight: Number(groupRow._refs.weightSel.value)
+      }));
+
+      if(setGroups.length >= 2){
+        const summary = summarizeSetGroups(setGroups);
+        return {
+          name:(input.value || "").trim(),
+          ...summary,
+          setGroups
+        };
+      }
+
+      return {
+        name:(input.value || "").trim(),
+        sets:Number(setsSel.value),
+        reps:Number(repsSel.value),
+        weight:Number(weightSel.value)
+      };
+    })
+    .filter(ex => ex.name.length > 0);
+}
+
+function saveCurrentFormDraft(){
+  if(!exerciseList || !groupLabel) return;
+  const iso = toISODate(selectedDate);
+  saveFormDraft(currentUid, iso, {
+    group: groupLabel.textContent || "Pecho",
+    exercises: readExercisesFromUI()
+  });
+}
+
 function renderFormForSelectedDate(){
-  const iso     = toISODate(selectedDate);
+  const iso = toISODate(selectedDate);
   const workout = state.workoutsByDate[iso];
+  const draft = loadFormDraft(currentUid, iso);
 
   selectedDatePill.textContent = niceDateES(selectedDate);
 
-  const group = workout?.group || "Pecho";
+  const group = draft?.group || workout?.group || "Pecho";
   groupLabel.textContent = group;
 
   closeExerciseSuggestions();
@@ -1001,31 +1237,24 @@ function renderFormForSelectedDate(){
     { name:"Press militar",         sets:4, reps:6,  weight:30 },
     { name:"Elevaciones laterales", sets:4, reps:12, weight:10 },
   ];
-  const exercises = workout?.exercises?.length
-    ? workout.exercises
-    : (configuredExercises.length ? configuredExercises : fallbackExercises);
 
-  exercises.forEach((ex)=>{
-    exerciseList.appendChild(renderExerciseRow(ex));
-  });
+  const exercises = draft
+    ? (Array.isArray(draft.exercises) ? draft.exercises : [])
+    : (workout?.exercises?.length
+      ? workout.exercises
+      : (configuredExercises.length ? configuredExercises : fallbackExercises));
 
+  exercises.forEach(ex => exerciseList.appendChild(renderExerciseRow(ex)));
   renderSelectedTime();
 }
 
-function readExercisesFromUI(){
-  const rows = Array.from(exerciseList.querySelectorAll(".trow"));
-  return rows
-    .map(r => {
-      const { input, setsSel, repsSel, weightSel } = r._refs;
-      return {
-        name:   (input.value || "").trim(),
-        sets:   Number(setsSel.value),
-        reps:   Number(repsSel.value),
-        weight: Number(weightSel.value),
-      };
-    })
-    .filter(ex => ex.name.length > 0);
-}
+exerciseList.addEventListener("input", saveCurrentFormDraft);
+exerciseList.addEventListener("change", saveCurrentFormDraft);
+
+document.addEventListener("visibilitychange", ()=>{
+  if(document.visibilityState === "hidden") saveCurrentFormDraft();
+});
+window.addEventListener("pagehide", saveCurrentFormDraft);
 
 // ===================== Eventos UI =====================
 monthToggle.addEventListener("click", ()=>{
@@ -1096,6 +1325,7 @@ groupMenu.addEventListener("click", (e)=>{
     const presets = getGroupExercisesForForm(newGroup);
     presets.forEach(ex => exerciseList.appendChild(renderExerciseRow(ex)));
   }
+  saveCurrentFormDraft();
 });
 
 document.addEventListener("click", (e)=>{
@@ -1106,11 +1336,12 @@ document.addEventListener("click", (e)=>{
 });
 
 addExerciseBtn.addEventListener("click", ()=>{
-  const row = renderExerciseRow({ name:"", sets:4, reps:12, weight:30 });
-  exerciseList.appendChild(row);
-  row._refs.input.focus();
+  const block = renderExerciseRow({ name:"", sets:4, reps:12, weight:30 });
+  exerciseList.appendChild(block);
+  block._refs.input.focus();
+  saveCurrentFormDraft();
   // Scroll para que se vea el nuevo ejercicio
-  row.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  block.scrollIntoView({ behavior: "smooth", block: "nearest" });
 });
 
 saveWorkoutBtn.addEventListener("click", async ()=>{
@@ -1134,6 +1365,7 @@ saveWorkoutBtn.addEventListener("click", async ()=>{
 
   saveStateFor(currentUid, state);
   if(currentUid) await saveStateToCloud(currentUid, state);
+  clearFormDraft(currentUid, iso);
 
   renderAll();
   alert("Guardado ✅");
@@ -1152,6 +1384,7 @@ deleteWorkoutBtn.addEventListener("click", async ()=>{
 
   delete state.workoutsByDate[iso];
   delete state.timerByDate[iso];
+  clearFormDraft(currentUid, iso);
 
   saveStateFor(currentUid, state);
   if(currentUid) await saveStateToCloud(currentUid, state);
@@ -1336,29 +1569,38 @@ function updateStopwatchButtons(){
   btnPause.disabled = !swRunning;
 }
 
-function updateStopwatchDisplays(totalMs = swTotalMs, pauseMs = swPauseMs){
-  if(clockDisplay) clockDisplay.textContent = formatStopwatch(totalMs);
+function currentPauseMs(now = performance.now()){
+  return swPaused ? Math.max(0, now - swPauseStartAt) : 0;
+}
+
+function updateStopwatchDisplays(activeMs = swTotalMs, visiblePauseMs = currentPauseMs()){
+  if(clockDisplay) clockDisplay.textContent = formatStopwatch(activeMs);
   if(pauseDisplay){
     pauseDisplay.hidden = false;
-    pauseDisplay.textContent = `Pausa ${formatStopwatch(pauseMs)}`;
+    pauseDisplay.textContent = `Pausa ${formatStopwatch(visiblePauseMs)}`;
   }
 }
 
 btnStart.addEventListener("click", ()=>{
   if(mode === "stopwatch") {
     if(swPaused){
+      const now = performance.now();
+      swPauseMs += (now - swPauseStartAt);
       swPaused = false;
-      swPauseMs += (performance.now() - swPauseStartAt);
+      swPauseStartAt = 0;
       swRunning = true;
-      swStartAt = performance.now();
+      swStartAt = now;
+      updateStopwatchDisplays(swTotalMs, 0);
       updateStopwatchButtons();
+      if(swRAF == null) tickStopwatch();
       return;
     }
     if(swRunning) return;
     swRunning = true;
     swStartAt = performance.now();
     updateStopwatchButtons();
-    tickStopwatch();
+    updateStopwatchDisplays(swTotalMs, 0);
+    if(swRAF == null) tickStopwatch();
   } else {
     if(tmRunning) return;
     if(tmRemaining <= 0){
@@ -1385,7 +1627,8 @@ btnPause.addEventListener("click", ()=>{
     swPauseStartAt = performance.now();
 
     updateStopwatchButtons();
-    tickStopwatch();
+    updateStopwatchDisplays(swTotalMs, 0);
+    if(swRAF == null) tickStopwatch();
   } else {
     if(!tmRunning) return;
     tmRunning = false;
@@ -1407,9 +1650,9 @@ btnStop.addEventListener("click", async ()=>{
     }
 
     const iso       = toISODate(selectedDate);
-    const totalSec  = Math.round(swTotalMs / 1000);
+    const activeSec = Math.round(swTotalMs / 1000);
     const pauseSec  = Math.round(swPauseMs / 1000);
-    const activeSec = Math.max(0, totalSec - pauseSec);
+    const totalSec  = activeSec + pauseSec;
 
     state.timerByDate[iso] = { totalSec, pauseSec, activeSec };
     if(state.workoutsByDate[iso]){
@@ -1442,11 +1685,11 @@ function tickStopwatch(){
     return;
   }
 
-  const now     = performance.now();
-  const totalMs = swTotalMs + (swRunning ? (now - swStartAt) : 0);
-  const pauseMs = swPauseMs + (swPaused  ? (now - swPauseStartAt) : 0);
+  const now      = performance.now();
+  const activeMs = swTotalMs + (swRunning ? (now - swStartAt) : 0);
+  const pauseMs  = swPaused ? (now - swPauseStartAt) : 0;
 
-  updateStopwatchDisplays(totalMs, pauseMs);
+  updateStopwatchDisplays(activeMs, pauseMs);
   swRAF = requestAnimationFrame(tickStopwatch);
 }
 
@@ -1681,7 +1924,7 @@ function groupWorkload(entries){
   const totals = { Pecho:0, Espalda:0, Piernas:0, Abdominales:0 };
   entries.forEach(([, workout])=>{
     const group = workout.group === "Pierna" ? "Piernas" : workout.group;
-    const sets = (workout.exercises || []).reduce((sum, ex) => sum + (Number(ex.sets) || 0), 0);
+    const sets = (workout.exercises || []).reduce((sum, ex) => sum + exerciseMetrics(ex).sets, 0);
     if(group in totals) totals[group] += sets;
   });
   return totals;
@@ -1715,7 +1958,7 @@ function muscleWorkload(entries){
 
   entries.forEach(([, workout])=>{
     (workout.exercises || []).forEach(ex=>{
-      const sets = Number(ex.sets) || 0;
+      const sets = exerciseMetrics(ex).sets;
       const muscles = musclesForExercise(ex.name, workout.group);
       Object.entries(muscles).forEach(([muscle, factor])=>{
         totals[muscle] += sets * factor;
@@ -1830,14 +2073,24 @@ function getExerciseHistory(){
         if(!map.has(key)) map.set(key, { name, byDate:new Map() });
         const entry = map.get(key);
         entry.name = name;
+        const metrics = exerciseMetrics(ex);
         const point = {
           iso,
-          weight:Number(ex.weight) || 0,
-          sets:Number(ex.sets) || 0,
-          reps:Number(ex.reps) || 0
+          weight:metrics.weight,
+          sets:metrics.sets,
+          reps:metrics.reps
         };
         const previous = entry.byDate.get(iso);
-        if(!previous || point.weight >= previous.weight) entry.byDate.set(iso, point);
+        if(previous){
+          entry.byDate.set(iso, {
+            iso,
+            weight:Math.max(previous.weight, point.weight),
+            sets:previous.sets + point.sets,
+            reps:Math.max(previous.reps, point.reps)
+          });
+        }else{
+          entry.byDate.set(iso, point);
+        }
       });
     });
 

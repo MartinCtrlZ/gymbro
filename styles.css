@@ -262,11 +262,11 @@ body{
 }
 .thead,.trow{
   display:grid;
-  grid-template-columns: minmax(112px, 1fr) 42px 44px 48px 30px;
+  grid-template-columns: minmax(104px, 1fr) 42px 44px 48px 58px;
   gap:4px;
   align-items:center;
   padding:8px 7px;
-  min-width: 304px;
+  min-width: 326px;
 }
 .thead{
   background: #f3f4f6;
@@ -482,6 +482,76 @@ select{
   color: var(--muted);
 }
 .row-del-btn:hover{ background: #fee2e2; border-color: var(--red); color: var(--red); }
+
+.row-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:4px;
+  min-width:0;
+}
+.set-group-add-btn,
+.set-group-del-btn{
+  width:26px;
+  height:26px;
+  border-radius:7px;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  font-weight:900;
+  color:#374151;
+}
+.set-group-add-btn{
+  font-size:18px;
+  color:var(--teal);
+}
+.set-group-del-btn{
+  font-size:18px;
+  margin-left:auto;
+  color:var(--muted);
+}
+.set-group-add-btn:hover{
+  background:#ecfeff;
+  border-color:var(--teal);
+}
+.set-group-del-btn:hover{
+  background:#fee2e2;
+  border-color:var(--red);
+  color:var(--red);
+}
+.exercise-block{
+  border-top:1px solid #eef2f7;
+}
+.exercise-block:first-child{
+  border-top:none;
+}
+.exercise-block > .trow{
+  border-top:none;
+}
+.set-groups-container{
+  background:#f8fafc;
+}
+.set-group-row{
+  border-top:1px dashed #dbe3ec !important;
+  padding-top:6px;
+  padding-bottom:6px;
+}
+.set-group-indent{
+  color:var(--muted);
+  font-weight:900;
+  font-size:16px;
+  padding-left:8px;
+}
+.exercise-block.has-set-groups .exercise-main-row > select{
+  background:#f3f4f6;
+  color:#111827;
+  opacity:1;
+  font-weight:900;
+}
 
 /* ===== Cesto + acciones header ===== */
 .workouts-actions{
@@ -1067,7 +1137,7 @@ select{
 }
 .stats-muscle-svg text{
   fill:#64748b;
-  font-size:10px;
+  font-size:14px;
   font-weight:800;
   text-anchor:middle;
 }
@@ -1129,7 +1199,7 @@ select{
 .stats-chart-svg{
   display:block;
   width:100%;
-  min-width:300px;
+  min-width:322px;
   height:190px;
 }
 .stats-chart-grid{
@@ -1170,7 +1240,7 @@ select{
   .topbar-actions{ gap:5px; }
   .user-avatar{ width:33px; height:33px; }
   .thead,.trow{
-    grid-template-columns:minmax(108px,1fr) 42px 44px 48px 30px;
+    grid-template-columns:minmax(100px,1fr) 42px 44px 48px 58px;
     min-width:300px;
   }
   .stats-group-row{ grid-template-columns:74px 1fr 38px; }
